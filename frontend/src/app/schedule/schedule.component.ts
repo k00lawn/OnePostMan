@@ -20,7 +20,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.scheduleForm.value.caption)
+    console.log(this.scheduleForm.value)
     this._schedule.scheduleTask(this.scheduleForm.value)
       .subscribe(
         res => {
