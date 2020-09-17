@@ -1,5 +1,4 @@
 from fb_class import FacebookApi
-import facebook as fb
 
 
 def ask_time():
@@ -14,11 +13,23 @@ def ask_time():
     return new_time
 
 
-token = 'EAAwwZC2kAAlsBACzx4uAXnaZCg8sObsEb9ZADZBdaEaeSv4NkkS7LRDdCEtuwwjJEBvWHgtoFKm6RUUOyvF2Ik1Wr4Y9X7q0qOQDrL9YZCTtxsWGQ8nwDJbzjlsIhF78PWszfpNdgFYa3pFur4GhBdZAsH79lxgMYQlSOswEsJnGxfFaQt3s3dZCfo1lMM43a9HuGEF9z7xSiIyGmZCwJKjn'
+def creds( access_token ):
 
-graph = fb.GraphAPI(access_token=token)
+    fb_api = dict()
+    fb_api['access_token'] = access_token
+    fb_api['app_id'] = '3431573256929883'
+    fb_api['app_secret'] = 'c13e000ac59b6d2d8d27ad838a4264ee'
+    fb_api['version'] = 'v8.0'
+    fb_api['graph_domain'] = f'https://developers.facebook.com/tools/explorer/{ fb_api["app_id"] }/'
+    fb_api['debugger_url'] = f"https://developers.facebook.com/tools/debug/accesstoken/?access_token={ access_token }"
+    fb_api['debug'] = 'NO'
+
+    return fb_api
 
 
+token = input('Enter the token :')
+
+details = creds(token)
 
 choice = input('Ary you gonna upload (y/n) : ')
 
@@ -39,13 +50,14 @@ if choice == 'y':
 
     hour , minn = time
 
-    fapi = FacebookApi(hour=hour,minute=minn,graph=graph,msg=msg,img=img)
+    fapi = FacebookApi(hour=hour,minute=minn,token=token,msg=msg,img=img)
     fapi.post()
 
 else:
-    fapi = FacebookApi(hour=None,minute=None,graph=graph,msg=None,img=None)
-    page_name = fapi.user_details()
-    details = fapi.get_feeds()
-    print(f'page name is : {page_name}')
-    print(details)
+
+    fapi = FacebookApi(token=token)
+    user_details = fapi.user_details()
+    for i in user_details:
+        print(f'{i} : {user_details[i]}')
+    print(fapi.get_feeds())
 
