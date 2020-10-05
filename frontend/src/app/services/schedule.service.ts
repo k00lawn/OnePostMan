@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
+import { stringify } from '@angular/compiler/src/util';
 
 @Injectable({
   providedIn: 'root'
@@ -7,14 +8,21 @@ import { HttpClient } from '@angular/common/http'
 export class ScheduleService {
 
   // API endpoint
-  private _scheduleTask = "http://localhost:3000/scheduleTask"
+  private _createTask = "http://localhost:3000/api/createTask"
 
   constructor(private http: HttpClient) { }
 
   // POST Request to API endpoint
 
-  scheduleTask(schedule) {
-    return this.http.post<any>(this._scheduleTask, schedule)
+  createTask(caption: string, date: string, image: File) {
+    const postData = new FormData();
+    postData.append('caption', caption)
+    postData.append('date', date)
+    postData.append('image', image)
+    return this.http
+      .post<{ message: string; postId: string}>(
+        this._createTask, postData
+      )
   }
 
   

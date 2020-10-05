@@ -2,13 +2,17 @@
 
     <!-- image section  -->
 
-    <!-- <div class="form-group">
+    <div class="form-group">
         <label for="imagePost">Example file input</label>
         <input 
-            type="file" `
+            type="file" 
             class="form-control-file" 
-            id="imagePost">
-    </div> -->
+            id="imagePost"
+            (change) = "onImagePicked($event)">
+    </div>
+    <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview">
+        <img [src]="imagePreview" [alt]="scheduleForm.value.title">
+    </div>
     <div class="form-group">
         <label> Caption </label>
         <input formControlName = "caption" type="text" class="form-control"> 
