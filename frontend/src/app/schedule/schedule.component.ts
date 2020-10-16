@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ScheduleService } from 'src/app/services/schedule.service'
 
 @Component({
@@ -11,16 +11,28 @@ export class ScheduleComponent implements OnInit {
 
   imagePreview: string;
 
-  scheduleForm = new FormGroup({
-    caption: new FormControl(''),
-    time: new FormControl(''),
-    image: new FormControl('')
+  // scheduleForm = new FormGroup({
+  //   caption: new FormControl(''),
+  //   time: new FormControl(''),
+  //   image: new FormControl('')
+  // })
+
+  scheduleForm = this.fb.group({
+    username:[''],
+    socialMedia: [''],
+    caption: [''],
+    time: [''],
+    image: ['']
   })
 
-  constructor( private _createTaskService: ScheduleService) { }
+  constructor( private fb: FormBuilder, private _createTaskService: ScheduleService) { }
 
   ngOnInit(): void {
   }
+
+  username = 'Username'
+  caption = 'Caption'
+  socialMedia = 'Instagram'
 
   onImagePicked(event: Event) {
       const file = (event.target as HTMLInputElement).files[0]
@@ -40,7 +52,7 @@ export class ScheduleComponent implements OnInit {
     }
     this._createTaskService.createTask(
       this.scheduleForm.value.caption,
-      this.scheduleForm.value.date,
+      this.scheduleForm.value.time,
       this.scheduleForm.value.image
       )
       .subscribe(

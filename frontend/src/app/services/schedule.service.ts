@@ -14,10 +14,10 @@ export class ScheduleService {
 
   // POST Request to API endpoint
 
-  createTask(caption: string, date: string, image: File) {
+  createTask(caption: string, time: string, image: File) {
     const postData = new FormData();
     postData.append('caption', caption)
-    postData.append('date', date)
+    postData.append('time', time)
     postData.append('image', image)
     return this.http
       .post<{ message: string; postId: string}>(

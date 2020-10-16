@@ -1,27 +1,101 @@
-<form [formGroup] = "scheduleForm">
+<!-- <div class="parent">
+    <mat-card>
+        <form [formGroup] = "scheduleForm" (ngSubmit) = "onSubmit()">
+            <mat-form-field>
+                    <mat-label for="imagePost">Your post</mat-label>
+                    <input matInput
+                        type="file" 
+                        class="form-control-file" 
+                        id="imagePost"
+                        (change) = "onImagePicked($event)">
+            </mat-form-field>  
+            <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview">
+                <img [src]="imagePreview" [alt]="scheduleForm.value.title">
+            </div>
+            <mat-form-field>
+                
+                    <mat-label> Caption </mat-label>
+                    <input matInput formControlName = "caption" type="text" class="form-control"> 
+              
+            </mat-form-field>
+            <mat-form-field>
+                <div class="form-group">
+                    <mat-label> Select when you want to post </mat-label>
+                    <input matInput formControlName = "time" type="text" class="form-control">
+                </div>
+            </mat-form-field>
+                <button class="btn btn-primary" [disabled] = "!scheduleForm.valid" type="submit"> Schedule post </button> 
+        </form>
 
-    <!-- image section  -->
+    </mat-card>
+</div> -->
 
-    <div class="form-group">
-        <label for="imagePost">Example file input</label>
-        <input 
-            type="file" 
-            class="form-control-file" 
-            id="imagePost"
-            (change) = "onImagePicked($event)">
-    </div>
-    <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview">
-        <img [src]="imagePreview" [alt]="scheduleForm.value.title">
-    </div>
-    <div class="form-group">
-        <label> Caption </label>
-        <input formControlName = "caption" type="text" class="form-control"> 
-    </div>
+<div class="container">
+    <mat-card class="scheduleForm-card">
+        <div class="form-container">
+            <form [formGroup]="scheduleForm" (submit) = "onSubmit()">
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Username</mat-label>
+                    <input matInput formControlName="username" type="text" [(ngModel)]="username">
+                </mat-form-field>
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Social Media Platform</mat-label>
+                    <input matInput formControlName="socialMedia" type="text" [(ngModel)]="socialMedia">
+                </mat-form-field>
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Caption</mat-label>
+                    <input matInput formControlName="caption" type="text" [(ngModel)]="caption" required>
+                    <mat-error *ngIf="scheduleForm.controls.caption.touched && scheduleForm.controls.caption.invalid">
+                        <span *ngIf="scheduleForm.controls.caption.errors.required">This field is mandatory.</span>
+                        <span *ngIf="scheduleForm.controls.caption.errors.pattern">This field is invalid.</span>
+                      </mat-error>
+                </mat-form-field>
+                <!-- <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Time</mat-label>
+                    <input matInput formControlName="time" type="text" required>
+                    
+                </mat-form-field> -->
+                <mat-form-field appearance="fill">
+                    <mat-label>Choose a date</mat-label>
+                    <input matInput [matDatepicker]="time" formControlName="time">
+                    <mat-datepicker-toggle matSuffix [for]="time"></mat-datepicker-toggle>
+                    <mat-datepicker #time></mat-datepicker>
+                    <mat-error *ngIf="scheduleForm.controls.time.touched && scheduleForm.controls.time.invalid">
+                        <span *ngIf="scheduleForm.controls.time.errors.required">This field is mandatory.</span>
+                    </mat-error>
+                  </mat-form-field>
+                <br>
+                <button mat-raised-button color="primary" type="submit">Schedule Post</button>
+            </form>
+        </div>
+    
+    </mat-card>
+</div>
+<br>
 
-    <div class="form-group">
-        <label> Select when you want to post </label>
-        <input formControlName = "time" type="text" class="form-control">
-    </div>
+<!-- Card feature soon to be added now for testing -->
 
-    <button class="btn btn-primary" type="submit" (click) = "onSubmit()"> Schedule post </button>
-</form>
+<div class="container">
+    <mat-card class="example-card">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title>{{username}}</mat-card-title>
+          <mat-card-subtitle>{{socialMedia}}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+        <mat-card-content>
+          <p>
+            {{caption}}
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>LIKE</button>
+          <button mat-button>COMMENT</button>
+          <button mat-button>SHARE</button>
+        </mat-card-actions>
+    </mat-card>
+    <br>
+</div>
+
+
+  

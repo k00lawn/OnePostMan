@@ -1,8 +1,31 @@
-.image-preview {
-    height: 5rem;
-    margin: 1rem 0;
+.container{
+    max-width: 400px;
+    align-content: center;
 }
 
-.image-preview img {
-    height: 100%;
+.scheduleForm-card{
+    align-content: center;
+}
+
+.form-container{
+    max-width:400px; 
+    margin: 0 px auto; 
+    margin-top: 200 px;
+}
+
+.form-field{
+    display: block
+}
+
+.example-card {
+    max-width: 400px;
+}
+
+.example-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+}
+
+h1 {
+    font-size: 15px;
 }
