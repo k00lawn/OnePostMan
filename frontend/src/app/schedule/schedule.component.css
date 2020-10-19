@@ -1,3 +1,7 @@
+.parent-container{
+    display: flex;
+}
+
 .container{
     max-width: 400px;
     align-content: center;
@@ -17,7 +21,7 @@
     display: block
 }
 
-.example-card {
+.post-card {
     max-width: 400px;
 }
 
@@ -29,3 +33,7 @@
 h1 {
     font-size: 15px;
 }
+
+input[type="file"] {
+    visibility: hidden;
+  }

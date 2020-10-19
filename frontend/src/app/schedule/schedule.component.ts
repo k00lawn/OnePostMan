@@ -9,20 +9,17 @@ import { ScheduleService } from 'src/app/services/schedule.service'
 })
 export class ScheduleComponent implements OnInit {
 
-  imagePreview: string;
-
-  // scheduleForm = new FormGroup({
-  //   caption: new FormControl(''),
-  //   time: new FormControl(''),
-  //   image: new FormControl('')
-  // })
+  imagePreview: string = 'https://material.angular.io/assets/img/examples/shiba2.jpg';
 
   scheduleForm = this.fb.group({
     username:[''],
     socialMedia: [''],
     caption: [''],
     time: [''],
-    image: ['']
+    image: [''],
+    facebook: [false],
+    instagram: [false],
+    twitter: [false]
   })
 
   constructor( private fb: FormBuilder, private _createTaskService: ScheduleService) { }
@@ -53,7 +50,10 @@ export class ScheduleComponent implements OnInit {
     this._createTaskService.createTask(
       this.scheduleForm.value.caption,
       this.scheduleForm.value.time,
-      this.scheduleForm.value.image
+      this.scheduleForm.value.image,
+      this.scheduleForm.value.facebook,
+      this.scheduleForm.value.instagram,
+      this.scheduleForm.value.twitter
       )
       .subscribe(
         res => {
