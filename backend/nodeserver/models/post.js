@@ -10,4 +10,4 @@ const postSchema = mongoose.Schema({
     twitter: { type: Boolean }
 })
 
-module.exports = mongoose.model('Post', postSchema, 'posts')
+module.exports = mongoose.model('Post', postSchema, 'schedule')
