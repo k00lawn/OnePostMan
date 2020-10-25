@@ -37,11 +37,7 @@
                 <form [formGroup]="scheduleForm" (submit) = "onSubmit()">
                     <mat-form-field class="form-field" appearance="fill">
                         <mat-label>Username</mat-label>
-                        <input matInput formControlName="username" type="text" [(ngModel)]="username">
-                    </mat-form-field>
-                    <mat-form-field class="form-field" appearance="fill">
-                        <mat-label>Social Media Platform</mat-label>
-                        <input matInput formControlName="socialMedia" type="text" [(ngModel)]="socialMedia">
+                        <input matInput formControlName="username" type="text" [(ngModel)]="username" required>
                     </mat-form-field>
                     <mat-form-field class="form-field" appearance="fill">
                         <mat-label>Caption</mat-label>
@@ -67,6 +63,10 @@
                         <input matInput formControlName="time" type="text" required>
                         
                     </mat-form-field> -->
+                    <!-- <mat-form-field>
+                        <input matInput formControlName="time" type="datetime-local" placeholder="Choose date and time">
+                        <mat-label>Pick date and time</mat-label>
+                    </mat-form-field> -->
                     <mat-form-field appearance="fill">
                         <mat-label>Choose a date</mat-label>
                         <input matInput [matDatepicker]="time" formControlName="time">
@@ -75,7 +75,7 @@
                         <mat-error *ngIf="scheduleForm.controls.time.touched && scheduleForm.controls.time.invalid">
                             <span *ngIf="scheduleForm.controls.time.errors.required">This field is mandatory.</span>
                         </mat-error>
-                      </mat-form-field>
+                    </mat-form-field>
                     <br>
                     <button mat-raised-button color="primary" type="submit">Schedule Post</button>
                 </form>

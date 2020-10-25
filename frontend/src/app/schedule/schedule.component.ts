@@ -13,7 +13,6 @@ export class ScheduleComponent implements OnInit {
 
   scheduleForm = this.fb.group({
     username:[''],
-    socialMedia: [''],
     caption: [''],
     time: [''],
     image: [''],
@@ -44,7 +43,7 @@ export class ScheduleComponent implements OnInit {
 
   onSubmit() {
     console.log(this.scheduleForm.value)
-    if (this.scheduleForm.invalid) {
+    if (!this.scheduleForm.valid) {
       return;
     }
     this._createTaskService.createTask(
@@ -53,14 +52,15 @@ export class ScheduleComponent implements OnInit {
       this.scheduleForm.value.image,
       this.scheduleForm.value.facebook,
       this.scheduleForm.value.instagram,
-      this.scheduleForm.value.twitter
+      this.scheduleForm.value.twitter,
+      this.scheduleForm.value.username
       )
       .subscribe(
         res => {
           console.log(res)
         },
         err => console.log(err)
-      )
+    )
   }
 
 
