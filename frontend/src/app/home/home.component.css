@@ -1,0 +1,10 @@
+h1{
+    line-height: 250px;
+    height: 250px;
+    margin: auto;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}

@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { RouterModule, Routes } from "@angular/router";
 
 
 
@@ -15,16 +16,25 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox'
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule} from '@angular/material/core'
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { AuthenticationComponent } from './authentication/authentication.component';
+import { HomeComponent } from './home/home.component'
 
-
+const appRoutes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'tasks', component: TasksComponent},
+  { path: 'create', component: ScheduleComponent },
+  { path: 'auth', component: AuthenticationComponent},
+]
 
 @NgModule({
   declarations: [
     AppComponent,
     ScheduleComponent,
-    TasksComponent
+    TasksComponent,
+    AuthenticationComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +49,8 @@ import {MatNativeDateModule} from '@angular/material/core'
     MatCardModule,
     MatCheckboxModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [
     MatDatepickerModule,

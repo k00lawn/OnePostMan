@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ScheduleService } from 'src/app/services/schedule.service'
 
 @Component({
@@ -15,6 +15,11 @@ export class ScheduleComponent implements OnInit {
     username:[''],
     caption: [''],
     time: [''],
+    socialMedia: new FormArray([
+      new FormControl(''),
+      new FormControl(''),
+      new FormControl('')
+    ]),
     image: [''],
     facebook: [false],
     instagram: [false],
@@ -47,13 +52,14 @@ export class ScheduleComponent implements OnInit {
       return;
     }
     this._createTaskService.createTask(
+      this.scheduleForm.value.username,
       this.scheduleForm.value.caption,
       this.scheduleForm.value.time,
       this.scheduleForm.value.image,
       this.scheduleForm.value.facebook,
       this.scheduleForm.value.instagram,
       this.scheduleForm.value.twitter,
-      this.scheduleForm.value.username
+      
       )
       .subscribe(
         res => {
