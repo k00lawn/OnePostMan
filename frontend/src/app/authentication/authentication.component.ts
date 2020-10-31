@@ -21,14 +21,6 @@ export class AuthenticationComponent implements OnInit {
     password: ['', Validators.required],
   })
 
-  // getErrorMessage() {
-  //   if (this.email.hasError('required')) {
-  //     return 'You must enter a value';
-  //   }
-
-  //   return this.email.hasError('email') ? 'Not a valid email' : '';
-  // }
-
   constructor(private fb: FormBuilder, public authService: AuthService ) { }
 
   ngOnInit(): void {
@@ -38,12 +30,16 @@ export class AuthenticationComponent implements OnInit {
     this.authService.switchForm()
   }
 
-  onSignupSubmit() {
-
-  }
-
   onLoginSubmit() {
-
+    console.log(this.loginForm.value)
+    this.authService.login(this.loginForm.value.email, this.loginForm.value.password)
   }
+
+  onSignupSubmit() {
+    console.log(this.signupForm.value)
+    this.authService.signup(this.signupForm.value.username, this.signupForm.value.email, this.signupForm.value.password) 
+  }
+
+  
 
 }

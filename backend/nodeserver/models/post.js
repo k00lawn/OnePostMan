@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const postSchema = mongoose.Schema({
+const postSchema = new mongoose.Schema({
     user_id: { type:  String },
     caption: { type: String },
     date: { type: String },
@@ -10,4 +10,6 @@ const postSchema = mongoose.Schema({
     twitter: { type: Boolean }
 })
 
-module.exports = mongoose.model('Post', postSchema, 'schedule')
+const Post = mongoose.model('Post', postSchema, 'schedule')
+
+module.exports = Post;

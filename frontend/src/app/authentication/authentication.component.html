@@ -5,8 +5,26 @@
       <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
     </mat-form-field>
 </div> -->
-  
-<div class="container" *ngIf="!this.authService.isLoginForm" routerLink="/signup">
+ 
+<div class="container" *ngIf="this.authService.isLoginForm">
+    <mat-card class="form-container">
+        <form [formGroup]="loginForm" (submit)="onLoginSubmit()" > 
+            <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" type="email"  required>
+            </mat-form-field>
+            <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Password</mat-label>
+                <input matInput formControlName="password" type="password"  required>
+            </mat-form-field>
+            <button mat-raised-button color="primary" type="submit">Log in</button>
+        </form>
+        <label>Don't have an account?</label>
+        <button mat-button color="accent" (click)="onSwitchForm()">Sign up</button>
+    </mat-card>
+</div>
+
+<div class="container" *ngIf="!this.authService.isLoginForm">
     <mat-card class="form-container">
         <form [formGroup]="signupForm" (submit)="onSignupSubmit()" > 
             <mat-form-field class="form-field" appearance="fill">
@@ -21,7 +39,6 @@
                 <mat-label>Password</mat-label>
                 <input matInput formControlName="password" type="password"  required>
             </mat-form-field>
-            <br>
             <button mat-raised-button color="primary" type="submit">Sign Up</button>
         </form>
         <label>Already have an account?</label>
@@ -29,22 +46,5 @@
     </mat-card>
 </div>
 
-<div class="container" *ngIf="this.authService.isLoginForm" routerLink="/login">
-    <mat-card class="form-container">
-        <form [formGroup]="loginForm" (submit)="onLoginSubmit()" > 
-            <mat-form-field class="form-field" appearance="fill">
-                <mat-label>Email</mat-label>
-                <input matInput formControlName="email" type="email"  required>
-            </mat-form-field>
-            <mat-form-field class="form-field" appearance="fill">
-                <mat-label>Password</mat-label>
-                <input matInput formControlName="password" type="password"  required>
-            </mat-form-field>
-            <br>
-            <button mat-raised-button color="primary" type="submit">Log in</button>
-        </form>
-        <label>Don't have an account?</label>
-        <button mat-button color="accent" (click)="onSwitchForm()">Sign up</button>
-    </mat-card>
-</div>
+
 
