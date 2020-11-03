@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { AuthService } from './services/auth.service';
 
 @Component({
@@ -6,9 +7,9 @@ import { AuthService } from './services/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'smmscheduler';
-
+  
   constructor(private authService: AuthService){}
   
   switchToLogin(){
@@ -21,4 +22,19 @@ export class AppComponent {
       this.authService.switchForm()
     }
   }
+
+  //Move this to new component later
+  private authListenerSub: Subscription
+  userAuthenticated = false;
+  ngOnInit() {
+    this.authListenerSub = this.authService
+    .getAuthStatusListener()
+    .subscribe(isAuthenticated => {
+      this.userAuthenticated = isAuthenticated;
+    })
+  }
+  ngOnDestroy() {
+    this.authListenerSub.unsubscribe()
+  }
+
 }

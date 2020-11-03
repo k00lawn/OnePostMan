@@ -6,13 +6,14 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-item nav-link active" routerLink="/">Home <span class="sr-only">(current)</span></a>
-        <a class="nav-item nav-link" routerLink="/create">My Schedule</a>
+        <a *ngIf="userAuthenticated" class="nav-item nav-link" routerLink="/create">My Schedule</a>
         <a class="nav-item nav-link" href="#">Pricing</a>
         <a class="nav-item nav-link disabled" href="#">Profile</a>
       </div>
       <ul class="navbar-nav mx-2 ml-auto">
-        <li><button class="btn btn-outline-secondary" routerLink="/auth" (click)="switchToLogin()" type="button">Login</button></li> 
-        <li><button class="btn btn-outline-success" routerLink="/auth" (click)="switchToSignup()" type="button">Sign Up</button></li>
+        <li *ngIf="!userAuthenticated"><button class="btn btn-outline-secondary" routerLink="/auth" (click)="switchToLogin()" type="button">Login</button></li> 
+        <li *ngIf="!userAuthenticated"><button class="btn btn-outline-success" routerLink="/auth" (click)="switchToSignup()" type="button">Sign Up</button></li>
+        <li *ngIf="userAuthenticated"><button class="btn btn-outline-danger"  type="button">Log out</button></li>
       </ul>
     </div>
   </nav>

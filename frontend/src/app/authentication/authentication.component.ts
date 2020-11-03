@@ -1,30 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service'
 @Component({
   selector: 'app-authentication',
   templateUrl: './authentication.component.html',
   styleUrls: ['./authentication.component.css'],
 })
-export class AuthenticationComponent implements OnInit {
-
+export class AuthenticationComponent implements OnInit, OnDestroy {
   
-
   signupForm = this.fb.group({
-    username: ['', Validators.required],
-    email: ['', Validators.required, Validators.email],
-    password: ['', Validators.required],
+    username: ['', [Validators.required]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required]],
   })
 
   loginForm = this.fb.group({
-    email: ['', Validators.required, Validators.email],
-    password: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required]],
   })
+
+  ngOnInit() {
+  }
+
+  ngOnDestroy() {
+  }
 
   constructor(private fb: FormBuilder, public authService: AuthService ) { }
 
-  ngOnInit(): void {
-  }
 
   onSwitchForm() {
     this.authService.switchForm()
