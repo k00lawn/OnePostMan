@@ -24,9 +24,11 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   //Move this to new component later
-  private authListenerSub: Subscription
   userAuthenticated = false;
+  private authListenerSub: Subscription;
   ngOnInit() {
+    this.authService.autoAuthUser();
+    this.userAuthenticated = this.authService.getIsAuth();
     this.authListenerSub = this.authService
     .getAuthStatusListener()
     .subscribe(isAuthenticated => {
@@ -37,4 +39,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.authListenerSub.unsubscribe()
   }
 
+  onLogout() {
+    this.authService.logout()
+  }
 }

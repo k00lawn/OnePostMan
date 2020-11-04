@@ -22,14 +22,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { AuthenticationComponent } from './authentication/authentication.component';
 
-
-const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'tasks', component: TasksComponent},
-  { path: 'create', component: ScheduleComponent },
-  { path: 'auth', component: AuthenticationComponent},
-]
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,7 +44,6 @@ const appRoutes: Routes = [
     MatCheckboxModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    RouterModule.forRoot(appRoutes)
   ],
   providers: [
     {

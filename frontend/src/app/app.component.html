@@ -13,7 +13,7 @@
       <ul class="navbar-nav mx-2 ml-auto">
         <li *ngIf="!userAuthenticated"><button class="btn btn-outline-secondary" routerLink="/auth" (click)="switchToLogin()" type="button">Login</button></li> 
         <li *ngIf="!userAuthenticated"><button class="btn btn-outline-success" routerLink="/auth" (click)="switchToSignup()" type="button">Sign Up</button></li>
-        <li *ngIf="userAuthenticated"><button class="btn btn-outline-danger"  type="button">Log out</button></li>
+        <li *ngIf="userAuthenticated"><button class="btn btn-outline-danger" (click)="onLogout()" type="button">Log out</button></li>
       </ul>
     </div>
   </nav>
@@ -22,3 +22,4 @@
 <!-- <app-schedule></app-schedule> -->
 <router-outlet></router-outlet>
 
+n
