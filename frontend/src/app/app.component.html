@@ -8,7 +8,7 @@
         <a class="nav-item nav-link active" routerLink="/">Home <span class="sr-only">(current)</span></a>
         <a *ngIf="userAuthenticated" class="nav-item nav-link" routerLink="/create">My Schedule</a>
         <a class="nav-item nav-link" href="#">Pricing</a>
-        <a class="nav-item nav-link disabled" href="#">Profile</a>
+        <a class="nav-item nav-link active" routerLink="/profile" href="#">Profile</a>
       </div>
       <ul class="navbar-nav mx-2 ml-auto">
         <li *ngIf="!userAuthenticated"><button class="btn btn-outline-secondary" routerLink="/auth" (click)="switchToLogin()" type="button">Login</button></li> 
@@ -18,8 +18,5 @@
     </div>
   </nav>
 <br>
-<!-- <app-tasks></app-tasks> -->
-<!-- <app-schedule></app-schedule> -->
 <router-outlet></router-outlet>
 
-n

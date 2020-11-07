@@ -24,3 +24,18 @@ export class AuthGuard implements CanActivate {
   
   
 }
+
+// export class AuthRouteGuard implements CanActivate {
+//   constructor( private authService: AuthService, private router: Router ){}
+
+//   canActivate(
+//     next: ActivatedRouteSnapshot,
+//     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+
+//     const isAuth = this.authService.getIsAuth()
+//     if(isAuth) {
+//       this.router.navigate(['/'])
+//     }
+//     return isAuth;
+//   }
+// }
