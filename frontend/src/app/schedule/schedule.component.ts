@@ -11,8 +11,6 @@ export class ScheduleComponent implements OnInit {
 
   imagePreview: string = 'https://material.angular.io/assets/img/examples/shiba2.jpg';
 
-  public timer: string;
-  public date: string;
   username = 'Username'
   caption = 'Caption'
   socialMedia = 'Instagram' 
@@ -22,6 +20,7 @@ export class ScheduleComponent implements OnInit {
     caption: [''],
     datetime: [''],
     time: [''],
+    date: [''],
     socialMedia: new FormArray([
       new FormControl(''),
       new FormControl(''),
@@ -51,10 +50,12 @@ export class ScheduleComponent implements OnInit {
   }
 
   onSubmit() {
-    const time = this.timer.toString()
-    const date = this.date.toString()
+    const time = this.scheduleForm.get('time').value.toString()
+    const date = this.scheduleForm.get('date').value.toString()
     const datetime = date.replace("00:00:00", time)
-    this.scheduleForm.patchValue({datetime: datetime})
+    const convDatetime = new Date(datetime).toUTCString()
+    console.log(convDatetime)
+    this.scheduleForm.patchValue({datetime: convDatetime})
     console.log(this.scheduleForm.value)
     if (!this.scheduleForm.valid) {
       return;
@@ -67,14 +68,13 @@ export class ScheduleComponent implements OnInit {
       this.scheduleForm.value.facebook,
       this.scheduleForm.value.instagram,
       this.scheduleForm.value.twitter,
-      
       )
       .subscribe(
-        res => {
+        res => { 
           console.log(res)
-        },
-        err => console.log(err)
-    )
+          this.scheduleForm.reset()
+        }, err => console.log(err)
+      )
   }
 
 

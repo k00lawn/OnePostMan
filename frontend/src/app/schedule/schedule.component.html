@@ -32,16 +32,16 @@
                         
                     </mat-form-field> -->
                     <mat-form-field>
-                        <input [(ngModel)]="timer" matInput formControlName="time" type="time">
+                        <input matInput formControlName="time" type="time">
                         <mat-label>Pick date and time</mat-label>
                     </mat-form-field>
                     <mat-form-field appearance="fill">
                         <mat-label>Choose a date</mat-label>
-                        <input [(ngModel)]="date" matInput [matDatepicker]="time" formControlName="datetime">
-                        <mat-datepicker-toggle matSuffix [for]="time"></mat-datepicker-toggle>
-                        <mat-datepicker #time></mat-datepicker>
-                        <mat-error *ngIf="scheduleForm.controls.time.touched && scheduleForm.controls.time.invalid">
-                            <span *ngIf="scheduleForm.controls.time.errors.required">This field is mandatory.</span>
+                        <input matInput [matDatepicker]="date" formControlName="date">
+                        <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+                        <mat-datepicker #date></mat-datepicker>
+                        <mat-error *ngIf="scheduleForm.controls.date.touched && scheduleForm.controls.date.invalid">
+                            <span *ngIf="scheduleForm.controls.date.errors.required">This field is mandatory.</span>
                         </mat-error>
                     </mat-form-field>
                     <br>
