@@ -1,35 +1,3 @@
-<!-- <div class="parent">
-    <mat-card>
-        <form [formGroup] = "scheduleForm" (ngSubmit) = "onSubmit()">
-            <mat-form-field>
-                    <mat-label for="imagePost">Your post</mat-label>
-                    <input matInput
-                        type="file" 
-                        class="form-control-file" 
-                        id="imagePost"
-                        (change) = "onImagePicked($event)">
-            </mat-form-field>  
-            <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview">
-                <img [src]="imagePreview" [alt]="scheduleForm.value.title">
-            </div>
-            <mat-form-field>
-                
-                    <mat-label> Caption </mat-label>
-                    <input matInput formControlName = "caption" type="text" class="form-control"> 
-              
-            </mat-form-field>
-            <mat-form-field>
-                <div class="form-group">
-                    <mat-label> Select when you want to post </mat-label>
-                    <input matInput formControlName = "time" type="text" class="form-control">
-                </div>
-            </mat-form-field>
-                <button class="btn btn-primary" [disabled] = "!scheduleForm.valid" type="submit"> Schedule post </button> 
-        </form>
-
-    </mat-card>
-</div> -->
-
 <div class="parent-container">
     <div class="container">
         <mat-card class="scheduleForm-card">
@@ -64,12 +32,12 @@
                         
                     </mat-form-field> -->
                     <mat-form-field>
-                        <input matInput formControlName="time" type="time" placeholder="Choose date and time">
+                        <input [(ngModel)]="timer" matInput formControlName="time" type="time">
                         <mat-label>Pick date and time</mat-label>
                     </mat-form-field>
                     <mat-form-field appearance="fill">
                         <mat-label>Choose a date</mat-label>
-                        <input matInput [matDatepicker]="time" formControlName="time">
+                        <input [(ngModel)]="date" matInput [matDatepicker]="time" formControlName="datetime">
                         <mat-datepicker-toggle matSuffix [for]="time"></mat-datepicker-toggle>
                         <mat-datepicker #time></mat-datepicker>
                         <mat-error *ngIf="scheduleForm.controls.time.touched && scheduleForm.controls.time.invalid">

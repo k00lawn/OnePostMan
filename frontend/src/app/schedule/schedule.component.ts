@@ -11,9 +11,16 @@ export class ScheduleComponent implements OnInit {
 
   imagePreview: string = 'https://material.angular.io/assets/img/examples/shiba2.jpg';
 
+  public timer: string;
+  public date: string;
+  username = 'Username'
+  caption = 'Caption'
+  socialMedia = 'Instagram' 
+
   scheduleForm = this.fb.group({
     username:[''],
     caption: [''],
+    datetime: [''],
     time: [''],
     socialMedia: new FormArray([
       new FormControl(''),
@@ -28,12 +35,9 @@ export class ScheduleComponent implements OnInit {
 
   constructor( private fb: FormBuilder, private _createTaskService: ScheduleService) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    
   }
-
-  username = 'Username'
-  caption = 'Caption'
-  socialMedia = 'Instagram'
 
   onImagePicked(event: Event) {
       const file = (event.target as HTMLInputElement).files[0]
@@ -47,6 +51,10 @@ export class ScheduleComponent implements OnInit {
   }
 
   onSubmit() {
+    const time = this.timer.toString()
+    const date = this.date.toString()
+    const datetime = date.replace("00:00:00", time)
+    this.scheduleForm.patchValue({datetime: datetime})
     console.log(this.scheduleForm.value)
     if (!this.scheduleForm.valid) {
       return;
@@ -54,7 +62,7 @@ export class ScheduleComponent implements OnInit {
     this._createTaskService.createTask(
       this.scheduleForm.value.username,
       this.scheduleForm.value.caption,
-      this.scheduleForm.value.time,
+      this.scheduleForm.value.datetime,
       this.scheduleForm.value.image,
       this.scheduleForm.value.facebook,
       this.scheduleForm.value.instagram,

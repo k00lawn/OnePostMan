@@ -12,6 +12,7 @@ export class ProfileComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    
     (window as any).fbAsyncInit = function() {
       FB.init({
         appId      : '3431573256929883',
@@ -19,7 +20,9 @@ export class ProfileComponent implements OnInit {
         xfbml      : true,
         version    : 'v8.0'
       });
-      FB.AppEvents.logPageView();
+        
+      FB.AppEvents.logPageView();   
+        
     };
   
     (function(d, s, id){
@@ -31,23 +34,28 @@ export class ProfileComponent implements OnInit {
      }(document, 'script', 'facebook-jssdk'));
   }
 
- submitLogin(){
-  console.log("submit login to facebook");
-  // FB.login();
-  FB.login((response)=>
-      {
-        console.log('submitLogin',response);
-        if (response.authResponse)
-        {
-          //this.toastr.successToastr('login successful', 'Success!');
-          console.log(response.authResponse, 'Success')
-        }
-         else
-         {
-         console.log('User login failed');
-       }
+  submitLogin(){
+    console.log("submit login to facebook");
+    FB.login()
+    FB.getLoginStatus((response) => {
+      console.log(response);
     });
 
-}
+  // FB.login();
+  // FB.login((response)=>
+  //     {
+  //       console.log('submitLogin',response);
+  //       if (response.authResponse)
+  //       {
+  //         //this.toastr.successToastr('login successful', 'Success!');
+  //         console.log(response.authResponse, 'Success')
+  //       }
+  //        else
+  //        {
+  //        console.log('User login failed');
+  //      }
+  //   });
+
+  }
 
 }
