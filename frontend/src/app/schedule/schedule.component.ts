@@ -51,11 +51,13 @@ export class ScheduleComponent implements OnInit {
 
   onSubmit() {
     const time = this.scheduleForm.get('time').value.toString()
-    const date = this.scheduleForm.get('date').value.toString()
-    const datetime = date.replace("00:00:00", time)
-    const convDatetime = new Date(datetime).toUTCString()
-    console.log(convDatetime)
-    this.scheduleForm.patchValue({datetime: convDatetime})
+    //const date = this.scheduleForm.get('date').value.toLocaleDateString().toISOString()
+    const date = this.scheduleForm.get('date').value.toISOString().split('T')[0]
+    console.log(`${date} ${time}`)
+    // const datetime = date.replace("00:00:00", time)
+    // const convDatetime = new Date(datetime).toUTCString().split(' ').slice(1).join(' ')
+    const datetime = `${date} ${time}`
+    this.scheduleForm.patchValue({datetime: datetime})
     console.log(this.scheduleForm.value)
     if (!this.scheduleForm.valid) {
       return;
