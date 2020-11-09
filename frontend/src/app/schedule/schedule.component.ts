@@ -52,7 +52,9 @@ export class ScheduleComponent implements OnInit {
   onSubmit() {
     const time = this.scheduleForm.get('time').value.toString()
     //const date = this.scheduleForm.get('date').value.toLocaleDateString().toISOString()
-    const date = this.scheduleForm.get('date').value.toISOString().split('T')[0]
+    const ISOdate = this.scheduleForm.get('date').value
+    const date = new Date(ISOdate.getTime() - (ISOdate.getTimezoneOffset() * 60000 )).toISOString().split("T")[0]
+
     console.log(`${date} ${time}`)
     // const datetime = date.replace("00:00:00", time)
     // const convDatetime = new Date(datetime).toUTCString().split(' ').slice(1).join(' ')
