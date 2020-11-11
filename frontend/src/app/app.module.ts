@@ -50,7 +50,8 @@ import { ProfileComponent } from './profile/profile.component';
   providers: [
     {
       provide: HTTP_INTERCEPTORS, 
-      useClass: AuthInterceptorService, multi: true,
+      useClass: AuthInterceptorService, 
+      multi: true,
     },
     MatDatepickerModule,
     MatNativeDateModule, 

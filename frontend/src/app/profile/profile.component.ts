@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 declare var FB: any;
 @Component({
@@ -9,9 +10,12 @@ declare var FB: any;
 })
 export class ProfileComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
+  //private userIdListenerSub: Subscription;
+  //user_id
+  
 
-  ngOnInit(): void {
+  ngOnInit() {
     
     (window as any).fbAsyncInit = function() {
       FB.init({
@@ -32,13 +36,29 @@ export class ProfileComponent implements OnInit {
        js.src = "https://connect.facebook.net/en_US/sdk.js";
        fjs.parentNode.insertBefore(js, fjs);
      }(document, 'script', 'facebook-jssdk'));
+
+    //  this.userIdListenerSub = this.authService
+    //       .getUserId()
+    //       .subscribe(userID => {
+    //         this.user_id = userID;
+    //   })
   }
+
+
+
+  //Access Data
+  
 
   submitLogin(){
     console.log("submit login to facebook");
     FB.login()
     FB.getLoginStatus((response) => {
-      console.log(response);
+      if(response.authResponse.accessToken) {
+        const shortAccessToken = response.authResponse.accessToken
+        const userID = this.authService.userID
+        console.log(`Short Access Token = ${shortAccessToken} and User = ${userID}`)
+        this.authService.extendAccessToken(userID, shortAccessToken) 
+      }
     });
 
   // FB.login();
@@ -57,5 +77,9 @@ export class ProfileComponent implements OnInit {
   //   });
 
   }
+
+  // ngOnDestroy() {
+  //   this.userIdListenerSub.unsubscribe()
+  // }
 
 }
