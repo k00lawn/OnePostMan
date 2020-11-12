@@ -1,6 +1,6 @@
 import pymongo
 from pymongo import MongoClient
-
+from bson.objectid import ObjectId
 
 url = 'mongodb+srv://b33r:LrHpoFtRpBzoVDm8@cluster0.mzdpt.mongodb.net/opmdb?retryWrites=true&w=majority'
 cluster = MongoClient(url)
@@ -16,27 +16,28 @@ def get_schedules():
         result = collection.find({}).sort('date', 1)
         return result
     else :
-        error = 'none'
-        return error
+        return 'none'
 
 
 def get_user_details(user_id):
-    collection = db['user_details']
-    user_details = collection.find_one({'user_id' : user_id})
-    return user_id
+    collection = db['users']
+    user_details = collection.find_one({'_id': ObjectId(user_id)})
+    return user_details
 
 
-def post_pages(token,page_details):
+def post_token_and_pages(user_id, token, page_details):
 
-    collection = db['user_details']
-    collection.update_one({'fb_access_token' : token} , {'page_details' : page_details})
+    collection = db['users']
+    collection.update_one({'_id': ObjectId(user_id)}, {'$set': {'fb_access_token': token}})
+    collection.update_one({'_id': ObjectId(user_id)}, {'$set': {'page_details': page_details}})
 
 
 def delete_schedule(user_id):
 
     try:
         collection = db['schedule']
-        collection.delete_one({'user_id': user_id})
+        collection.delete_one({'userId': user_id})
+
     except :
         print('nothing to delete')
 
@@ -46,3 +47,5 @@ def delete_all():
     collection.delete_many({})
     collection = db['posts']
     collection.delete_many({})
+
+

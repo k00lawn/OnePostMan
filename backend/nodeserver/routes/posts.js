@@ -45,7 +45,6 @@ router.post("",
         date: req.body.time,
         img: "backend/nodeserver/images/" + fileinfo,
         facebook: req.body.facebook,
-        instagram: req.body.instagram,
         twitter: req.body.twitter,
     });
     console.log(postTask)

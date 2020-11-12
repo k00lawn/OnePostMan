@@ -1,6 +1,8 @@
-from flask import Flask , jsonify
 from flask_restful import Api , Resource , reqparse
 from flask_cors import CORS, cross_origin
+from multiprocessing import Process
+from hashtagapi import get_hashtag
+from flask import Flask, jsonify
 from main import Opm
 
 app = Flask(__name__)
@@ -15,24 +17,56 @@ def login():
 
 api = Api(app)
 
+# user access token endpoint ------------------------------------------------------------------------------
+
 user_access_token = reqparse.RequestParser()
-user_access_token.add_argument('token',type=str)
+user_access_token.add_argument('access_token',type=str)
+user_access_token.add_argument('userId',type=str)
 
 
 class GetAccessToken(Resource):
     def post(self):
-        token = user_access_token.parse_args()
-        Opm.get_page_details(token)
+        data = user_access_token.parse_args()
+        print(data)
+        opm = Opm()
+        opm.extend_and_post_pages(user_id=data['userId'], token=data['access_token'])
         return jsonify({'status' : 'ok'})
 
 
-api.add_resource(GetAccessToken , '/api/accessToken')
+# user caption endpoint -----------------------------------------------------------------------------------
 
-opm = Opm()
-opm.testing()
+user_caption = reqparse.RequestParser()
+user_caption.add_argument('caption',type=str)
+
+details = dict()
+
+
+class GetCaption(Resource):
+    def post(self):
+        caption = user_caption.parse_args()
+        details['caption'] = caption['caption']
+        hashtags = get_hashtag(caption['caption'])
+        details['hashtags'] = hashtags
+        return jsonify({'status': 'ok'})
+
+
+class GetHashtags(Resource):
+    def get(self,caption):
+        hashtags = details[caption]
+        return jsonify({'data':hashtags})
+
+
+api.add_resource(GetAccessToken , '/api/accessToken')
+api.add_resource(GetCaption , '/api/caption')
+api.add_resource(GetHashtags , '/api/hashtags/<string:caption>')
 
 if __name__ == '__main__':
-    app.run(debug=True,port=4000)
+
+    opm = Opm()
+    opm = Process(target=opm.schedule , args=())
+    opm.start()
+    app.run(debug=True, port=4000, use_reloader = False)
+    opm.join()
 
 
 

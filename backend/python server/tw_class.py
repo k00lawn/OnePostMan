@@ -37,27 +37,43 @@ class TwitterApi():
         return api
 
     def user_details(self):
-        api = TwitterApi.make_auth(self)
-        tweets = api.home_timeline()[0]
+
+        api = self.make_auth()
+        me = api.me()
         details = dict()
 
-        details['user_id'] = tweets.user.id
-        details['name'] = tweets.user.name
-        details['screen_name'] = tweets.user.screen_name
-        details['user_time_zone'] = tweets.user.time_zone
+        details['user_id'] = me.id
+        details['name'] = me.name
+        details['followers'] = me.followers_count
+        details['followings'] = me.friends_count
+        details['screen_name'] = me.screen_name
+        details['user_time_zone'] = me.time_zone
 
         return details
 
     def get_tweets(self):
 
-        api = TwitterApi.make_auth(self)
-        user_details = TwitterApi.user_details(self)
-        name = user_details['name']
+        api = self.make_auth()
 
-        tweets = api.home_timeline()
-        data = [(i.text,i.id) for i in tweets]
+        tweets_data = dict()
+        tweets_data['tweets'] = []
+        tweets_data['id'] = []
+        tweets_data['created_on'] = []
+        tweets_data['retweet_count'] = []
+        tweets_data['favorite_count'] = []
+        tweets_data['language'] = []
 
-        return data
+        tweets = api.user_timeline()
+
+        for i in tweets:
+            tweets_data['tweets'].append(i.text)
+            tweets_data['id'].append(i.id)
+            tweets_data['created_on'].append(i.created_at)
+            tweets_data['retweet_count'].append(i.retweet_count)
+            tweets_data['favorite_count'].append(i.favourite_count)
+            tweets_data['language'].append(i.lang)
+
+        return tweets_data
 
     def post_tweet(self):
 
@@ -72,3 +88,14 @@ class TwitterApi():
             else:
                 print('posting without img')
                 api.update_status(self.msg)
+
+    def post_tweet_testing(self):
+
+        api = self.make_auth()
+
+        if self.img is not None:
+            print('posting with the img')
+            api.update_with_media(self.img,self.msg)
+        else:
+            print('posting without img')
+            api.update_status(self.msg)

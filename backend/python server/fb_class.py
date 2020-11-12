@@ -1,5 +1,4 @@
 import json
-from datetime import timedelta
 import facebook
 from scheduler import *
 import requests
@@ -7,12 +6,12 @@ import requests
 
 class FacebookApi:
 
-    def __init__(self, img=None, date=None, caption=None, user_token=None, page_token=None):
+    def __init__(self, img=None, date=None, caption=None, user_token=None, page_id=None):
         self.img = img
         self.date = date
         self.msg = caption
         self.token = user_token
-        self.pg_token = page_token
+        self.pg_id = page_id
 
     def creds(self):
 
@@ -23,57 +22,112 @@ class FacebookApi:
         fb_api['graph_domain'] = f'https://developers.facebook.com/tools/explorer/{fb_api["app_id"]}/'
         fb_api['debugger_url'] = "https://graph.facebook.com/{}/oauth/access_token?grant_type=fb_exchange_token&client_id={}&client_secret={}&fb_exchange_token={}"
         fb_api['page_debugger_url'] = "https://graph.facebook.com/{}/{}/accounts?access_token={}"
+        fb_api['insights_url'] = "https://graph.facebook.com/{}/insights?metric=page_impressions_unique,page_engaged_users&access_token={}"
 
         return fb_api
 
     def user_details(self):
 
-        graph = facebook.GraphAPI(access_token=self.token)
+        try:
+            graph = facebook.GraphAPI(access_token=self.token)
+            user_details = dict()
 
-        user_details = dict()
+            profile = graph.get_object('me')
+            user_details['user_id'] = profile['id']
+            user_details['user_name'] = profile['name']
+            user_details['page_details'] = []
 
-        profile = graph.get_object('me')
-        user_details['user_id'] = profile['id']
-        user_details['user_name'] = profile['name']
-        user_details['page_details'] = []
+            account = graph.get_object(f'{ user_details["user_id"] }/accounts')
+            for i in account['data']:
+                user_details['page_details'].append(( i['name'], i['id'], i['access_token'] , i['category']))
 
-        account = graph.get_object(f'{ user_details["user_id"] }/accounts')
-        for i in account['data']:
-            user_details['page_details'].append(( i['name'], i['id'], i['access_token'] , i['category']))
+            return user_details
 
-        return user_details
+        except facebook.GraphAPIError as error:
+            return {'error': error}
 
     def get_feeds(self):
 
-        graph = facebook.GraphAPI(access_token=self.token)
-        user_details = self.user_details()
-        user_id = user_details['user_id']
-        page_id = user_details['page_id']
-        profile = graph.get_object(f'{page_id}/feed')
-        data = json.dumps(profile,indent=4)
-        return data
+        try:
+            graph = facebook.GraphAPI(access_token=self.token)
+            page_id = self.pg_id
+            profile = graph.get_object(f'{page_id}/feed')
+            data = json.dumps(profile, indent=4)
+            return data
+
+        except facebook.GraphAPIError as error:
+            return {'error': error}
+
+        except KeyError as error:
+            return {'error': error}
+
+    def get_pg_id(self , pg_token):
+
+        details = self.user_details()
+        pg_data = details['page_details']
+        id = 0
+
+        for i in pg_data:
+            if i[2] == pg_token:
+                id = i[1]
+                break
+
+        return id
+
+    def get_page_token(self, pg_id):
+
+        try:
+            details = self.user_details()
+            pg_data = details['page_details']
+            pg_token = 0
+
+            for i in pg_data:
+                if i[1] == pg_id:
+                    pg_token = i[2]
+                    break
+
+            return pg_token
+
+        except KeyError as error:
+            return {'error': error}
+
+    def user_insights(self, pg_id):
+
+        creds = self.creds()
+        pg_token = self.get_page_token(pg_id)
+
+        if pg_id != 0:
+            url = creds['insights_url'].format(pg_id, pg_token)
+            print(f"this is the url : {url}")
+            data = requests.get(url)
+
+            return data.json()
+
+        else:
+            error = 'looks like the page access token given is wrong or not found in the stored data'
+            return {'error': error}
 
     def extend_access_token(self):
 
         app = self.creds()
-        access_token = self.token
         app_id = app['app_id']
         app_secret = app['app_secret']
-        url = app['debugger_url'].format(app['version'], app_id, app_secret, access_token)
+        url = app['debugger_url'].format(app['version'], app_id, app_secret, self.token)
         res = requests.get(url)
         access_token_info = res.json()
-        self.token = access_token_info['access_token']
-        print()
-        print(f'Extended the short lived access token ... ')
-        print(f'New token : {self.token}')
+
+        try:
+            long_token = access_token_info['access_token']
+            return long_token
+        except KeyError as error:
+            return access_token_info
 
     def post(self):
 
         user_details = self.user_details()
-        user_id = user_details['user_id']
         page = user_details['page_details']
         page_id = page[0][1]
-        access_token = page[0][2]
+        access_token = self.get_page_token(page_id)
 
         scheduler = schedule_time(self.date)
 
@@ -94,3 +148,36 @@ class FacebookApi:
                     print('posted the feed')
                 else:
                     pass
+
+    def post_testing(self):
+
+        try:
+            user_details = self.user_details()
+            page = user_details['page_details']
+            page_id = page[0][1]
+            access_token = self.get_page_token(page_id)
+
+            graph = facebook.GraphAPI(access_token=access_token)
+
+            if self.img is None:
+
+                print('posting without img')
+                graph.put_object(page_id,'feed',message = self.msg)
+                print('posted the feed')
+
+            else:
+
+                if self.img.endswith('.jpg') or self.img.endswith('.png'):
+
+                    print('ok its time to upload with img')
+                    img = open(self.img, 'rb')
+                    graph.put_photo(image=img,album_path=f"{page_id}/photos", message = self.msg)
+                    print('posted the feed')
+                else:
+                    pass
+
+        except KeyError as error:
+            return {'error': error}
+
+        except facebook.GraphAPIError as error:
+            return {'error': error}

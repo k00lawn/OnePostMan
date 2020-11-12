@@ -107,8 +107,5 @@ dist
 backend/images
 backend/nodeserver/images
 
-#python 
-
-backend/.idea/
-backend/python server/venv/
-backend/python server/__pycache__/
+#python modules
+venv
