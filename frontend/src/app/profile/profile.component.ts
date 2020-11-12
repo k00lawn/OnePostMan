@@ -8,15 +8,29 @@ declare var FB: any;
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
 
   constructor(private authService: AuthService) { }
-  //private userIdListenerSub: Subscription;
+  private userIdListenerSub: Subscription;
   //user_id
-  
+  userAuthenticated = false;
+  private authListenerSub: Subscription
+  userID: string;
 
   ngOnInit() {
-    
+    this.authService.autoAuthUser();
+    this.userAuthenticated = this.authService.getIsAuth();
+    this.authListenerSub = this.authService
+    .getAuthStatusListener()
+    .subscribe(isAuthenticated => {
+      this.userAuthenticated = isAuthenticated;
+    });
+    this.userIdListenerSub = this.authService
+      .getUserIdListener()
+      .subscribe(user_id => {
+        this.userID = user_id;
+      });
+
     (window as any).fbAsyncInit = function() {
       FB.init({
         appId      : '3431573256929883',
@@ -55,7 +69,7 @@ export class ProfileComponent implements OnInit {
     FB.getLoginStatus((response) => {
       if(response.authResponse.accessToken) {
         const shortAccessToken = response.authResponse.accessToken
-        const userID = this.authService.userID
+        const userID = this.authService.getUserID()
         console.log(`Short Access Token = ${shortAccessToken} and User = ${userID}`)
         this.authService.extendAccessToken(userID, shortAccessToken) 
       }
@@ -78,8 +92,9 @@ export class ProfileComponent implements OnInit {
 
   }
 
-  // ngOnDestroy() {
-  //   this.userIdListenerSub.unsubscribe()
-  // }
+  ngOnDestroy() {
+    this.authListenerSub.unsubscribe()
+    this.authListenerSub.unsubscribe()
+  }
 
 }

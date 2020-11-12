@@ -13,11 +13,11 @@ export class ScheduleService {
 
   // POST Request to API endpoint
 
-  createTask(username: string, caption: string, time: string, image: File, facebook: string, instagram: string, twitter: string) {
+  createTask(userId: string, caption: string, time: string, image: File, facebook: string, instagram: string, twitter: string) {
     
     const postData = new FormData();
 
-    postData.append('username', username)
+    postData.append('user_id', userId)
     postData.append('caption', caption)
     postData.append('time', time)
     postData.append('image', image)

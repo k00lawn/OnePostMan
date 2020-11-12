@@ -2,6 +2,7 @@ const express = require("express");
 const multer = require("multer");
 
 const Post = require("../models/Post");
+const checkAuth = require("../middleware/check-auth")
 
 const router = express.Router();
 
@@ -32,7 +33,9 @@ const storage = multer.diskStorage({
 
 var upload = multer({storage: storage})
 
-router.post("", upload.single("image"), (req, res, next) => {
+router.post("",
+  checkAuth, 
+  upload.single("image"), (req, res, next) => {
     var fileinfo = req.file.filename;
     console.log(req.body)
     console.log(req.body.username)

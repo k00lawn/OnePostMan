@@ -1,21 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ScheduleService } from 'src/app/services/schedule.service'
+import { AuthService } from '../services/auth.service';
+import { ProfileService } from '../services/profile.service'
 
 @Component({
   selector: 'app-schedule',
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.css']
 })
-export class ScheduleComponent implements OnInit {
+export class ScheduleComponent implements OnInit, OnDestroy {
 
   imagePreview: string = 'https://material.angular.io/assets/img/examples/shiba2.jpg';
 
+  user = {user_id: '', username: '' }
   username = 'Username'
   caption = 'Caption'
   socialMedia = 'Instagram' 
 
   scheduleForm = this.fb.group({
+    user_id:[''],
     username:[''],
     caption: [''],
     datetime: [''],
@@ -32,10 +36,20 @@ export class ScheduleComponent implements OnInit {
     twitter: [false]
   })
 
-  constructor( private fb: FormBuilder, private _createTaskService: ScheduleService) { }
+  constructor(private profileService: ProfileService, private authService: AuthService, private fb: FormBuilder, private _createTaskService: ScheduleService) { }
 
   ngOnInit() {
-    
+    this.authService.autoAuthUser()
+    const user_id = this.authService.getUserID()
+    console.log(user_id)
+    this.user.user_id = user_id
+    this.profileService.getUser(user_id)
+      .subscribe(res => {
+          console.log(res)
+          this.user.user_id = res.user_id;
+          this.user.username = res.username;
+      })
+    console.log(this.user)
   }
 
   onImagePicked(event: Event) {
@@ -50,6 +64,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   onSubmit() {
+    const user_id = this.authService.getUserID()
     const time = this.scheduleForm.get('time').value.toString()
     //const date = this.scheduleForm.get('date').value.toLocaleDateString().toISOString()
     const ISOdate = this.scheduleForm.get('date').value
@@ -59,13 +74,13 @@ export class ScheduleComponent implements OnInit {
     // const datetime = date.replace("00:00:00", time)
     // const convDatetime = new Date(datetime).toUTCString().split(' ').slice(1).join(' ')
     const datetime = `${date} ${time}`
-    this.scheduleForm.patchValue({datetime: datetime})
+    this.scheduleForm.patchValue({userId: this.user.user_id, datetime: datetime})
     console.log(this.scheduleForm.value)
     if (!this.scheduleForm.valid) {
       return;
     }
     this._createTaskService.createTask(
-      this.scheduleForm.value.username,
+      this.scheduleForm.value.userId,
       this.scheduleForm.value.caption,
       this.scheduleForm.value.datetime,
       this.scheduleForm.value.image,
@@ -81,6 +96,8 @@ export class ScheduleComponent implements OnInit {
       )
   }
 
-
+  ngOnDestroy() {
+    
+  }
 
 }

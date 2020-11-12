@@ -4,6 +4,26 @@ const jwt = require("jsonwebtoken");
 
 const router = express.Router()
 const User = require('../models/User');
+const checkAuth = require('../middleware/check-auth')
+
+//User
+
+router.get("/:id",
+  checkAuth,
+  (req, res, next) => {
+  User.findById(req.params._id).then(user => {
+    console.log(req.params._id)
+    if(!user) {
+        return res.status(401).json({
+          message: "User not found"
+        })
+      }
+      res.status(200).json({
+        username: user.username,
+        userId: user._id
+      })
+  })
+})
 
 //Login 
 router.post("/login", (req, res, next) => {
