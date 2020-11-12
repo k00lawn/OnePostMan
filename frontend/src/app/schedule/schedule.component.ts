@@ -19,7 +19,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   socialMedia = 'Instagram' 
 
   scheduleForm = this.fb.group({
-    user_id:[''],
+    userId:[''],
     // username:[''],
     caption: [''],
     datetime: [''],
@@ -65,7 +65,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    const user_id = this.authService.getUserID()
+    //const userId = this.authService.getUserID()
     const time = this.scheduleForm.get('time').value.toString()
     //const date = this.scheduleForm.get('date').value.toLocaleDateString().toISOString()
     const ISOdate = this.scheduleForm.get('date').value

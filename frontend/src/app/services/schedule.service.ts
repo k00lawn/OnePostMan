@@ -17,7 +17,7 @@ export class ScheduleService {
     
     const postData = new FormData();
 
-    postData.append('user_id', userId)
+    postData.append('userId', userId)
     postData.append('caption', caption)
     postData.append('time', time)
     postData.append('image', image)
