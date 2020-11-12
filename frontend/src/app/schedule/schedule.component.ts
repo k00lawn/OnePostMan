@@ -20,7 +20,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   scheduleForm = this.fb.group({
     user_id:[''],
-    username:[''],
+    // username:[''],
     caption: [''],
     datetime: [''],
     time: [''],
@@ -45,11 +45,12 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.user.user_id = user_id
     this.profileService.getUser(user_id)
       .subscribe(res => {
-          console.log(res)
+          console.log(res.username)
           this.user.user_id = res.user_id;
           this.user.username = res.username;
+          console.log(this.user)
       })
-    console.log(this.user)
+    
   }
 
   onImagePicked(event: Event) {

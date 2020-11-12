@@ -3,10 +3,10 @@
         <mat-card class="scheduleForm-card">
             <div class="form-container">
                 <form [formGroup]="scheduleForm" (submit)="onSubmit()">
-                    <mat-form-field class="form-field" appearance="fill">
+                    <!-- <mat-form-field class="form-field" appearance="fill">
                         <mat-label>Username</mat-label>
                         <input matInput formControlName="username" type="text" [(ngModel)]="username" required>
-                    </mat-form-field>
+                    </mat-form-field> -->
                     <mat-form-field class="form-field" appearance="fill">
                         <mat-label>Caption</mat-label>
                         <input matInput formControlName="caption" type="text" [(ngModel)]="caption" required>
@@ -59,7 +59,7 @@
         <mat-card class="post-card">
             <mat-card-header>
               <div mat-card-avatar class="example-header-image"></div>
-              <mat-card-title>{{username}}</mat-card-title>
+              <mat-card-title>{{user.username}}</mat-card-title>
               <mat-card-subtitle>{{socialMedia}}</mat-card-subtitle>
             </mat-card-header>
             <img mat-card-image [src]="imagePreview" [alt]="scheduleForm.value.title">

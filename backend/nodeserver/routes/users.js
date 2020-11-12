@@ -11,16 +11,15 @@ const checkAuth = require('../middleware/check-auth')
 router.get("/:id",
   checkAuth,
   (req, res, next) => {
-  User.findById(req.params._id).then(user => {
-    console.log(req.params._id)
+  User.findById({ _id: req.params.id}).then(user => {
     if(!user) {
         return res.status(401).json({
           message: "User not found"
         })
       }
       res.status(200).json({
-        username: user.username,
-        userId: user._id
+        user_id: req.params.id,
+        username: user.username
       })
   })
 })
