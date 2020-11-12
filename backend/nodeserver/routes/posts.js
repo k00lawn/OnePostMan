@@ -38,14 +38,13 @@ router.post("",
   upload.single("image"), (req, res, next) => {
     var fileinfo = req.file.filename;
     console.log(req.body)
-    console.log(req.body.username)
+    console.log(req.body.userId)
     const postTask = new Post({
-        user_id: req.body.username,
+        userId: req.body.userId,
         caption: req.body.caption,
         date: req.body.time,
         img: "backend/nodeserver/images/" + fileinfo,
         facebook: req.body.facebook,
-        instagram: req.body.instagram,
         twitter: req.body.twitter,
     });
     console.log(postTask)
