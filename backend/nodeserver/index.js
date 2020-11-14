@@ -1,11 +1,14 @@
 const express = require('express');
+//const session = require('express-session')
 const bodyParser = require('body-parser');
 const path = require('path');
 const dotenv = require('dotenv')
+const passport = require('passport')
 const connectDB = require('./config/db')
 
 const postsRoutes = require('../nodeserver/routes/posts') 
 const usersRoutes = require('../nodeserver/routes/users')
+const twoauth = require('./oauth/twoauth')
 
 dotenv.config({ path: './config/config.env' })
 
@@ -13,9 +16,15 @@ connectDB()
 
 const app = express();
 
+
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/images", express.static(path.join('images')));
+//app.use(session({ secret: 'feeling hot hot hot' }));
+app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -36,6 +45,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use("/api/postTask", postsRoutes)
 app.use("/api/user", usersRoutes)
+app.use("/", twoauth)
 
 const PORT = process.env.PORT || 3000
 
