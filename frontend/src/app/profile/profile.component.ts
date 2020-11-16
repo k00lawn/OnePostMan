@@ -39,11 +39,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
     // .subscribe(isAuthenticated => {
     //   this.userAuthenticated = isAuthenticated;
     // });
-    // this.userIdListenerSub = this.authService
-    //   .getUserIdListener()
-    //   .subscribe(user_id => {
-    //     this.userID = user_id;
-    //   });
+    this.userIdListenerSub = this.authService
+      .getUserIdListener()
+      .subscribe(user_id => {
+        this.userID = user_id;
+      });
 
     (window as any).fbAsyncInit = function() {
       FB.init({
