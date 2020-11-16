@@ -6,7 +6,7 @@ const UserSchema =  mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     date: { type: Date, default: Date.now },
-    tw_provider: { type: Boolean },
+    tw_provider: { type: Boolean, default: false },
     tw_access_token: { type: String },
     tw_access_token_secret: { type: String }
 })

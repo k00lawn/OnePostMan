@@ -35,7 +35,7 @@ router.get('/saveAccessTokens/:id/', checkAuth, (req, res) => {
     req.query.oauth_verifier,
       (error, oauthAccessToken, oauthAccessTokenSecret, results) => {
         if (error) {
-          logger.error(error);
+          logger().error(error);
           res.send(error, 500);
         }
         console.log(req.params.id)
@@ -45,8 +45,9 @@ router.get('/saveAccessTokens/:id/', checkAuth, (req, res) => {
         User.findById({ _id: req.params.id}).then(user => {
           if(!user) { return res.status(401).json({ message: "User not found"}) }
           if(user.tw_provider) { return res.send({ message: 'twitter token is set already'}) }      
-          user.insert({ tw_access_token: oauthAccessToken, tw_access_token_secret: oauthAccessTokenSecret})
-          user.update({ tw_provider: true })
+          user.tw_access_token = oauthAccessToken
+          user.tw_access_token_secret = oauthAccessTokenSecret
+          user.tw_provider = true
           user.save()
           return res.send({ message: 'Twitter Account Connected Successfully' })
         })  
