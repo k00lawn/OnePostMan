@@ -2,6 +2,7 @@ import json
 import facebook
 from scheduler import *
 import requests
+import re
 
 
 class FacebookApi:
@@ -89,22 +90,6 @@ class FacebookApi:
             return pg_token
 
         except KeyError as error:
-            return {'error': error}
-
-    def user_insights(self, pg_id):
-
-        creds = self.creds()
-        pg_token = self.get_page_token(pg_id)
-
-        if pg_id != 0:
-            url = creds['insights_url'].format(pg_id, pg_token)
-            print(f"this is the url : {url}")
-            data = requests.get(url)
-
-            return data.json()
-
-        else:
-            error = 'looks like the page access token given is wrong or not found in the stored data'
             return {'error': error}
 
     def extend_access_token(self):

@@ -49,3 +49,4 @@ def delete_all():
     collection.delete_many({})
 
 
+
