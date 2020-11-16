@@ -55,10 +55,11 @@ def testing_tw_default():              # user_tw_id,user_id,metric_names
     print(dumps(data,indent=4))
 
 
-'https://api.twitter.com/2/tweets/1327657238350106624?tweet.fields=non_public_metrics,organic_metrics&media.fields=non_public_metrics,organic_metrics&expansions=attachments.media_keys'
-, oauth_nonce="OAUTH_NONCE", oauth_signature="OAUTH_SIGNATURE", oauth_signature_method="HMAC-SHA1", oauth_timestamp="OAUTH_TIMESTAMP", oauth_token="ACCESS_TOKEN", oauth_version="1.0"
+url = 'https://api.twitter.com/2/tweets/1327657238350106624?tweet.fields=non_public_metrics,organic_metrics&media.fields=non_public_metrics,organic_metrics&expansions=attachments.media_keys'
 
 
-headers = {'authorization': 'OAuth oauth_consumer_key="x6nSMWg3uV58kOGm0MY22b13Y"',
+'''
+headers = {'authorization': 'OAuth oauth_consumer_key="x6nSMWg3uV58kOGm0MY22b13Y",oauth_nonce="kYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg",oauth_signature="tnnArxj06cWHq44gCs1OSKk%2FjLY%3D",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1605539833",oauth_token="1308334561831481345-nfHZ8d32aNWDgT5K2ll3Ul4OTiVRBA",oauth_version="1.0"'}
+headers = {'authorization': 'OAuth oauth_consumer_key="x6nSMWg3uV58kOGm0MY22b13Y",,oauth_signature_method="HMAC-SHA1",oauth_timestamp="1605539833",oauth_token="1308334561831481345-nfHZ8d32aNWDgT5K2ll3Ul4OTiVRBA",oauth_version="1.0"'}
 
-           }
+'''

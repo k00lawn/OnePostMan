@@ -38,16 +38,20 @@ class Opm():
         tw_user_access_token = None
         tw_user_token_secret = None
 
-        if fb:
-            fb_token = user_details['fb_access_token']
-        if tw:
-            tw_user_access_token = user_details['tw_token']
-            tw_user_token_secret = user_details['tw_secret']
+        try:
+            if fb:
+                fb_token = user_details['fb_access_token']
+            if tw:
+                tw_user_access_token = user_details['tw_access_token']
+                tw_user_token_secret = user_details['tw_access_token_secret']
+        except KeyError as error:
+            print(error)
 
         return fb_token, tw_user_access_token, tw_user_token_secret
 
     def get_data_from_schedule(self , schedule):
 
+        schedule_id = schedule['_id']
         user_id = schedule['userId']
         caption = schedule['caption']
         date = schedule['date']
@@ -60,7 +64,7 @@ class Opm():
         except KeyError:
             img = None
 
-        return user_id, caption, img, date, fb, tw
+        return schedule_id, user_id, caption, img, date, fb, tw
 
     def schedule(self):
 
@@ -72,9 +76,9 @@ class Opm():
 
             if schedules != 'n':
 
-                user_id, caption, img, date, fb, tw = self.get_data_from_schedule(schedules)
+                schedule_id, user_id, caption, img, date, fb, tw = self.get_data_from_schedule(schedules)
                 user_details = get_user_details(user_id)
-                fb_token, twt, tkpt = self.get_user_data_db(user_details, fb, tw)
+                fb_token, tw_user_access_token, tw_user_token_secret = self.get_user_data_db(user_details, fb, tw)
 
                 if date <= now_time():
                     if fb:
@@ -85,4 +89,4 @@ class Opm():
                         tapi.post_tweet_testing()
 
                     self.delete_img(img)
-                    delete_schedule(user_id)
+                    delete_schedule(schedule_id)

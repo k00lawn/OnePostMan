@@ -32,11 +32,11 @@ def post_token_and_pages(user_id, token, page_details):
     collection.update_one({'_id': ObjectId(user_id)}, {'$set': {'page_details': page_details}})
 
 
-def delete_schedule(user_id):
+def delete_schedule(schedule_id, ):
 
     try:
         collection = db['schedule']
-        collection.delete_one({'userId': user_id})
+        collection.delete_one({'_id': ObjectId(schedule_id)})
 
     except :
         print('nothing to delete')
@@ -45,8 +45,7 @@ def delete_schedule(user_id):
 def delete_all():
     collection = db['schedule']
     collection.delete_many({})
-    collection = db['posts']
-    collection.delete_many({})
+
 
 
 

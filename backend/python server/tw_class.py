@@ -32,7 +32,7 @@ class TwitterApi():
         tw_details = self.creds()
         auth = tweepy.OAuthHandler(tw_details['app_key'],tw_details['app_secret'])
         auth.set_access_token(self.token,self.token_secret)
-        api = tweepy.API(auth)
+        api = tweepy.API(auth,wait_on_rate_limit=True,wait_on_rate_limit_notify=True)
 
         return api
 
