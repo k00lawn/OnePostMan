@@ -157,6 +157,15 @@ export class AuthService {
     }
   }
 
+  //TW OAuth
+  getTWaccessToken() {
+    return this.http.get(`${this.nodeApi}auth/twitter/`)
+  }
+
+  saveTWaccessToken(oauthToken: string, oauthVerifier: string) {
+    return this.http.get(`${this.nodeApi}saveAccessTokens?oauth_token=${oauthToken}&oauth_verifier=${oauthVerifier}`)
+  }
+
   extendAccessToken(userId: any, access_token: string) {
     const accessData: AccessData = { userId: userId, access_token: access_token}
     console.log(`This is the final object`, accessData)

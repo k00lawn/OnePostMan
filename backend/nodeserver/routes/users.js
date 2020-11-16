@@ -6,6 +6,10 @@ const router = express.Router()
 const User = require('../models/User');
 const checkAuth = require('../middleware/check-auth')
 
+//OAuth
+// const twitterOAuth = require('../oauth/twoauth');
+// const { route } = require('./posts');
+
 //User
 
 router.get("/:id",
@@ -85,5 +89,27 @@ router.post("/signup", (req, res, next) => {
         });
     });
 });
+
+//OAuth
+
+
+// Redirect the user to Twitter for authentication.  When complete, Twitter
+// will redirect the user back to the application at
+// config.env.TWITTER_CALLBACK_URL
+
+// router.get('/auth/twitter', twitterOAuth.authenticate('twitter'), {
+//   successRedirect: '/',
+//   failureRedirect: '/login'
+// });
+
+// Twitter will redirect the user to this URL after approval.  Finish the
+// authentication process by attempting to obtain an access token.  If
+// access was granted, the user will be logged in.  Otherwise,
+// authentication has failed.
+
+// router.get('/auth/twitter/callback',
+//   passport.authenticate('twitter', { successRedirect: '/',
+//                                      failureRedirect: '/login' }));
+
 
 module.exports = router

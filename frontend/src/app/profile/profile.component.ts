@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
@@ -10,26 +11,39 @@ declare var FB: any;
 })
 export class ProfileComponent implements OnInit, OnDestroy {
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private activatedRoute: ActivatedRoute) {
+    this.activatedRoute.queryParams.subscribe(params => {
+      const oauthVerifier = params['oauth_verifier'];
+      const oauthToken = params['oauth_token'];
+      if (oauthToken && oauthVerifier) {
+        console.log(oauthToken, oauthVerifier)
+        this.saveTWAccessToken(oauthToken, oauthVerifier);
+      }
+    });
+  }
+
   private userIdListenerSub: Subscription;
-  //user_id
   userAuthenticated = false;
   private authListenerSub: Subscription
   userID: string;
 
+
+  //Initialize Profile Component
+
   ngOnInit() {
+
     this.authService.autoAuthUser();
-    this.userAuthenticated = this.authService.getIsAuth();
-    this.authListenerSub = this.authService
-    .getAuthStatusListener()
-    .subscribe(isAuthenticated => {
-      this.userAuthenticated = isAuthenticated;
-    });
-    this.userIdListenerSub = this.authService
-      .getUserIdListener()
-      .subscribe(user_id => {
-        this.userID = user_id;
-      });
+    // this.userAuthenticated = this.authService.getIsAuth();
+    // this.authListenerSub = this.authService
+    // .getAuthStatusListener()
+    // .subscribe(isAuthenticated => {
+    //   this.userAuthenticated = isAuthenticated;
+    // });
+    // this.userIdListenerSub = this.authService
+    //   .getUserIdListener()
+    //   .subscribe(user_id => {
+    //     this.userID = user_id;
+    //   });
 
     (window as any).fbAsyncInit = function() {
       FB.init({
@@ -42,7 +56,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
       FB.AppEvents.logPageView();   
         
     };
-  
+    
+
+    // FB OAuth Request
     (function(d, s, id){
        var js, fjs = d.getElementsByTagName(s)[0];
        if (d.getElementById(id)) {return;}
@@ -51,11 +67,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
        fjs.parentNode.insertBefore(js, fjs);
      }(document, 'script', 'facebook-jssdk'));
 
-    //  this.userIdListenerSub = this.authService
-    //       .getUserId()
-    //       .subscribe(userID => {
-    //         this.user_id = userID;
-    //   })
+     // Twitter OAuth Request
+
   }
 
 
@@ -63,7 +76,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
   //Access Data
   
 
-  submitLogin(){
+  //Facebook OAuth
+
+  fbAuth() {
     console.log("submit login to facebook");
     FB.login()
     FB.getLoginStatus((response) => {
@@ -74,8 +89,41 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.authService.extendAccessToken(userID, shortAccessToken) 
       }
     });
+  }
 
-  // FB.login();
+  // Twitter OAuth
+
+  saveTWAccessToken(oauthToken: string, oauthVerifier: string) {
+    console.log(oauthToken, oauthVerifier)
+    this.authService.saveTWaccessToken(oauthToken, oauthVerifier).subscribe(res => {
+      console.log(res)
+      alert('Token saved');
+    })
+  }
+
+  twAuth() {
+    console.log("Authenticating twitter...")
+    this.authService.getTWaccessToken()
+      .subscribe((res: any) => {
+        location.href = res.redirectUrl;
+      })
+  }
+
+
+  // Exit Profile Component
+
+  ngOnDestroy() {
+    //this.authListenerSub.unsubscribe()
+    this.userIdListenerSub.unsubscribe()
+  }
+
+}
+
+
+
+
+
+// FB.login();
   // FB.login((response)=>
   //     {
   //       console.log('submitLogin',response);
@@ -89,12 +137,3 @@ export class ProfileComponent implements OnInit, OnDestroy {
   //        console.log('User login failed');
   //      }
   //   });
-
-  }
-
-  ngOnDestroy() {
-    this.authListenerSub.unsubscribe()
-    this.authListenerSub.unsubscribe()
-  }
-
-}

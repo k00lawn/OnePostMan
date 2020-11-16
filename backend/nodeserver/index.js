@@ -1,11 +1,16 @@
 const express = require('express');
+const cors = require('cors')
 const bodyParser = require('body-parser');
 const path = require('path');
 const dotenv = require('dotenv')
+const logger = require('express-logger')
+const cookieParser = require('cookie-parser');
+
 const connectDB = require('./config/db')
 
 const postsRoutes = require('../nodeserver/routes/posts') 
 const usersRoutes = require('../nodeserver/routes/users')
+const twoauth = require('./oauth/twoauth')
 
 dotenv.config({ path: './config/config.env' })
 
@@ -13,9 +18,15 @@ connectDB()
 
 const app = express();
 
+app.use(cors())
+
+
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/images", express.static(path.join('images')));
+//app.use(session({ secret: 'feeling hot hot hot' }));
+
 
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -34,8 +45,17 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
 
+app.use(logger({ path: "log/express.log" }));
+app.use(require('express-session')({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true }));
+app.use((req, res, next) => {
+  res.locals.session = req.session;
+  next();
+});
+
+
 app.use("/api/postTask", postsRoutes)
 app.use("/api/user", usersRoutes)
+app.use("/api/", twoauth)
 
 const PORT = process.env.PORT || 3000
 
