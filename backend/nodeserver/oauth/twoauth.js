@@ -6,6 +6,8 @@ const oauth = require('oauth');
 const dotenv = require('dotenv')
 dotenv.config({ path: './config/config.env' })
 
+const User = require('../models/User')
+
 const checkAuth = require('../middleware/check-auth')
 const _twitterConsumerKey = process.env.TWITTER_CONSUMER_KEY;
 const _twitterConsumerSecret = process.env.TWITTER_CONSUMER_SECRET;
@@ -16,6 +18,7 @@ router.get('/auth/twitter/', (req, res) => {
     if (error) {
       console.log(error);
     } else {
+      req.session.user_id = req.params.id
       req.session.oauthRequestToken = oauthToken;
       req.session.oauthRequestTokenSecret = oauthTokenSecret;
       const redirect = { 
@@ -25,27 +28,32 @@ router.get('/auth/twitter/', (req, res) => {
     }
   });
 });
-router.get('/saveAccessTokens', checkAuth, (req, res) => {
+router.get('/saveAccessTokens/:id/', checkAuth, (req, res) => {
   consumer.getOAuthAccessToken(
     req.query.oauth_token,
     req.session.oauthRequestTokenSecret,
     req.query.oauth_verifier,
       (error, oauthAccessToken, oauthAccessTokenSecret, results) => {
         if (error) {
-          logger.error(error);
+          logger().error(error);
           res.send(error, 500);
         }
+        console.log(req.params.id)
         req.session.oauthAccessToken = oauthAccessToken;
         req.session.oauthAccessTokenSecret = oauthAccessTokenSecret;
-        console.log(req.session.oauthAccessToken )
         console.log(`OauthAccessToken: ${oauthAccessToken}, OAuthAccessTokenSecret: ${oauthAccessTokenSecret}`)
-        return res.send({ message: 'token saved' })  
+        User.findById({ _id: req.params.id}).then(user => {
+          if(!user) { return res.status(401).json({ message: "User not found"}) }
+          if(user.tw_provider) { return res.send({ message: 'twitter token is set already'}) }      
+          user.tw_access_token = oauthAccessToken
+          user.tw_access_token_secret = oauthAccessTokenSecret
+          user.tw_provider = true
+          user.save()
+          return res.send({ message: 'Twitter Account Connected Successfully' })
+        })  
+        
   });
-  // 
-  // console.log(results)
-  // console.log('helloo ')
-  // console.log(req.session.oauthAccessToken)
-  // return res.send({ message: 'token saved' })
+    
 });
 module.exports = router;
 
@@ -117,5 +125,3 @@ module.exports = router;
 // router.get('/',
 //   passport.authenticate('twitter', { successRedirect: '/',
 //                                      failureRedirect: '/auth' } ));
-
-// module.exports = router

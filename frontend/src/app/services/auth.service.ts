@@ -163,7 +163,7 @@ export class AuthService {
   }
 
   saveTWaccessToken(oauthToken: string, oauthVerifier: string) {
-    return this.http.get(`${this.nodeApi}saveAccessTokens?oauth_token=${oauthToken}&oauth_verifier=${oauthVerifier}`)
+    return this.http.get(`${this.nodeApi}saveAccessTokens/${this.userID}/?oauth_token=${oauthToken}&oauth_verifier=${oauthVerifier}`)
   }
 
   extendAccessToken(userId: any, access_token: string) {
