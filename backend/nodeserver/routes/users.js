@@ -6,27 +6,25 @@ const router = express.Router()
 const User = require('../models/User');
 const checkAuth = require('../middleware/check-auth')
 
-//OAuth
-// const twitterOAuth = require('../oauth/twoauth');
-// const { route } = require('./posts');
-
 //User
 
-router.get("/:id",
-  checkAuth,
-  (req, res, next) => {
-  User.findById({ _id: req.params.id}).then(user => {
-    if(!user) {
-        return res.status(401).json({
-          message: "User not found"
-        })
-      }
-      res.status(200).json({
-        user_id: req.params.id,
-        username: user.username
-      })
-  })
-})
+// router.get("/:id",
+//   checkAuth,
+//   (req, res, next) => {
+//   User.findById({ _id: req.params.id}).then(user => {
+//     if(!user) {
+//         return res.status(401).json({
+//           message: "User not found"
+//         })
+//       }
+//       res.status(200).json({
+//         user_id: req.params.id,
+//         username: user.username,
+//         fb_provider: user.fb_provider,
+//         tw_provider: user.tw_provider 
+//       })
+//   })
+// })
 
 //Login 
 router.post("/login", (req, res, next) => {

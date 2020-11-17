@@ -43,7 +43,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     const user_id = this.authService.getUserID()
     console.log(user_id)
     this.user.user_id = user_id
-    this.profileService.getUser(user_id)
+    this.profileService.getProfile(user_id)
       .subscribe(res => {
           console.log(res.username)
           this.user.user_id = res.user_id;

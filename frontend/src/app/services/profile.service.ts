@@ -8,12 +8,26 @@ import { AuthService } from './auth.service';
 export class ProfileService {
 
   //API endpoint
-  private _userapi = "http://localhost:3000/api/user/"
+
+  private _profileapi = "http://localhost:3000/api/profile/"
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   //get user data
 
-  getUser(user_id){
-    return this.http.get<{user_id: string, username: string}>(this._userapi + user_id)
+  getProfile(user_id) {
+    return this.http.get<{user_id: string, username: string, fb_provider: boolean, tw_provider: boolean}>
+      (this._profileapi + user_id)
   }
+
+  removeFBaccount(user_id) {
+    return this.http.delete<{fb_provider: boolean}>
+      (`${this._profileapi}/fbrevoke/${user_id}`)
+  }
+  
+  removeTWaccount(user_id) {
+    return this.http.delete<{tw_provider: boolean}>
+      (`${this._profileapi}/twrevoke/${user_id}`)
+  }
+
+
 }
