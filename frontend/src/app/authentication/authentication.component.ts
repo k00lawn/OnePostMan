@@ -8,6 +8,8 @@ import { AuthService } from '../services/auth.service'
   styleUrls: ['./authentication.component.css'],
 })
 export class AuthenticationComponent implements OnInit, OnDestroy {
+
+  accountCreated: Boolean
   
   signupForm = this.fb.group({
     username: ['', [Validators.required]],
@@ -21,6 +23,7 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
   })
 
   ngOnInit() {
+    this.accountCreated = false
   }
 
   ngOnDestroy() {
@@ -41,6 +44,9 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
   onSignupSubmit() {
     console.log(this.signupForm.value)
     this.authService.signup(this.signupForm.value.username, this.signupForm.value.email, this.signupForm.value.password) 
+      .subscribe(res => {
+        this.accountCreated = true
+      })
   }
 
   

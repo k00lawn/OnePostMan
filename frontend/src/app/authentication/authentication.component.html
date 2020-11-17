@@ -41,7 +41,8 @@
             </mat-form-field>
             <button mat-raised-button color="primary" type="submit">Sign Up</button>
         </form>
-        <label>Already have an account?</label>
+        <label *ngIf="accountCreated">Account Created Successfully</label>
+        <label> {{accountCreated ? 'Account created, please login' : 'Already have an account?'}}</label>
         <button mat-button color="accent" (click)="onSwitchForm()">Log in</button>
     </mat-card>
 </div>

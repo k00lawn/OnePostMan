@@ -88,14 +88,8 @@ export class AuthService {
 
   signup(username: string, email: string, password: string) {
     const signupData: SignupData = { username: username, email: email, password: password };
-    this.http.post<{token: string}>(this.nodeApi + 'user/signup', signupData) 
-      .subscribe(res => {
-        console.log(res)
-        this.token = res.token;
-        this.authStatusListener.next(true);
-        console.log(this.authStatusListener)
-        this.router.navigate(['/create'])
-      })
+    return this.http.post<{token: string}>(this.nodeApi + 'user/signup', signupData) 
+      
   }
 
   logout() {
