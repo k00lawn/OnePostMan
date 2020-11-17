@@ -25,6 +25,7 @@ user_access_token.add_argument('userId',type=str)
 
 
 class GetAccessToken(Resource):
+
     def post(self):
         data = user_access_token.parse_args()
         print(data)
@@ -38,27 +39,16 @@ class GetAccessToken(Resource):
 user_caption = reqparse.RequestParser()
 user_caption.add_argument('caption',type=str)
 
-details = dict()
-
 
 class GetCaption(Resource):
     def post(self):
         caption = user_caption.parse_args()
-        details['caption'] = caption['caption']
         hashtags = get_hashtag(caption['caption'])
-        details['hashtags'] = hashtags
-        return jsonify({'status': 'ok'})
-
-
-class GetHashtags(Resource):
-    def get(self,caption):
-        hashtags = details[caption]
-        return jsonify({'data':hashtags})
+        return jsonify({'data': hashtags})
 
 
 api.add_resource(GetAccessToken , '/api/accessToken')
 api.add_resource(GetCaption , '/api/caption')
-api.add_resource(GetHashtags , '/api/hashtags/<string:caption>')
 
 if __name__ == '__main__':
 
