@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { ProfileService } from '../services/profile.service';
 
 declare var FB: any;
 @Component({
@@ -11,7 +12,11 @@ declare var FB: any;
 })
 export class ProfileComponent implements OnInit, OnDestroy {
 
-  constructor(private authService: AuthService, private activatedRoute: ActivatedRoute) {
+  fbLinked = false;
+  twLinked = false;
+  username: string;
+
+  constructor(private authService: AuthService, private profileService: ProfileService,private activatedRoute: ActivatedRoute) {
     this.activatedRoute.queryParams.subscribe(params => {
       const oauthVerifier = params['oauth_verifier'];
       const oauthToken = params['oauth_token'];
@@ -23,9 +28,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   private userIdListenerSub: Subscription;
-  userAuthenticated = false;
-  private authListenerSub: Subscription
   userID: string;
+
 
 
   //Initialize Profile Component
@@ -33,18 +37,22 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.authService.autoAuthUser();
-    // this.userAuthenticated = this.authService.getIsAuth();
-    // this.authListenerSub = this.authService
-    // .getAuthStatusListener()
-    // .subscribe(isAuthenticated => {
-    //   this.userAuthenticated = isAuthenticated;
-    // });
-    this.userIdListenerSub = this.authService
-      .getUserIdListener()
-      .subscribe(user_id => {
-        this.userID = user_id;
+    // this.userIdListenerSub = this.authService
+    //   .getUserIdListener()
+    //   .subscribe(user_id => {
+    //     this.userID = user_id;
+    //   });
+    this.userID = this.authService.getUserID()
+    
+    this.profileService.getProfile(this.userID)
+      .subscribe(res => {
+        console.log(res)
+        this.username = res.username
+        this.fbLinked = res.fb_provider,
+        this.twLinked = res.tw_provider
       });
-
+    
+    // FB OAuth Request
     (window as any).fbAsyncInit = function() {
       FB.init({
         appId      : '3431573256929883',
@@ -57,8 +65,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
         
     };
     
-
-    // FB OAuth Request
     (function(d, s, id){
        var js, fjs = d.getElementsByTagName(s)[0];
        if (d.getElementById(id)) {return;}
@@ -73,7 +79,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
 
 
-  //Access Data
+  /*----Access Data----*/
   
 
   //Facebook OAuth
@@ -109,12 +115,26 @@ export class ProfileComponent implements OnInit, OnDestroy {
       })
   }
 
+  // Revoke FB account
+  revokeFB() {
+    this.profileService.removeFBaccount(this.userID)
+      .subscribe(res => {
+        this.fbLinked = res.fb_provider
+      })
+  }
+  
+  // Revoke TW account
+  revokeTW() {
+    this.profileService.removeTWaccount(this.userID)
+      .subscribe(res => {
+        this.twLinked = res.tw_provider
+      })
+  }
 
   // Exit Profile Component
 
   ngOnDestroy() {
-    //this.authListenerSub.unsubscribe()
-    this.userIdListenerSub.unsubscribe()
+    // this.userIdListenerSub.unsubscribe()
   }
 
 }

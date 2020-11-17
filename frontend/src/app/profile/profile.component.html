@@ -1,6 +1,22 @@
-<p>profile works!</p>
-<!-- <h1>Welcome {{username}}</h1> -->
-<button class="btn btn-primary"(click)="fbAuth()">Link Facebook</button>
+<h1>Welcome {{username}}</h1>
+    
+<ul>
+    <li><button class="loginBtn loginBtn--facebook" 
+        [disabled]="fbLinked ? true : false" (click)="fbAuth()">
+        {{fbLinked ? 'Facebook Linked' : 'Link Facebook'}}
+        </button>
+    </li>
+    <li *ngIf="fbLinked"><button class="btn btn-danger" (click)="revokeFB()">Revoke Facbook Account</button></li>
+</ul>
+<ul>
+    <li><button class="loginBtn loginBtn--twitter" 
+        [disabled]="twLinked ? true : false" (click)="twAuth()">
+        {{twLinked ? 'Twitter Linked' : 'Link Twitter'}}
+        </button>
+    </li>
+    <li *ngIf="twLinked"><button class="btn btn-danger" (click)="revokeTW()">Revoke Twitter Account</button></li>
+</ul>
+
 <br>
-<button class="btn btn-primary"(click)="twAuth()">Link Twitter</button>
+
 
