@@ -75,6 +75,19 @@ class TwitterApi():
 
         return tweets_data
 
+    def get_replies(self):
+        api = self.make_auth()
+        mentions = []
+        for i in tweepy.Cursor(api.mentions_timeline,count=200).items(1000):
+            rid = i.in_reply_to_status_id
+            replied_user_sname = i.user.screen_name
+            replied_user_name = i.user.name
+            reply = i.text
+            tweet = api.get_status(rid).text
+            mentions.append((replied_user_name,replied_user_sname,reply,tweet))
+
+        return mentions
+
     def post_tweet(self):
 
         api = self.make_auth()

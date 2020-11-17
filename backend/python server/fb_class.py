@@ -44,6 +44,9 @@ class FacebookApi:
 
             return user_details
 
+        except KeyError as error:
+            return {'error': error}
+
         except facebook.GraphAPIError as error:
             return {'error': error}
 
@@ -52,8 +55,19 @@ class FacebookApi:
         try:
             graph = facebook.GraphAPI(access_token=self.token)
             page_id = self.pg_id
-            profile = graph.get_object(f'{page_id}/feed')
-            data = json.dumps(profile, indent=4)
+            base_url = f'{page_id}/feed?limit=100'
+            data = dict()
+            data['feeds'] = []
+
+            feeds = graph.get_object(base_url)
+            data['feeds'].append(feeds['data'])
+
+            while 'next' in feeds['paging'].keys():
+
+                after = feeds['paging']['next'].split('&')[-1]
+                feeds = graph.get_object(f"{base_url}&{after}")
+                data['feeds'].append(feeds['data'])
+
             return data
 
         except facebook.GraphAPIError as error:
