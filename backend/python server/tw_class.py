@@ -1,11 +1,11 @@
 from scheduler import *
+from dateutil.relativedelta import relativedelta as rd
+from datetime import datetime as dt
 import tweepy
 
 bearer_token = 'AAAAAAAAAAAAAAAAAAAAALa9HwEAAAAA%2BADq9E%2FGmK265myVGUixB4yJbTM%3D4WubAhhGOVjXgn8uEBoycNb2YrJOkDdAUUoMKp7fvsGg7WpmCf'
 tw_user_access_token = '1308334561831481345-nfHZ8d32aNWDgT5K2ll3Ul4OTiVRBA'
 tw_user_token_secret = "wXqpxoTVHXC6hPiHqkmgzMW4uulyOHdkQHcS4MrywVxMW"
-
-now_time = now_time()
 
 
 class TwitterApi():
@@ -101,12 +101,17 @@ class TwitterApi():
         try:
             mentions = []
             for i in tweepy.Cursor(api.mentions_timeline,count=200).items(1000):
+
                 rid = i.in_reply_to_status_id
                 replied_user_sname = i.user.screen_name
                 replied_user_name = i.user.name
                 reply = i.text
                 tweet = api.get_status(rid).text
-                mentions.append((replied_user_name,replied_user_sname,reply,tweet))
+                reply_time = i.created_at
+                beforemonth = rd(months=-2) + dt.now()
+
+                if reply_time >= beforemonth:
+                    mentions.append((replied_user_name,replied_user_sname,reply,tweet))
 
             return mentions
         
