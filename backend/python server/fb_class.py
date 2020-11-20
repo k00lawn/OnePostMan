@@ -1,8 +1,8 @@
-import json
 import facebook
 from scheduler import *
 import requests
-import re
+from datetime import datetime as dt
+from dateutil.relativedelta import relativedelta as rd
 
 
 class FacebookApi:
@@ -69,6 +69,38 @@ class FacebookApi:
                 data['feeds'].append(feeds['data'])
 
             return data
+
+        except facebook.GraphAPIError as error:
+            return {'error': error}
+
+        except KeyError as error:
+            return {'error': error}
+
+    def split_date(self,date):
+        new_date = date.split('-')
+        year, month, day = int(new_date[0]), int(new_date[1]), int(new_date[2][:2])
+        return dt(year,month,day)
+
+    def get_comments(self):
+
+        graph = facebook.GraphAPI(access_token=self.token)
+        try:
+            feeds = self.get_feeds()['feeds']
+            comments = []
+
+            for i in feeds:
+                for j in i:
+                    post_date = self.split_date(j['created_time'])
+                    months_back = rd(months=-2) + dt.now()
+
+                    if post_date >= months_back:
+                        if 'message' in j.keys():
+                            post_id = j['id']
+                            post_comments = graph.get_object(id=post_id,fields='comments.limit(200)')
+                            if 'comments' in post_comments.keys():
+                                comments.append((post_comments['comments']['data'], post_comments['id']))
+
+            return comments
 
         except facebook.GraphAPIError as error:
             return {'error': error}
@@ -180,3 +212,9 @@ class FacebookApi:
 
         except facebook.GraphAPIError as error:
             return {'error': error}
+
+'''
+from fb_class import FacebookApi as fa
+user_token="EAAwwZC2kAAlsBAIcHEsOjavqZBCTlRdsXvOmUPhdYbpZASRikz9GIQ95jYNQv8mzQLbOHuIeJGQve3Icqr4CtADZAFZAnxBDxKZB8kCOykCSTXAR1ki1Bb881xeHGfzrY3dgAmvuxjzjsUckO3yJ7s590XWiuFZBZA1aXsZCTCl170u5aHNwJlpms"
+page_id="106101627910928"
+'''

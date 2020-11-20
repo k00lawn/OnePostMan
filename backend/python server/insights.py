@@ -1,6 +1,7 @@
 from fb_class import FacebookApi
 from tw_class import *
 from datetime import datetime
+from dateutil.relativedelta import relativedelta as rd
 from json import dumps
 import requests
 import re
@@ -24,7 +25,9 @@ def get_epoch():
     nowtime = datetime.now()
     year, month, day = nowtime.year, nowtime.month, nowtime.day
     nepoch = datetime(year, month, day).timestamp()
-    bepoch = datetime(year, month - 2, day - 1).timestamp()
+    beforetime = rd(months=-2) + nowtime
+    year, month, day = beforetime.year, beforetime.month, beforetime.day
+    bepoch = datetime(year, month, day).timestamp()
 
     return nepoch , bepoch
 
