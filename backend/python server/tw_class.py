@@ -106,12 +106,18 @@ class TwitterApi():
                 replied_user_sname = i.user.screen_name
                 replied_user_name = i.user.name
                 reply = i.text
-                tweet = api.get_status(rid).text
+                tweet = None
+
+                try:
+                    tweet = api.get_status(rid).text
+                except: pass
+
                 reply_time = i.created_at
                 beforemonth = rd(months=-2) + dt.now()
 
                 if reply_time >= beforemonth:
-                    mentions.append((replied_user_name,replied_user_sname,reply,tweet))
+                    if tweet is not None:
+                        mentions.append((replied_user_name,replied_user_sname,reply,tweet))
 
             return mentions
         
