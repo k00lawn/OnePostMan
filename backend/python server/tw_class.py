@@ -76,10 +76,10 @@ class TwitterApi():
             tweets_data['favorite_count'] = []
             tweets_data['language'] = []
 
-            tweets = api.user_timeline()
+            tweets = api.user_timeline(tweet_mode='extended')
 
             for i in tweets:
-                tweets_data['tweets'].append(i.text)
+                tweets_data['tweets'].append(i.full_text)
                 tweets_data['id'].append(i.id)
                 tweets_data['created_on'].append(i.created_at)
                 tweets_data['retweet_count'].append(i.retweet_count)
@@ -100,7 +100,7 @@ class TwitterApi():
         
         try:
             mentions = []
-            for i in tweepy.Cursor(api.mentions_timeline,count=200).items(1000):
+            for i in tweepy.Cursor(api.mentions_timeline,count=200,tweet_mode='extended').items(1000):
 
                 rid = i.in_reply_to_status_id
                 replied_user_sname = i.user.screen_name
@@ -109,7 +109,7 @@ class TwitterApi():
                 tweet = None
 
                 try:
-                    tweet = api.get_status(rid).text
+                    tweet = api.get_status(rid).full_text
                 except: pass
 
                 reply_time = i.created_at
