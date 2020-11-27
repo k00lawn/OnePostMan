@@ -1,6 +1,6 @@
-import pymongo
-from pymongo import MongoClient
 from bson.objectid import ObjectId
+from pymongo import MongoClient
+
 
 url = 'mongodb+srv://b33r:LrHpoFtRpBzoVDm8@cluster0.mzdpt.mongodb.net/opmdb?retryWrites=true&w=majority'
 cluster = MongoClient(url)
@@ -38,8 +38,8 @@ def delete_schedule(schedule_id, ):
         collection = db['schedule']
         collection.delete_one({'_id': ObjectId(schedule_id)})
 
-    except :
-        print('nothing to delete')
+    except KeyError as error:
+        print('error')
 
 
 def delete_all():

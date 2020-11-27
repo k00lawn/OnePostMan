@@ -1,5 +1,5 @@
-from time import sleep
 from datetime import datetime as dt
+from time import sleep
 
 
 def now_time():
