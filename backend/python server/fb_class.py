@@ -1,8 +1,8 @@
-import facebook
-from scheduler import *
-import requests
 from datetime import datetime as dt
-from dateutil.relativedelta import relativedelta as rd
+from scheduler import *
+import facebook
+import requests
+
 
 
 class FacebookApi:
@@ -50,7 +50,7 @@ class FacebookApi:
         except facebook.GraphAPIError as error:
             return {'error': error}
 
-    def get_feeds(self):
+    def get_all_feeds(self):
 
         try:
             graph = facebook.GraphAPI(access_token=self.token)
@@ -81,31 +81,41 @@ class FacebookApi:
         year, month, day = int(new_date[0]), int(new_date[1]), int(new_date[2][:2])
         return dt(year,month,day)
 
+    def recent_five_feeds(self):
+
+        try:
+            graph = facebook.GraphAPI(access_token=self.token)
+            data = dict()
+            feeds = graph.get_object(id=self.pg_id, fields='feed.limit(5)')
+            data['feeds'] = feeds['feed']['data']
+
+            return data
+
+        except facebook.GraphAPIError as error:
+            return {'error': error}
+
+        except KeyError as error:
+            return {'error': error}
+
     def get_comments(self):
 
-        graph = facebook.GraphAPI(access_token=self.token)
         try:
-            feeds = self.get_feeds()['feeds']
-            comments = []
-
+            graph = facebook.GraphAPI(access_token=self.token)
+            feeds = self.recent_five_feeds()['feeds']
+            comments = dict()
             for i in feeds:
-                for j in i:
-                    post_date = self.split_date(j['created_time'])
-                    months_back = rd(months=-2) + dt.now()
-
-                    if post_date >= months_back:
-                        if 'message' in j.keys():
-                            post_id = j['id']
-                            post_comments = graph.get_object(id=post_id,fields='comments.limit(200)')
-                            if 'comments' in post_comments.keys():
-                                comments.append((post_comments['comments']['data'], post_comments['id']))
+                post_id = i['id']
+                message = i['message']
+                post_comments = graph.get_object(id=post_id, fields='comments.limit(200)')
+                if 'comments' in post_comments.keys():
+                    comments.update({post_id: (post_comments['comments']['data'], message)})
 
             return comments
 
         except facebook.GraphAPIError as error:
             return {'error': error}
 
-        except KeyError as error:
+        except KeyError as error :
             return {'error': error}
 
     def get_pg_id(self , pg_token):
@@ -155,33 +165,6 @@ class FacebookApi:
 
     def post(self):
 
-        user_details = self.user_details()
-        page = user_details['page_details']
-        page_id = page[0][1]
-        access_token = self.get_page_token(page_id)
-
-        scheduler = schedule_time(self.date)
-
-        graph = facebook.GraphAPI(access_token=access_token)
-
-        if scheduler:
-            if self.img is None:
-                print('posting without img')
-                graph.put_object(page_id,'feed',message = self.msg)
-                print('posted the feed')
-
-            else:
-
-                if self.img.endswith('.jpg') or self.img.endswith('.png'):
-                    print('ok its time to upload with img')
-                    img = open(self.img, 'rb')
-                    graph.put_photo(image=img,album_path=f"{page_id}/photos", message = self.msg)
-                    print('posted the feed')
-                else:
-                    pass
-
-    def post_testing(self):
-
         try:
             user_details = self.user_details()
             page = user_details['page_details']
@@ -215,6 +198,5 @@ class FacebookApi:
 
 '''
 from fb_class import FacebookApi as fa
-user_token="EAAwwZC2kAAlsBAIcHEsOjavqZBCTlRdsXvOmUPhdYbpZASRikz9GIQ95jYNQv8mzQLbOHuIeJGQve3Icqr4CtADZAFZAnxBDxKZB8kCOykCSTXAR1ki1Bb881xeHGfzrY3dgAmvuxjzjsUckO3yJ7s590XWiuFZBZA1aXsZCTCl170u5aHNwJlpms"
-page_id="106101627910928"
+user_token,page_id="EAAwwZC2kAAlsBAIcHEsOjavqZBCTlRdsXvOmUPhdYbpZASRikz9GIQ95jYNQv8mzQLbOHuIeJGQve3Icqr4CtADZAFZAnxBDxKZB8kCOykCSTXAR1ki1Bb881xeHGfzrY3dgAmvuxjzjsUckO3yJ7s590XWiuFZBZA1aXsZCTCl170u5aHNwJlpms","106101627910928"
 '''

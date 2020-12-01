@@ -1,6 +1,6 @@
-from scheduler import *
 from dateutil.relativedelta import relativedelta as rd
 from datetime import datetime as dt
+from scheduler import *
 import tweepy
 
 bearer_token = 'AAAAAAAAAAAAAAAAAAAAALa9HwEAAAAA%2BADq9E%2FGmK265myVGUixB4yJbTM%3D4WubAhhGOVjXgn8uEBoycNb2YrJOkDdAUUoMKp7fvsGg7WpmCf'
@@ -10,10 +10,11 @@ tw_user_token_secret = "wXqpxoTVHXC6hPiHqkmgzMW4uulyOHdkQHcS4MrywVxMW"
 
 class TwitterApi():
 
-    def __init__(self, img=None, date = None, msg=None, token=None , token_secret=None):
+    def __init__(self, img=None, date = None, msg=None, username=None,token=None , token_secret=None):
         self.img = img
         self.date = date
         self.msg = msg
+        self.uname = username
         self.token = token
         self.token_secret = token_secret
 
@@ -83,7 +84,7 @@ class TwitterApi():
                 tweets_data['id'].append(i.id)
                 tweets_data['created_on'].append(i.created_at)
                 tweets_data['retweet_count'].append(i.retweet_count)
-                tweets_data['favorite_count'].append(i.favourite_count)
+                tweets_data['favorite_count'].append(i.favorite_count)
                 tweets_data['language'].append(i.lang)
 
             return tweets_data
@@ -94,30 +95,34 @@ class TwitterApi():
         except KeyError as error:
             return {'error': error}
 
-
     def get_replies(self):
         api = self.make_auth()
         
         try:
             mentions = []
-            for i in tweepy.Cursor(api.mentions_timeline,count=200,tweet_mode='extended').items(1000):
+            for i in tweepy.Cursor(api.search,q=f"to:{self.uname}",count=200,tweet_mode='extended').items(1000):
 
                 rid = i.in_reply_to_status_id
                 replied_user_sname = i.user.screen_name
                 replied_user_name = i.user.name
-                reply = i.text
+                reply = i.full_text
                 tweet = None
+                tweet_id = None
 
                 try:
-                    tweet = api.get_status(rid).full_text
-                except: pass
+                    tweet_data = api.get_status(rid, tweet_mode='extended')
+                    tweet = tweet_data.full_text
+                    tweet_id = tweet_data.id
+                except tweepy.error.TweepError:
+                    pass
 
                 reply_time = i.created_at
                 beforemonth = rd(months=-2) + dt.now()
-
                 if reply_time >= beforemonth:
                     if tweet is not None:
-                        mentions.append((replied_user_name,replied_user_sname,reply,tweet))
+                        mentions.append((replied_user_name,replied_user_sname,reply,tweet,tweet_id))
+                else:
+                    break
 
             return mentions
         
@@ -130,22 +135,7 @@ class TwitterApi():
         except KeyError as error:
             return {'error': error}
 
-
     def post_tweet(self):
-
-        api = self.make_auth()
-        scheduler = schedule_time(self.date)
-
-        if scheduler:
-
-            if self.img is not None:
-                print('posting with the img')
-                api.update_with_media(self.img,self.msg)
-            else:
-                print('posting without img')
-                api.update_status(self.msg)
-
-    def post_tweet_testing(self):
 
         api = self.make_auth()
 

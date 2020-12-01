@@ -83,10 +83,10 @@ class Opm():
                 if date <= now_time():
                     if fb:
                         fapi = FacebookApi(caption=caption, img=img, user_token=fb_token)
-                        fapi.post_testing()
+                        fapi.post()
                     if tw:
                         tapi = TwitterApi(img=img, msg=caption, token=tw_user_access_token ,token_secret=tw_user_token_secret)
-                        tapi.post_tweet_testing()
+                        tapi.post_tweet()
 
                     self.delete_img(img)
                     delete_schedule(schedule_id)
