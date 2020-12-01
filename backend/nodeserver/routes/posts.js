@@ -36,17 +36,24 @@ var upload = multer({storage: storage})
 router.post("",
   checkAuth, 
   upload.single("image"), (req, res, next) => {
-    var fileinfo = req.file.filename;
+    var fileinfo
+    var filedir 
     console.log(req.body)
     console.log(req.body.userId)
+    
+    if(req.file){
+      filedir = "backend/nodeserver/images/"
+      fileinfo = req.file.filename
+    } 
     const postTask = new Post({
         userId: req.body.userId,
         caption: req.body.caption,
         date: req.body.time,
-        img: "backend/nodeserver/images/" + fileinfo,
+        img: filedir + fileinfo,
         facebook: req.body.facebook,
         twitter: req.body.twitter,
     });
+    
     console.log(postTask)
     
     postTask.save().then(createdPost => {

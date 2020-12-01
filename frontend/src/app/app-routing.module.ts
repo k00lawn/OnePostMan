@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
-import { ScheduleComponent } from './schedule/schedule.component';
+import { ScheduleComponent } from './posts/schedule/schedule.component';
 import { AuthGuard } from "./services/auth.guard";
 import { TasksComponent } from './tasks/tasks.component';
 

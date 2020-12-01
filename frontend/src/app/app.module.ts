@@ -9,7 +9,7 @@ import { AuthInterceptorService } from 'src/app/services/auth-interceptor.servic
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component'
-import { ScheduleComponent } from './schedule/schedule.component';
+import { ScheduleComponent } from './posts/schedule/schedule.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TasksComponent } from './tasks/tasks.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -22,6 +22,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { ProfileComponent } from './profile/profile.component';
+import { PostListComponent } from './posts/post-list/post-list.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ProfileComponent } from './profile/profile.component';
     TasksComponent,
     AuthenticationComponent,
     HomeComponent,
-    ProfileComponent
+    ProfileComponent,
+    PostListComponent
   ],
   imports: [
     BrowserModule,

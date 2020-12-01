@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ScheduleService } from 'src/app/services/schedule.service'
-import { AuthService } from '../services/auth.service';
-import { ProfileService } from '../services/profile.service'
+import { AuthService } from '../../services/auth.service';
+import { ProfileService } from '../../services/profile.service'
 
 @Component({
   selector: 'app-schedule',
@@ -20,7 +20,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   scheduleForm = this.fb.group({
     userId:[''],
-    // username:[''],
     caption: [''],
     datetime: [''],
     time: [''],
@@ -36,7 +35,11 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     twitter: [false]
   })
 
-  constructor(private profileService: ProfileService, private authService: AuthService, private fb: FormBuilder, private _createTaskService: ScheduleService) { }
+  constructor(
+    private profileService: ProfileService, 
+    private authService: AuthService, 
+    private fb: FormBuilder, 
+    private _createTaskService: ScheduleService) { }
 
   ngOnInit() {
     this.authService.autoAuthUser()
@@ -92,6 +95,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       .subscribe(
         res => { 
           console.log(res)
+          alert(res.message)
           this.scheduleForm.reset()
         }, err => console.log(err)
       )
