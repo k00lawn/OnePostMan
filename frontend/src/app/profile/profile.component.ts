@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { User } from '../models/user';
 import { AuthService } from '../services/auth.service';
 import { ProfileService } from '../services/profile.service';
 
@@ -12,9 +13,8 @@ declare var FB: any;
 })
 export class ProfileComponent implements OnInit, OnDestroy {
 
-  fbLinked = false;
-  twLinked = false;
-  username: string;
+  user: User;
+  userSub: Subscription;
 
   constructor(private authService: AuthService, private profileService: ProfileService,private activatedRoute: ActivatedRoute) {
     this.activatedRoute.queryParams.subscribe(params => {
@@ -27,31 +27,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
     });
   }
 
-  private userIdListenerSub: Subscription;
-  userID: string;
-
-
-
   //Initialize Profile Component
 
   ngOnInit() {
-
-    this.authService.autoAuthUser();
-    // this.userIdListenerSub = this.authService
-    //   .getUserIdListener()
-    //   .subscribe(user_id => {
-    //     this.userID = user_id;
-    //   });
-    this.userID = this.authService.getUserID()
     
-    this.profileService.getProfile(this.userID)
-      .subscribe(res => {
-        console.log(res)
-        this.username = res.username
-        this.fbLinked = res.fb_provider,
-        this.twLinked = res.tw_provider
+    // Getting User 
+    this.profileService.getProfile()
+    this.userSub = this.profileService.getUserListener()
+      .subscribe((user) => {
+        this.user = user
+        console.log(user)
       });
-    
+
     // FB OAuth Request
     (window as any).fbAsyncInit = function() {
       FB.init({
@@ -72,8 +59,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
        js.src = "https://connect.facebook.net/en_US/sdk.js";
        fjs.parentNode.insertBefore(js, fjs);
      }(document, 'script', 'facebook-jssdk'));
-
-     // Twitter OAuth Request
 
   }
 
@@ -117,24 +102,24 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   // Revoke FB account
   revokeFB() {
-    this.profileService.removeFBaccount(this.userID)
+    this.profileService.removeFBaccount(this.user.user_id)
       .subscribe(res => {
-        this.fbLinked = res.fb_provider
+        this.user.fb_provider = res.fb_provider
       })
   }
   
   // Revoke TW account
   revokeTW() {
-    this.profileService.removeTWaccount(this.userID)
+    this.profileService.removeTWaccount(this.user.user_id)
       .subscribe(res => {
-        this.twLinked = res.tw_provider
+        this.user.tw_provider = res.tw_provider
       })
   }
 
   // Exit Profile Component
 
   ngOnDestroy() {
-    // this.userIdListenerSub.unsubscribe()
+    this.userSub.unsubscribe()
   }
 
 }

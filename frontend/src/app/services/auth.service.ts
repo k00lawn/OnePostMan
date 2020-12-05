@@ -4,8 +4,10 @@ import { HttpClient } from '@angular/common/http';
 import { LoginData } from '../models/auth'
 import { SignupData } from '../models/auth'
 import { AccessData } from '../models/auth'
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { User } from '../models/user'
+import { Post } from '../models/post';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +26,7 @@ export class AuthService {
   private authStatusListener = new Subject<boolean>();
 
   //UserDetails
-  private usernameListener = new Subject<string>()
-  private user_idListener = new Subject<string>()
+  private user_idListener = new BehaviorSubject<any>(undefined);
   private userID: string;
 
  
@@ -43,15 +44,12 @@ export class AuthService {
     return this.authStatusListener.asObservable();
   }
 
-  getUsername(){
-    return this.usernameListener.asObservable();
-  }
-
   getUserIdListener() {
     return this.user_idListener.asObservable();
   }
 
   getUserID() {
+    this.autoAuthUser()
     return this.userID;
   }
 
@@ -61,16 +59,11 @@ export class AuthService {
 
   login(email: string, password: string) {
     const loginData: LoginData = { email: email, password: password };
-    this.http.post<{user_id: string, username: string,token: string, expiresIn: number}>(this.nodeApi + 'user/login', loginData) 
-      .subscribe(res => {
-        console.log(res)
-        const user_id = res.user_id
-        this.usernameListener.next(res.username);
-        // console.log(this.user_idListener)
-        // const user_id = res.user_id
-        // this.userID = user_id
-        //console.log(this.userID)
+    this.http.post<{ user: User, user_id: string, username: string, token: string, expiresIn: number }>(this.nodeApi + 'user/login', loginData) 
+      .subscribe((res) => {
+        console.log(res)        
         const token = res.token;
+        const user_id = res.user_id
         this.token = token;
         if(token) {
           const expiresInDuration = res.expiresIn;
@@ -109,8 +102,8 @@ export class AuthService {
     const now = new Date();
     const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
     if (expiresIn > 0) {
-      this.user_idListener.next(authInformation.user_id)
       this.userID = authInformation.user_id
+      this.user_idListener.next(this.userID)
       this.token = authInformation.token;
       this.isAuthenticated = true;
       this.setAuthTimer(expiresIn / 1000);
@@ -176,3 +169,9 @@ export class AuthService {
 
 
 //"Http failure response for https://graph.facebook.com/%7Bgraph-api-version%7D/oauth/access_token?%20%20grant_type=fb_exchange_token&%20%20client_id=3431573256929883&%20%20client_secret=c13e000ac59b6d2d8d27ad838a4264ee&%20%20fb_exchange_token=EAAwwZC2kAAlsBAB6SxSqOFttq9M8S0wMuZA7BvS8TZBdniNDXNnPZCua3RgXJLzzeoiWyxFaZCsDEwZBZAk6IWyDVSRBveoUbeqJScwq8dggUAdJZCXgdAgxMVdVFP5pyZCbo5VdLabJPcl2Jbv1ZBam6Xny8eaf7EOd2AacnziFfA20CAjpef1lSqYma26e483Ty95DXxqQbPMQZDZD: 400 OK"
+
+// console.log(this.userData)
+// console.log(this.user_idListener)
+// const user_id = res.user_id
+// this.userID = user_id
+//console.log(this.userID)        

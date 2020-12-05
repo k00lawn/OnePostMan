@@ -1,1 +1,22 @@
-<p>post-list works!</p>
+<div class="container">
+    <mat-card class="post-card" *ngFor="let post of posts">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title>{{user.username}}</mat-card-title>
+          <mat-card-subtitle *ngIf="post.twitter">Twitter</mat-card-subtitle>
+          <mat-card-subtitle *ngIf="post.facebook">Facebook</mat-card-subtitle>
+        </mat-card-header>
+        <!-- <img mat-card-image [src]="imagePreview" [alt]="scheduleForm.value.title"> -->
+        <mat-card-content>
+          <p>
+            {{post.caption}}
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>LIKE</button>
+          <button mat-button>COMMENT</button>
+          <button mat-button>SHARE</button>
+        </mat-card-actions>
+    </mat-card>
+    <br>
+</div>

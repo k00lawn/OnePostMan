@@ -1,0 +1,10 @@
+.container{
+    max-width: 400px;
+    align-content: center;
+    display: block;
+}
+
+.post-card {
+    max-width: 400px;
+    margin: 20px;
+}

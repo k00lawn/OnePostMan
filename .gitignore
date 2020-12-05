@@ -110,3 +110,6 @@ backend/nodeserver/images
 #python modules
 venv
 __pycache__
+
+#Extra files
+notes

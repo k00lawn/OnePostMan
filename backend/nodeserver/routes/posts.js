@@ -67,4 +67,14 @@ router.post("",
     })
 })
 
+router.get("/:id", checkAuth, (req ,res, next) => {
+  Post.find({userId: req.params.id}).then(user_posts => {
+    console.log(`these are user posts`+ user_posts)
+    return res.status(200).json({
+      message: 'Posts fetched Successfully',
+      posts: user_posts
+    })
+  })
+})
+
 module.exports = router

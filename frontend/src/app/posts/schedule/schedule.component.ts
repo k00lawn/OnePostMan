@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { User } from 'src/app/models/user';
 import { ScheduleService } from 'src/app/services/schedule.service'
 import { AuthService } from '../../services/auth.service';
 import { ProfileService } from '../../services/profile.service'
@@ -12,12 +14,12 @@ import { ProfileService } from '../../services/profile.service'
 export class ScheduleComponent implements OnInit, OnDestroy {
 
   imagePreview: string = 'https://material.angular.io/assets/img/examples/shiba2.jpg';
-
-  user = {user_id: '', username: '' }
-  username = 'Username'
+  
+  user: User;
+  userSub: Subscription;
   caption = 'Caption'
-  socialMedia = 'Instagram' 
-
+  socialMedia = 'Facebook'
+  
   scheduleForm = this.fb.group({
     userId:[''],
     caption: [''],
@@ -31,29 +33,21 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     ]),
     image: [''],
     facebook: [false],
-    instagram: [false],
     twitter: [false]
   })
 
-  constructor(
-    private profileService: ProfileService, 
-    private authService: AuthService, 
-    private fb: FormBuilder, 
-    private _createTaskService: ScheduleService) { }
+  constructor(private profileService: ProfileService, 
+              private authService: AuthService, 
+              private fb: FormBuilder, 
+              private _createTaskService: ScheduleService) { }
 
   ngOnInit() {
-    this.authService.autoAuthUser()
-    const user_id = this.authService.getUserID()
-    console.log(user_id)
-    this.user.user_id = user_id
-    this.profileService.getProfile(user_id)
-      .subscribe(res => {
-          console.log(res.username)
-          this.user.user_id = res.user_id;
-          this.user.username = res.username;
-          console.log(this.user)
+    // Get Profile info
+    this.profileService.getProfile()
+    this.userSub = this.profileService.getUserListener()
+      .subscribe((user) => {
+        this.user = user
       })
-    
   }
 
   onImagePicked(event: Event) {
@@ -68,7 +62,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    //const userId = this.authService.getUserID()
     const time = this.scheduleForm.get('time').value.toString()
     //const date = this.scheduleForm.get('date').value.toLocaleDateString().toISOString()
     const ISOdate = this.scheduleForm.get('date').value
@@ -89,7 +82,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.scheduleForm.value.datetime,
       this.scheduleForm.value.image,
       this.scheduleForm.value.facebook,
-      this.scheduleForm.value.instagram,
       this.scheduleForm.value.twitter,
       )
       .subscribe(
@@ -102,7 +94,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    
+    this.userSub.unsubscribe()
   }
 
 }

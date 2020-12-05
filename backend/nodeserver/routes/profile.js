@@ -11,10 +11,12 @@ router.get("/:id", checkAuth, (req, res, next) => {
             })
         }
         res.status(200).json({
-          user_id: req.params.id,
-          username: user.username,
-          fb_provider: user.fb_provider,
-          tw_provider: user.tw_provider 
+            user: {
+                user_id: req.params.id,
+                username: user.username,
+                fb_provider: user.fb_provider,
+                tw_provider: user.tw_provider
+            }
         })
     })
 })

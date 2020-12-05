@@ -22,7 +22,6 @@
                     <div>
                         <section>
                             <mat-checkbox formControlName="facebook">Facebook</mat-checkbox>
-                            <mat-checkbox formControlName="instagram">Instagram</mat-checkbox>
                             <mat-checkbox formControlName="twitter">Twitter</mat-checkbox>
                         </section>
                     </div>
@@ -59,7 +58,7 @@
         <mat-card class="post-card">
             <mat-card-header>
               <div mat-card-avatar class="example-header-image"></div>
-              <mat-card-title>{{user.username}}</mat-card-title>
+              <mat-card-title >{{user.username}}</mat-card-title>
               <mat-card-subtitle>{{socialMedia}}</mat-card-subtitle>
             </mat-card-header>
             <img mat-card-image [src]="imagePreview" [alt]="scheduleForm.value.title">
