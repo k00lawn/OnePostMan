@@ -25,7 +25,7 @@ app.use(cors())
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static('/backend'))
+app.use("/backend/nodeserver/images", express.static('images'))
 
 // app.use("/images", express.static(path.join("nodeserver/images")));
 //app.use(session({ secret: 'feeling hot hot hot' }));
