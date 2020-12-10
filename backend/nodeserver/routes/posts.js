@@ -31,18 +31,18 @@ const storage = multer.diskStorage({
     }
 });
 
+// Posts CRUD
+
 var upload = multer({storage: storage})
 
-router.post("",
-  checkAuth, 
+router.post("", checkAuth, 
   upload.single("image"), (req, res, next) => {
     var fileinfo
-    var filedir 
-    console.log(req.body)
-    console.log(req.body.userId)
+    var filedir
+    const url = req.protocol + "://" + req.get("host"); 
     
     if(req.file){
-      filedir = "backend/nodeserver/images/"
+      filedir = url + "/backend/nodeserver/images/"
       fileinfo = req.file.filename
     } 
     const postTask = new Post({
@@ -76,5 +76,37 @@ router.get("/:id", checkAuth, (req ,res, next) => {
     })
   })
 })
+
+router.put("/:id", checkAuth,
+  upload.single("image"), (req, res, next) => {
+    let img = req.body.img;
+    if(req.file) {
+      const url = req.protocol + "://" + req.get("host")
+      img = url + "backend/nodeserver/images/" + req.file.filename
+    }
+
+    const postTask = new Post({
+      userId: req.body.userId,
+      caption: req.body.caption,
+      date: req.body.time,
+      img: filedir + fileinfo,
+      facebook: req.body.facebook,
+      twitter: req.body.twitter,
+    });
+
+    console.log(postTask);
+    Post.updateOne({ _id: req.params.id }, postTask).then(result => {
+      res.status(200).json({ message: "Update Successful" })
+    })
+})
+
+router.delete("/:id", (req, res, next) => {
+  Post.deleteOne({ _id: req.params.id }).then(result => {
+    console.log(result);
+    res.status(200).json({ message: "Post deleted!" });
+  });
+});
+
+
 
 module.exports = router
