@@ -15,8 +15,8 @@ def get_schedules():
     if count != 0:
         result = collection.find({}).sort('date', 1)
         return result
-    else :
-        return 'none'
+    else:
+        return False
 
 
 def get_user_details(user_id):
@@ -46,6 +46,11 @@ def delete_all():
     collection = db['schedule']
     collection.delete_many({})
 
+def test():
+    collection = db['schedule']
+    result = collection.find_one({'name': 'testing'})
+    collection.delete_one({'name': 'testing'})
+    print(result)
 
 
 

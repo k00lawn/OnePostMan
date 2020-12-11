@@ -2,6 +2,7 @@ from fb_class import FacebookApi
 from tw_class import TwitterApi
 from scheduler import now_time
 from time import sleep
+from threading import Thread
 from mondb import *
 import os
 
@@ -58,11 +59,8 @@ class Opm():
         fb = schedule['facebook']
         tw = schedule['twitter']
 
-        try:
-            imgname = schedule['img'].split('/')[-1]
-            img = os.path.join(BASE_IMG_PATH, imgname)
-        except KeyError:
-            img = None
+        imgname = schedule['img'].split('/')[-1]
+        img = os.path.join(BASE_IMG_PATH, imgname) if imgname != 'NaN' else None
 
         return schedule_id, user_id, caption, img, date, fb, tw
 
@@ -71,16 +69,21 @@ class Opm():
         while True:
 
             print('testing in the opm')
-            schedules = get_schedules()[0]
+            schedules = get_schedules()
             sleep(5)
 
-            if schedules != 'n':
+            if schedules:
 
-                schedule_id, user_id, caption, img, date, fb, tw = self.get_data_from_schedule(schedules)
-                user_details = get_user_details(user_id)
-                fb_token, tw_user_access_token, tw_user_token_secret = self.get_user_data_db(user_details, fb, tw)
+                schedule_details = schedules[0]
+                schedule_id, user_id, caption, img, date, fb, tw = self.get_data_from_schedule(schedule_details)
 
                 if date <= now_time():
+
+                    user_details = get_user_details(user_id)
+                    print(schedule_details)
+                    fb_token, tw_user_access_token, tw_user_token_secret = self.get_user_data_db(user_details, fb, tw)
+                    delete_schedule(schedule_id)
+
                     if fb:
                         fapi = FacebookApi(caption=caption, img=img, user_token=fb_token)
                         fapi.post()
@@ -88,5 +91,7 @@ class Opm():
                         tapi = TwitterApi(img=img, msg=caption, token=tw_user_access_token ,token_secret=tw_user_token_secret)
                         tapi.post_tweet()
 
-                    self.delete_img(img)
-                    delete_schedule(schedule_id)
+                    if img is not None:
+                        self.delete_img(img)
+
+

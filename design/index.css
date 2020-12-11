@@ -1,0 +1,9 @@
+body {
+    background-color: rgba(5, 5, 5, 0.925);
+    position: relative;
+    left:40%;
+}
+
+.title h2 {
+    color: azure;
+}
