@@ -41,9 +41,6 @@ export class PostListComponent implements OnInit, OnDestroy {
         this.isLoading = false
         this.posts = posts
       })
-
-      console.log(this.posts)
-      console.log(this.user)
   }  
 
   onDeletePost(id) {

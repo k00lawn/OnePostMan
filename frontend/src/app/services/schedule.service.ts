@@ -9,12 +9,13 @@ import { AuthService } from './auth.service';
 })
 export class ScheduleService {
 
-  // API endpoint
-  private postAPI = "http://localhost:3000/api/postTask"
   private posts: Post[] = []
   private postsUpdated  = new Subject<Post[]>();
 
   constructor(private http: HttpClient, private authService: AuthService) { }
+
+  // API endpoint
+  private postAPI = "http://localhost:3000/api/postTask"
 
   // POST Request to API endpoint
 
@@ -67,11 +68,11 @@ export class ScheduleService {
       })
   }
 
-  deletePost(id: string) {
+  deletePost(post_id: string) {
     this.http
-      .delete(`${this.postAPI}/${id}`)
+      .delete(`${this.postAPI}/${post_id}`)
       .subscribe(() => {
-        const updatedPosts = this.posts.filter(post => post._id !== post._id);
+        const updatedPosts = this.posts.filter(post => post._id !== post_id);
         this.posts = updatedPosts;
         this.postsUpdated.next([...this.posts]);
       })
