@@ -77,6 +77,16 @@ router.get("/:id", checkAuth, (req ,res, next) => {
   })
 })
 
+router.get("/post/:id", checkAuth, (req, res, next) => {
+  Post.findById(req.params.id).then(post => {
+    if(post) {
+      res.status(200).json(post)
+    } else {
+      res.status(404).json({message: 'Post not found'})
+    }
+  })
+})
+
 router.put("/:id", checkAuth,
   upload.single("image"), (req, res, next) => {
     let img = req.body.img;
@@ -86,10 +96,11 @@ router.put("/:id", checkAuth,
     }
 
     const postTask = new Post({
+      _id: req.params.id,
       userId: req.body.userId,
       caption: req.body.caption,
       date: req.body.time,
-      img: filedir + fileinfo,
+      img: img,
       facebook: req.body.facebook,
       twitter: req.body.twitter,
     });

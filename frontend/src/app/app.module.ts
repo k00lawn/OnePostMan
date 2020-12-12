@@ -14,12 +14,15 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TasksComponent } from './tasks/tasks.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PostListComponent } from './posts/post-list/post-list.component';
@@ -48,6 +51,8 @@ import { PostListComponent } from './posts/post-list/post-list.component';
     MatCheckboxModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatIconModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     {

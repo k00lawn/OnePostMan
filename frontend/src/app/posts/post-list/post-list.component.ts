@@ -13,6 +13,8 @@ import { ScheduleService } from 'src/app/services/schedule.service';
 })
 export class PostListComponent implements OnInit, OnDestroy {
 
+  isLoading = true
+
   posts: Post[] = [];
   user: User;
   postsSub: Subscription;
@@ -36,11 +38,16 @@ export class PostListComponent implements OnInit, OnDestroy {
     this.scheduleService.getPosts()
     this.postsSub = this.scheduleService.getPostsUpdateListener()
       .subscribe((posts: Post[]) => {
+        this.isLoading = false
         this.posts = posts
       })
 
       console.log(this.posts)
       console.log(this.user)
+  }
+
+  onDeletePost(id) {
+    this.scheduleService.deletePost(id)
   }
 
   ngOnDestroy() {

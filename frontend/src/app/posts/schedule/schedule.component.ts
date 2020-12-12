@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Post } from 'src/app/models/post';
 import { User } from 'src/app/models/user';
 import { ScheduleService } from 'src/app/services/schedule.service'
 import { AuthService } from '../../services/auth.service';
@@ -13,11 +15,15 @@ import { ProfileService } from '../../services/profile.service'
 })
 export class ScheduleComponent implements OnInit, OnDestroy {
 
+  private mode = 'create'
+  private postId: string;
+  post: Post;
+
   imagePreview: string = 'https://material.angular.io/assets/img/examples/shiba2.jpg';
   
   user: User;
   userSub: Subscription;
-  caption = 'Caption'
+  caption = 'Caption' 
   socialMedia = 'Facebook'
   
   scheduleForm = this.fb.group({
@@ -39,9 +45,23 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   constructor(private profileService: ProfileService, 
               private authService: AuthService, 
               private fb: FormBuilder, 
-              private _createTaskService: ScheduleService) { }
+              private scheduleService: ScheduleService,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      if(paramMap.has('postId')){
+        this.mode = 'edit'
+        this.postId = paramMap.get('postId')
+        this.scheduleService.getPost(this.postId).subscribe((postData: any) => {
+          this.post = postData
+        })
+      } else {
+        this.mode = 'create'
+        this.scheduleForm.patchValue({facebook: false, twitter: false})
+      }
+    })
+
     // Get Profile info
     this.profileService.getProfile()
     this.userSub = this.profileService.getUserListener()
@@ -76,21 +96,36 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     if (!this.scheduleForm.valid) {
       return;
     }
-    this._createTaskService.createTask(
-      this.scheduleForm.value.userId,
-      this.scheduleForm.value.caption,
-      this.scheduleForm.value.datetime,
-      this.scheduleForm.value.image,
-      this.scheduleForm.value.facebook,
-      this.scheduleForm.value.twitter,
-      )
-      .subscribe(
-        res => { 
-          console.log(res)
-          alert(res.message)
-          this.scheduleForm.reset()
-        }, err => console.log(err)
-      )
+
+    if(this.mode === 'create'){
+      this.scheduleService.createTask(
+        this.scheduleForm.value.userId,
+        this.scheduleForm.value.caption,
+        this.scheduleForm.value.datetime,
+        this.scheduleForm.value.image,
+        this.scheduleForm.value.facebook,
+        this.scheduleForm.value.twitter,
+        )
+        .subscribe(
+          res => { 
+            console.log(res)
+            alert(res.message)
+            this.scheduleForm.reset()
+            this.scheduleForm.patchValue({facebook: false, twitter: false})
+          }, err => console.log(err)
+        )
+    } else {
+        this.scheduleService.updatePost(
+          this.postId,
+          this.scheduleForm.value.userId,
+          this.scheduleForm.value.caption,
+          this.scheduleForm.value.datetime,
+          this.scheduleForm.value.image,
+          this.scheduleForm.value.facebook,
+          this.scheduleForm.value.twitter,
+        )
+      }
+    
   }
 
   ngOnDestroy() {

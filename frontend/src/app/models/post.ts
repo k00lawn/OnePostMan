@@ -1,7 +1,9 @@
 export interface Post {
-    username: String,
+    _id: String,
+    userId: String,
     caption: String,
-    img: String,
+    date: String,
+    img: File,
     facebook: Boolean,
     twitter: Boolean
 } 

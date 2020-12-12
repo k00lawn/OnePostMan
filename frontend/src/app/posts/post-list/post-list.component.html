@@ -1,22 +1,27 @@
+<mat-spinner *ngIf="isLoading"></mat-spinner>
 <div class="container">
     <mat-card class="post-card" *ngFor="let post of posts">
-        <mat-card-header>
-          <div mat-card-avatar class="example-header-image"></div>
-          <mat-card-title>{{user.username}}</mat-card-title>
-          <mat-card-subtitle *ngIf="post.twitter">Twitter</mat-card-subtitle>
-          <mat-card-subtitle *ngIf="post.facebook">Facebook</mat-card-subtitle>
-        </mat-card-header>
+      <div class="button-container">
+        <a mat-fab class="icon" color="primary" aria-label="Example icon button with a delete icon" (click)="onDeletePost(post._id)">
+          <mat-icon [inline]="true">delete</mat-icon>
+        </a>
+        <a mat-fab class="icon" color="primary" [routerLink]="['/edit', post._id]" aria-label="Example icon button with a edit icon">
+          <mat-icon [inline]="true">create</mat-icon>
+        </a>
+      </div>
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{user.username}}</mat-card-title>
+        <mat-card-title>{{post._id}}</mat-card-title>
+        <mat-card-subtitle *ngIf="post.twitter">Twitter</mat-card-subtitle>
+        <mat-card-subtitle *ngIf="post.facebook">Facebook</mat-card-subtitle>
+      </mat-card-header>
         <img mat-card-image [src]="post.img" [alt]="post.caption">
-        <mat-card-content>
-          <p>
-            {{post.caption}}
-          </p>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-button>LIKE</button>
-          <button mat-button>COMMENT</button>
-          <button mat-button>SHARE</button>
-        </mat-card-actions>
+      <mat-card-content>
+        <p>
+          {{post.caption}}
+        </p>
+      </mat-card-content>
     </mat-card>
     <br>
 </div>

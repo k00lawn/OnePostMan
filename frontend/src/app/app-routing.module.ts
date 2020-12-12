@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'posts', component: PostListComponent, canActivate: [AuthGuard]},
   { path: 'create', component: ScheduleComponent, canActivate: [AuthGuard]},
+  { path: 'edit/:postId', component: ScheduleComponent, canActivate: [AuthGuard]},
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   { path: 'auth', component: AuthenticationComponent},
 ];
