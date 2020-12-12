@@ -19,13 +19,13 @@ export class ScheduleService {
 
   // POST Request to API endpoint
 
-  createTask(userId: string, caption: string, time: string, image: File, facebook: string, twitter: string) {
+  createTask(userId: string, caption: string, date: string, image: File, facebook: string, twitter: string) {
     
     const postData = new FormData();
 
     postData.append('userId', userId)
     postData.append('caption', caption)
-    postData.append('time', time)
+    postData.append('date', date)
     postData.append('image', image)
     postData.append('facebook', facebook)
     postData.append('twitter', twitter)
@@ -54,15 +54,32 @@ export class ScheduleService {
     return this.http.get<{post: Post}>(`${this.postAPI}/post/${id}`)
   }
 
-  updatePost(id: string, userId: string, caption: string, date: string, img: File, facebook: boolean, twitter: boolean) {
-    const post: Post = {_id: id, userId: userId, caption: caption, date: date, img: img, facebook: facebook, twitter: twitter }
+  updatePost(_id: string, userId: string, caption: string, date: string, image: File | string, facebook: string, twitter: string) {
+
+      let postData;
+
+      postData = new FormData();
+
+      postData.append('_id', _id)
+      postData.append('userId', userId)
+      postData.append('caption', caption)
+      postData.append('date', date)
+      postData.append('image', image)
+      postData.append('facebook', facebook)
+      postData.append('twitter', twitter)
+        
+      
+      // } else {
+      //   postData = {_id: _id, userId: userId, caption: caption, date: date, img: img, facebook: facebook, twitter: twitter }
+      // }
+
 
     this.http
-      .put(`${this.postAPI}/${id}`, post)
+      .put(`${this.postAPI}/${_id}`, postData)
       .subscribe(res => {
         const updatedPosts = [...this.posts];
         const oldPostIndex = updatedPosts.findIndex(post => post._id === post._id);
-        updatedPosts[oldPostIndex] = post;
+        updatedPosts[oldPostIndex] = postData;
         this.posts = updatedPosts;
         this.postsUpdated.next([...this.posts ])
       })

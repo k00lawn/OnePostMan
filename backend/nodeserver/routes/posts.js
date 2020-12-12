@@ -48,7 +48,7 @@ router.post("", checkAuth,
     const postTask = new Post({
         userId: req.body.userId,
         caption: req.body.caption,
-        date: req.body.time,
+        date: req.body.date,
         img: filedir + fileinfo,
         facebook: req.body.facebook,
         twitter: req.body.twitter,
