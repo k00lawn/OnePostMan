@@ -69,7 +69,6 @@ router.post("", checkAuth,
 
 router.get("/:id", checkAuth, (req ,res, next) => {
   Post.find({userId: req.params.id}).then(user_posts => {
-    console.log(`these are user posts`+ user_posts)
     return res.status(200).json({
       message: 'Posts fetched Successfully',
       posts: user_posts
@@ -89,18 +88,21 @@ router.get("/post/:id", checkAuth, (req, res, next) => {
 
 router.put("/:id", checkAuth,
   upload.single("image"), (req, res, next) => {
-    let img = req.body.img;
-    if(req.file) {
-      const url = req.protocol + "://" + req.get("host")
-      img = url + "backend/nodeserver/images/" + req.file.filename
-    }
+    var fileinfo
+    var filedir
+    const url = req.protocol + "://" + req.get("host"); 
+    
+    if(req.file){
+      filedir = url + "/backend/nodeserver/images/"
+      fileinfo = req.file.filename
+    } 
 
     const postTask = new Post({
       _id: req.params.id,
       userId: req.body.userId,
       caption: req.body.caption,
       date: req.body.time,
-      img: img,
+      img: filedir + fileinfo,
       facebook: req.body.facebook,
       twitter: req.body.twitter,
     });
