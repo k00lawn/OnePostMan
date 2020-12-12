@@ -44,7 +44,7 @@ export class PostListComponent implements OnInit, OnDestroy {
 
       console.log(this.posts)
       console.log(this.user)
-  }
+  }  
 
   onDeletePost(id) {
     this.scheduleService.deletePost(id)
