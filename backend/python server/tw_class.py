@@ -115,7 +115,7 @@ class TwitterApi():
                     tweet_id = tweet_data.id
                 except tweepy.error.TweepError:
                     pass
-
+                
                 reply_time = i.created_at
                 beforemonth = rd(months=-2) + dt.now()
                 if reply_time >= beforemonth:
