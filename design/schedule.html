@@ -1,0 +1,44 @@
+<html>
+    <head>
+
+    <link rel="stylesheet" href="./schedule.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+    </head>
+
+    <body>
+        
+        <div class="container center">
+            <div class="schedule z-depth-5 grey darken-4">
+                <form action="./schedule.html" class="post">
+                    
+                    <!-- <input type="text" class="caption" name="caption" id="caption" placeholder="">  -->
+                    <textarea class="materialize-textarea" id="caption" name="caption"></textarea>
+                    
+                    <div class="medias row">
+                        <button class="facebook col s4 left btn waves-effect waves-light red" onclick="select()"><img class="fb_img" src=".\card\facebook.PNG" alt="facebook"></button>
+                        <button class="twitter col s4 right btn waves-effect waves-light red"><img class="tw_img" src=".\card\tww.PNG" alt="twitter"></button>
+                        <!-- <a class="btn-floating btn-large waves-effect waves-light facebook "><img class="fb_img" src=".\card\facebook.PNG" alt="twitter"></a> -->
+                        <!-- <a class="btn-floating btn-large waves-effect waves-light twitter "><img class="tw_img" src=".\card\tww.PNG" alt="twitter"></a> -->
+                    </div>
+
+                    <div class="options row">
+                        <div class="col s3"><a class="btn-floating btn-large waves-effect waves-light red accent-4"><i class="material-icons">gps_fixed</i></a></div>
+                        <div class="col s3"><a class="btn-floating btn-large waves-effect waves-light red accent-4"><i class="material-icons">photo_camera</i></a></div>
+                        <div class="col s3"><a class="btn-floating btn-large waves-effect waves-light red accent-4"><i class="material-icons">add</i></a></div>
+                        <div class="col s3"><a class="btn-floating btn-large waves-effect waves-light red accent-4"><i class="material-icons">visibility</i></a></div>
+                    </div>
+
+                    <div class="post row">
+                        <button class="btn waves-effect waves-light amber accent-4" type="submit" name="action">Schedule</button>
+                          
+                        <button class="btn waves-effect waves-light orange accent-3" type="submit" name="action">Post now</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
+

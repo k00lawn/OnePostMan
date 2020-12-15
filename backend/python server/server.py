@@ -1,9 +1,11 @@
+from threading import Thread
 from flask_restful import Api , Resource , reqparse
 from flask_cors import CORS, cross_origin
-from multiprocessing import Process
+# from multiprocessing import Process
 from hashtagapi import get_hashtag
 from flask import Flask, jsonify
 from main import Opm
+
 
 app = Flask(__name__)
 
@@ -50,14 +52,24 @@ class GetCaption(Resource):
 api.add_resource(GetAccessToken , '/api/accessToken')
 api.add_resource(GetCaption , '/api/caption')
 
+
 if __name__ == '__main__':
 
     opm = Opm()
-    opm = Process(target=opm.schedule , args=())
+    opm = Thread(target=opm.schedule)
     opm.start()
-    app.run(debug=True, port=4000, use_reloader = False)
+    app.run(debug=True, port=4000)
     opm.join()
 
+
+
+# if __name__ == '__main__':
+
+#     opm = Opm()
+#     opm = Process(target=opm.schedule , args=())
+#     opm.start()
+#     app.run(debug=True, port=4000, use_reloader = False)
+#     opm.join()
 
 
 '''
