@@ -7,3 +7,21 @@
     margin-left:5px;
     margin-right:5px;
 }
+
+.sidenav-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+}
+
+mat-toolbar {
+    align-items: center;
+}
+
+mat-sidenav-content {
+    margin: 2%;
+}
+  

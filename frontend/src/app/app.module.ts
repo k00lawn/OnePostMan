@@ -22,6 +22,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatToolbarModule } from '@angular/material/toolbar';
+
+
 
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -52,7 +57,10 @@ import { PostListComponent } from './posts/post-list/post-list.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatIconModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSidenavModule,
+    MatListModule,
+    MatToolbarModule
   ],
   providers: [
     {

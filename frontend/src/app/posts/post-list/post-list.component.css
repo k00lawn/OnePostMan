@@ -1,3 +1,8 @@
+mat-spinner {
+    margin-left: 45%;
+    margin-top: 25%;
+}
+
 .container{
     max-width: 400px;
     align-content: center;
@@ -9,16 +14,24 @@
     margin: 20px;
 }
 
-mat-spinner {
-    margin: auto;
-}
+/* mat-card-header {
 
-.button-container {
-    display: flex;
-    justify-content: right;
-  }
+} */
+
+/* .icon{
+    float: inline-end;
+} */
 
 .icon {
-    display: block;
-    font-size: 20px;
+    float: right;
 }
+
+mat-icon {
+    color: grey;
+    font-size: 26px;
+}
+
+/* .button-container {
+    display: flex;
+    justify-content: right;
+} */

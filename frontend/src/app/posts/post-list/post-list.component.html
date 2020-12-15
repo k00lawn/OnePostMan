@@ -1,19 +1,19 @@
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 <div class="container">
     <mat-card class="post-card" *ngFor="let post of posts">
-      <div class="button-container">
-        <a mat-fab class="icon" color="primary" aria-label="Example icon button with a delete icon" (click)="onDeletePost(post._id)">
-          <mat-icon [inline]="true">delete</mat-icon>
-        </a>
-        <a mat-fab class="icon" color="primary" [routerLink]="['/edit', post._id]" aria-label="Example icon button with a edit icon">
-          <mat-icon [inline]="true">create</mat-icon>
-        </a>
-      </div>
       <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>{{user.username}}</mat-card-title>
-        <mat-card-subtitle *ngIf="post.twitter">Twitter</mat-card-subtitle>
-        <mat-card-subtitle *ngIf="post.facebook">Facebook</mat-card-subtitle>
+          <mat-card-title>{{user.username}}</mat-card-title>
+            <div class="icon">
+              <a aria-label="Example icon button with a delete icon" (click)="onDeletePost(post._id)">
+                <mat-icon>delete</mat-icon>
+              </a>
+              <a [routerLink]="['/edit', post._id]" aria-label="Example icon button with a edit icon">
+                <mat-icon [inline]>create</mat-icon>
+              </a>
+            </div>
+          <mat-card-subtitle *ngIf="post.twitter">Twitter</mat-card-subtitle>
+          <mat-card-subtitle *ngIf="post.facebook">Facebook</mat-card-subtitle>
       </mat-card-header>
         <img mat-card-image [src]="post.img" [alt]="post.caption">
       <mat-card-content>

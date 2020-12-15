@@ -110,8 +110,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           res => { 
             console.log(res)
             alert(res.message)
+            this.imagePreview = 'https://material.angular.io/assets/img/examples/shiba2.jpg'
             this.scheduleForm.reset()
-            this.scheduleForm.patchValue({facebook: false, twitter: false})
+            this.scheduleForm.setValue({facebook: false, twitter: false})
           }, err => console.log(err)
         )
     } else {
