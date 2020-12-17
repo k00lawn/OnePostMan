@@ -10,6 +10,12 @@
     left: 20%;
 }
 
+.contents {
+    margin: auto;
+    width: 70%;
+    /* border: #1877f2 2px solid; */
+}
+
 textarea {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -18,48 +24,62 @@ textarea {
     
 }
 
+textarea:focus {
+    outline: none;
+
+}
+
 .schedule #caption {
     margin-top: 5%;
     border-radius: 20px;
-    width: 70%;
+    /* width: 70%; */
     height: 35%;
     border: rgb(5, 197, 255) 1px solid;
 }
 
 .schedule .medias {
-    margin-top: 3%;
-    width: 70%;
     height: 15%;
 }
 
-.schedule .medias button {
-    border-radius: 10%;
-    height: 70%;
+.schedule .medias a{
+    border-radius: 27px;
+    height: 85%;
+    width: 40%;
+    filter: grayscale(0.9);
+}
+
+.schedule .medias a img {
+    margin-top: 6%;
+    height: 45;
 }
 
 
-.schedule .medias img {
-
-} 
-
-.schedule .medias .facebook :hover{
+/* .schedule .medias .facebook {
     background-color:#1877f2;
     border: #1877f2 2px solid;
-    /* position: relative; */
-    /* left: -20%; */
+}
 
+.schedule .medias .twitter {
+    background-color: #55ACEE;
+    border: #55ACEE 2px solid;
+} */
+
+.schedule .medias .facebook:hover{
+    filter: none;
+    transition: all 0.25s ease-in-out; 
+    background-color:#1877f2;
+    border: #1877f2 2px solid;
 }
 
 .schedule .medias .twitter:hover {
-    background-color: #55ACEE;
+    filter: none;
+    transition: all 0.25s ease-in-out; 
+    background-color: #459adb;
     border: #55ACEE 2px solid;
-    /* position: relative; */
-    /* left: 20%; */
 }
 
 .schedule .options {
     margin-top: 2%;
-    width: 75%;
     height: 15%;
 }
 
@@ -71,8 +91,10 @@ textarea {
 
 
 .schedule .post button {
-    width: 25%;
+    width: 30%;
     /* height: 15%; */
+    font: outline;
+    font-style:unset;
     color: black;
 
 }
