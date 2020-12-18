@@ -16,12 +16,14 @@
                 <form action="./schedule.html" class="post" method="POST">
                     
                     <div class="contents">
-                        <!-- <input type="text" class="caption" name="caption" id="caption" placeholder="">  -->
-                        <textarea class="materialize-textarea" id="caption" name="caption"></textarea>
-                        
+                        <div class="caption">
+                            <!-- <input type="text" class="caption" name="caption" id="caption" placeholder="">  -->
+                            <textarea class="materialize-textarea" id="caption" name="caption" autocomplete="off" autocapitalize="on" placeholder="Caption"></textarea>
+                        </div>
+
                         <div class="medias row">
-                            <a class="waves-effect waves-light btn-large left facebook" onclick="light_up()"><img src="./card/facebook.png" alt="facebook" /></a>
-                            <a class="waves-effect waves-light btn-large right twitter" onclick="light_up()"><img src="./card/tww.png" alt="twitter" /></a>
+                            <a class="waves-effect waves-light btn-large left facebook" onclick="light_up('facebook')"><img src="./imgs/facebook.svg" alt="facebook" /></a>
+                            <a class="waves-effect waves-light btn-large right twitter" onclick="light_up('twitter')"><img src="./imgs/twitter.svg" alt="twitter" /></a>
                             <script src="./schedule.js"></script>
                         </div>
 
@@ -40,6 +42,9 @@
                     </div>
                 </form>
             </div>
+
+            <button class="btn waves-effect waves-light orange accent-3 testing" type="submit" name="action" onclick="test()">Post now</button>
+            <script src="./schedule.js"></script>
         </div>
     </body>
 </html>

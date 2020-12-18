@@ -1,0 +1,55 @@
+.social_media {
+    margin: 0% auto;
+}
+
+.social_media #facebook,
+.social_media #twitter {
+  animation: move 3s infinite linear;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+@keyframes move {
+  0% {
+    transform: translateY(0px);
+  }
+  25% {
+    transform: translateY(20px);
+  }
+  50% {
+    transform: translateY(15px);
+  }
+  75% {
+    transform: translateY(20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+
+.social_media #pointing_hand {
+  animation: shake 2s infinite linear;
+  transform-origin: right;
+  transform-box: fill-box;
+}
+
+@keyframes shake {
+
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(15deg);
+  }
+  75% {
+    transform: rotate(10deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+

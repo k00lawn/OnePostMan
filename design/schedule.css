@@ -21,11 +21,15 @@ textarea {
     -moz-border-radius: 5px;
     border-radius: 5px;
     color: #e8eaf6;
-    
+    font-family: sans-serif;
+    text-align: center;
+    scroll-behavior: smooth;
+    overflow-wrap: break-word;
 }
 
 textarea:focus {
     outline: none;
+    transition: all 0.25s ease-in-out;  
 
 }
 
@@ -45,37 +49,42 @@ textarea:focus {
     border-radius: 27px;
     height: 85%;
     width: 40%;
-    filter: grayscale(0.9);
+    /* filter: grayscale(0.9); */
+    transition: all 0.25s ease-in-out; 
 }
 
 .schedule .medias a img {
-    margin-top: 6%;
-    height: 45;
+    margin-top: -7%;
+    width: 75;
+    height: 75;
 }
 
 
-/* .schedule .medias .facebook {
-    background-color:#1877f2;
+.schedule .medias #selected {
+    filter: none;
+    background-color: white;
+    /* background-color:#1877f2; */
     border: #1877f2 2px solid;
 }
 
-.schedule .medias .twitter {
+.schedule .medias #selected {
+    filter: none;
+    /* transition: ; */
     background-color: #55ACEE;
     border: #55ACEE 2px solid;
-} */
+}
 
 .schedule .medias .facebook:hover{
     filter: none;
-    transition: all 0.25s ease-in-out; 
-    background-color:#1877f2;
-    border: #1877f2 2px solid;
+    background-color: white;
+    /* background-color:#1877f2; */
+    /* border: #1877f2 2px solid; */
 }
 
 .schedule .medias .twitter:hover {
     filter: none;
-    transition: all 0.25s ease-in-out; 
     background-color: #459adb;
-    border: #55ACEE 2px solid;
+    /* border: #55ACEE 2px solid; */
 }
 
 .schedule .options {
@@ -97,4 +106,9 @@ textarea:focus {
     font-style:unset;
     color: black;
 
+}
+
+
+.testing #tt {
+    color: black;
 }
