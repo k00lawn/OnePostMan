@@ -45,11 +45,11 @@ textarea:focus {
     height: 15%;
 }
 
-.schedule .medias a{
+.schedule .medias a {
     border-radius: 27px;
     height: 85%;
     width: 40%;
-    /* filter: grayscale(0.9); */
+    filter: grayscale(0.9);
     transition: all 0.25s ease-in-out; 
 }
 
@@ -60,31 +60,25 @@ textarea:focus {
 }
 
 
-.schedule .medias #selected {
-    filter: none;
+.schedule .medias .facebook {
     background-color: white;
-    /* background-color:#1877f2; */
-    border: #1877f2 2px solid;
+
 }
 
-.schedule .medias #selected {
-    filter: none;
-    /* transition: ; */
+.schedule .medias .twitter  {
     background-color: #55ACEE;
-    border: #55ACEE 2px solid;
+
 }
 
 .schedule .medias .facebook:hover{
     filter: none;
     background-color: white;
     /* background-color:#1877f2; */
-    /* border: #1877f2 2px solid; */
 }
 
 .schedule .medias .twitter:hover {
     filter: none;
     background-color: #459adb;
-    /* border: #55ACEE 2px solid; */
 }
 
 .schedule .options {
@@ -106,9 +100,4 @@ textarea:focus {
     font-style:unset;
     color: black;
 
-}
-
-
-.testing #tt {
-    color: black;
 }

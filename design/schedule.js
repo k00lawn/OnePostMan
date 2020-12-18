@@ -1,17 +1,3 @@
-// facebook.onclick = function() {
-
-//     if( facebook.id == 'selected' ) {
-//         console.log(facebook.className)
-//         facebook.id = '';
-//     }
-
-//     else {
-//         console.log(facebook.className)
-//         facebook.id = 'selected';
-//     }
-// };
-
-
 function light_up(btn) {
 
     var button = document.getElementsByClassName(btn)
@@ -19,26 +5,14 @@ function light_up(btn) {
     if( button.id == 'selected' ) {
         console.log(`${btn} is now not selected`)
         button.id = '';
+        button[0].style.filter = 'grayscale(0.9)';
     }
 
     else {
         console.log(`${btn} is selected`)
         button.id = 'selected';
+        button[0].style.filter = "none";
     }
 };
 
-function test() {
-    var btn = document.getElementsByClassName('testing');
-
-    if (btn[0].id == 'tt') {
-        btn[0].innerHTML = 'blue';
-        btn[0].id = '';
-    } 
-    else {
-        btn[0].innerHTML = 'post now';
-        btn[0].id = 'tt';
-        btn[0].style.color = 'black';
-        btn[0].style.backgroundColor = 'grey';
-        btn[0].style.filter = 'greyscale(100%)';
-    }
-}   
+ 
