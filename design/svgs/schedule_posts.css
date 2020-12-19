@@ -1,0 +1,19 @@
+
+.schedule_posts svg {
+    margin: auto;
+    padding: 0%;
+}
+
+.schedule_posts #tick1 {
+    animation: pop_up 2s 1 linear;
+}
+
+@keyframes pop_up {
+    0% {
+        transform: scale(2,2);
+    }
+    100% {
+        transform: scale(1,1);
+    }
+}
+
