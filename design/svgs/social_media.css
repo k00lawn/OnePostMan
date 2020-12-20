@@ -30,7 +30,7 @@
 
 .social_media #pointing_hand {
   animation: shake 2s infinite linear;
-  transform-origin: right;
+  transform-origin: bottom right;
   transform-box: fill-box;
 }
 
