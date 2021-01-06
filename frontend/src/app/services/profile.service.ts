@@ -35,6 +35,8 @@ export class ProfileService {
       })
   }
 
+  
+
   removeFBaccount(user_id) {
     return this.http.delete<{fb_provider: boolean}>
       (`${this._profileapi}/fbrevoke/${user_id}`)

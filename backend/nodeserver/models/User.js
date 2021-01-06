@@ -7,6 +7,8 @@ const UserSchema =  mongoose.Schema({
     password: { type: String, required: true },
     date: { type: Date, default: Date.now },
     fb_provider: { type: Boolean, default: false },
+    fb_access_token: { type: String, default: false },
+    fb_page_details: { type: Array, default: false},
     tw_provider: { type: Boolean, default: false },
     tw_access_token: { type: String },
     tw_access_token_secret: { type: String }

@@ -152,18 +152,15 @@ export class AuthService {
   saveTWaccessToken(oauthToken: string, oauthVerifier: string) {
     return this.http.get(`${this.nodeApi}saveAccessTokens/${this.userID}/?oauth_token=${oauthToken}&oauth_verifier=${oauthVerifier}`)
   }
-
-  extendAccessToken(userId: any, access_token: string) {
-    const accessData: AccessData = { userId: userId, access_token: access_token}
-    console.log(`This is the final object`, accessData)
-    console.log(this.user_idListener)
-    this.http.post(this.pyApi, accessData)
+  
+  extendAccessToken(userId: any, shortAccessToken: string) {
+    console.log(`This is the final object`, shortAccessToken)
+    const access_token = { shortAccessToken: shortAccessToken}
+    this.http.post(`${this.nodeApi}auth/facebook/${userId}`, access_token)
     .subscribe(res => {
       console.log(res)
     })
   }
-
-  
 
 }
 

@@ -11,7 +11,9 @@ const connectDB = require('./config/db')
 const postsRoutes = require('../nodeserver/routes/posts') 
 const usersRoutes = require('../nodeserver/routes/users')
 const profileRoutes = require('../nodeserver/routes/profile')
+
 const twoauth = require('./oauth/twoauth')
+const fboauth = require('./oauth/fboauth')
 
 dotenv.config({ path: './config/config.env' })
 
@@ -60,7 +62,7 @@ app.use("/api/postTask", postsRoutes)
 app.use("/api/user", usersRoutes)
 app.use("/api/profile", profileRoutes)
 app.use("/api/", twoauth)
-
+app.use("/api/", fboauth)
 const PORT = process.env.PORT || 3000
 
 
