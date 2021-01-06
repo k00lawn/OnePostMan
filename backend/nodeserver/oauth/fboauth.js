@@ -83,7 +83,7 @@ router.post('/auth/facebook/:id', checkAuth, async (req, res, next) => {
         user.save()
         return res.send({message: 'Facebook Account Connected Successfully'})
     })
-``})
+})
 
 module.exports = router;
 
