@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schedule</title>
+  <link rel="stylesheet" href="./schedule1.css">
+</head>
+<body>
+        <div class="schedule_form">
+          <div class="caption-option">
+            
+            <div class="caption" id="caption">
+              <textarea placeholder="What's on your mind ?"></textarea>
+            </div>
+
+            <div class="option">
+              <div class="btns"><img src="./imgs/target.svg" alt="target" /></div>
+              <div class="btns" onclick="file()"><img src="./imgs/photo.svg" alt="camera" class="photo"><input type="file" id="file"/>
+                <script src="./schedule1.js"></script>
+              </div>
+              <div class="btns"><img src="./imgs/hashtag_svg.svg" alt="hashtag"></div>
+              <div class="btns"><img src="./imgs/preview.svg" alt="preview"></div>
+            </div>
+
+          </div>
+
+          <div class="media">
+            
+            <div class="fb" id="media">
+              <img class='facebook' src="./imgs/facebook.svg" alt="facebook">
+              <p class="texts">{user pg name}</p>
+            </div>
+            
+            <div class="tw" id="media">
+              <img class='twitter' src="./imgs/twitter.svg" alt="twitter">
+              <p class="texts">{tw username}</p>
+            </div>
+
+          </div>
+
+          <div class="schedule_btns">
+            <div class="post-now">
+              <button class="btn-post">Post</button>
+            </div>
+
+            <div class="schedule-later">
+              <button class="btn-schedule">Schedule</button>
+            </div>
+            <script src="./schedule1.js"></script>
+          </div>
+        </div>
+</body>
+</html>

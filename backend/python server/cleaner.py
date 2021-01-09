@@ -22,21 +22,26 @@ def language(text):
         else:
             return 'english'
 
-def clean(comment, dtm = None):
+def clean(comment, dtm = False, lemmatize = False, stop_words = False):
 
-    lang = language(comment)
     no_http = re.sub(r'''https?://[\w/._-]+''', '', comment)
     no_at = re.sub(r'@\w+', '', no_http)
     no_punc = re.sub(f'[{string.punctuation}]','',no_at)
     no_nums = re.sub(r'[0-9]+','',no_punc)
-    tokenized = nltk.word_tokenize(no_nums)
-    stop_words = set(stopwords.words(lang))
-    tokenized = [i for i in tokenized if i not in stop_words and len(i) > 1 ]
+    cleaned = nltk.word_tokenize(no_nums)
 
-    lemma = wnl()
-    cleaned = [lemma.lemmatize(i) for i in tokenized]
+    if lemmatize:
+        lemma = wnl()
+        cleaned = [lemma.lemmatize(i) for i in cleaned]
 
-    if dtm is not None:
+    if stop_words:
+
+        lang = language(comment)
+        stop_words = set(stopwords.words(lang))
+        cleaned = [i for i in cleaned if i not in stop_words and len(i) > 1 ]
+
+    if dtm:
+        
         cv = cvec()
         cv_df = cv.fit_transform(cleaned)
         cleaned = pd.DataFrame(cv_df.toarray(),columns = cv.get_feature_names())
