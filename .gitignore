@@ -110,6 +110,7 @@ backend/nodeserver/images
 #python modules
 venv
 __pycache__
+backend/python server/hashtagapi.py
 
 #Extra files
 notes
