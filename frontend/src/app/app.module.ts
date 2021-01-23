@@ -25,6 +25,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatChipsModule } from '@angular/material/chips';
+
 
 
 
@@ -60,7 +62,8 @@ import { PostListComponent } from './posts/post-list/post-list.component';
     MatProgressSpinnerModule,
     MatSidenavModule,
     MatListModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatChipsModule
   ],
   providers: [
     {

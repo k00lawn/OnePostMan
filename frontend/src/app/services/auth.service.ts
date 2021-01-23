@@ -15,7 +15,7 @@ import { Post } from '../models/post';
 export class AuthService {
 
   private nodeApi = "http://localhost:3000/api/";
-  private pyApi = "http://localhost:4000/api/accessToken"
+  //private pyApi = "http://localhost:4000/api/accessToken"
 
   //Switching Forms
   isLoginForm = false;
@@ -26,7 +26,7 @@ export class AuthService {
   private authStatusListener = new Subject<boolean>();
 
   //UserDetails
-  private user_idListener = new BehaviorSubject<any>(undefined);
+  //private user_idListener = new BehaviorSubject<any>(undefined);
   private userID: string;
 
  
@@ -44,13 +44,13 @@ export class AuthService {
     return this.authStatusListener.asObservable();
   }
 
-  getUserIdListener() {
-    return this.user_idListener.asObservable();
-  }
+  // getUserIdListener() {
+  //   return this.user_idListener.asObservable();
+  // }
 
   getUserID() {
-    this.autoAuthUser()
-    return this.userID;
+    const lsAuthData = this.getAuthData() 
+    return lsAuthData.user_id;
   }
 
   switchForm() {
@@ -70,7 +70,7 @@ export class AuthService {
           this.setAuthTimer(expiresInDuration);
           this.isAuthenticated = true;
           this.authStatusListener.next(true);
-          this.user_idListener.next(user_id);
+          //this.user_idListener.next(user_id);
           const now = new Date();
           const expirationDate = new Date(now.getTime() + expiresInDuration * 1000)
           this.saveAuthData(user_id,token, expirationDate); 
@@ -86,7 +86,7 @@ export class AuthService {
   }
 
   logout() {
-    this.user_idListener.next(null)
+    //this.user_idListener.next(null)
     this.token = null;
     this.isAuthenticated = false
     this.authStatusListener.next(false)
@@ -103,7 +103,7 @@ export class AuthService {
     const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
     if (expiresIn > 0) {
       this.userID = authInformation.user_id
-      this.user_idListener.next(this.userID)
+      //this.user_idListener.next(this.userID)
       this.token = authInformation.token;
       this.isAuthenticated = true;
       this.setAuthTimer(expiresIn / 1000);
@@ -144,7 +144,12 @@ export class AuthService {
     }
   }
 
-  //TW OAuth
+
+
+
+
+
+  //-----------------------TW OAuth----------------------//
   getTWaccessToken() {
     return this.http.get(`${this.nodeApi}auth/twitter/`)
   }

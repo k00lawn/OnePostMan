@@ -1,1 +1,70 @@
 auth service observable not working
+
+refactor login and signup forms
+logout button
+design profile dashboard
+add observable for linking fb and tw in profile
+profile console has "Cannot read property 'username' of undefined" error when linking
+fix schedule user id bug after submit
+postlist after delete remove quickly
+
+frontend and backend validation for schedule post without authentication
+
+
+
+
+/////////--------------///////
+
+auth service observable not working
+
+refactor login and signup forms
+logout button
+design profile dashboard
+add observable for linking fb and tw in profile
+profile console has "Cannot read property 'username' of undefined" error when linking
+fix schedule user id bug after submit
+postlist after delete remove quickly
+
+frontend and backend validation for schedule post without authentication
+
+
+///////Jaabir //////
+
+-----------  frontend  -----
+
+need to be responsive 
+logout button
+fb revoke button
+old schedule form is kinda responsive , copy that code to new form
+after the scheduled form is posted , that form is not disappearing 
+caption is disappearing after trying to edit the scheduled form 
+its not redirecting to another page once the form is redirected ( in the editing schediuled form )
+paste that awesome home page from stackblitz to the app
+paste that awesome schedule form page from stackblitz to the app
+if theres no scheduled post notify the user that no schedules to post 
+user is able to post without even authing
+
+
+--------- backend ---------
+
+
+	--------- node js ---------
+
+	logout option //fixed
+	revoke fb option
+	refactor the code - this is when the user aauth to tw ( there are lot of errors )	
+	error after scheduling a post - Error: Must supply a value for form control with name: 'userId
+	make the form to disappear after that form is posted 
+	user is able to post without even authing ( validation )
+	after trying to post with authing its  not posting again it to the db -  UnhandledPromiseRejectionWarning: ValidationError: Post validation failed: facebook: Cast to Boolean failed for value "null" at path "facebook" ( error in the node ) 
+	
+	cant able to auth to tw or fb after i tried to post to tw or fb without authing 
+
+	after testing the above 3 , restarted the app both in web and node server , after authing to tw revoke button didnt show after authing 
+
+	-------- python ----------
+		
+
+	change the page_details key name
+	sometimes its not looping ( threading bug ) ( risky bug need to validate ASAP )
+`

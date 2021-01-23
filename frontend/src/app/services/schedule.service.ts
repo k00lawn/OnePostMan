@@ -16,14 +16,16 @@ export class ScheduleService {
 
   // API endpoint
   private postAPI = "http://localhost:3000/api/postTask"
+  private userId = this.authService.getUserID()
 
   // POST Request to API endpoint
 
-  createTask(userId: string, caption: string, date: string, image: File, facebook: string, twitter: string) {
+  createTask(caption: string, date: string, image: File, facebook: string, twitter: string) {
     
     const postData = new FormData();
+    
 
-    postData.append('userId', userId)
+    postData.append('userId', this.userId)
     postData.append('caption', caption)
     postData.append('date', date)
     postData.append('image', image)
@@ -54,14 +56,14 @@ export class ScheduleService {
     return this.http.get<{post: Post}>(`${this.postAPI}/post/${id}`)
   }
 
-  updatePost(_id: string, userId: string, caption: string, date: string, image: File | string, facebook: string, twitter: string) {
+  updatePost(_id: string, caption: string, date: string, image: File | string, facebook: string, twitter: string) {
 
       let postData;
 
       postData = new FormData();
 
       postData.append('_id', _id)
-      postData.append('userId', userId)
+      postData.append('userId', this.userId)
       postData.append('caption', caption)
       postData.append('date', date)
       postData.append('image', image)

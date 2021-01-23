@@ -24,4 +24,11 @@ mat-toolbar {
 mat-sidenav-content {
     margin: 2%;
 }
+
+#logoutIcon {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: red;
+}
   

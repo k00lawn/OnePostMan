@@ -3,10 +3,7 @@
         <mat-card class="scheduleForm-card">
             <div class="form-container">
                 <form [formGroup]="scheduleForm" (submit)="onSubmit()">
-                    <!-- <mat-form-field class="form-field" appearance="fill">
-                        <mat-label>Username</mat-label>
-                        <input matInput formControlName="username" type="text" [(ngModel)]="username" required>
-                    </mat-form-field> -->
+                    
                     <mat-form-field class="form-field" appearance="fill">
                         <mat-label>Caption</mat-label>
                         <input matInput formControlName="caption" type="text" [(ngModel)]="caption" required>
@@ -25,11 +22,7 @@
                             <mat-checkbox formControlName="twitter">Twitter</mat-checkbox>
                         </section>
                     </div>
-                    <!-- <mat-form-field class="form-field" appearance="fill">
-                        <mat-label>Time</mat-label>
-                        <input matInput formControlName="time" type="text" required>
-                        
-                    </mat-form-field> -->
+                     
                     <mat-form-field>
                         <input matInput formControlName="time" type="time">
                         <mat-label>Pick date and time</mat-label>
@@ -50,11 +43,20 @@
         
         </mat-card>
     </div>
-    <br>
+    <br> 
+
+    <!-- <mat-form-field class="form-field" appearance="fill">
+                        <mat-label>Username</mat-label>
+                        <input matInput formControlName="username" type="text" [(ngModel)]="username" required>
+                    </mat-form-field> -->
+
+    <!-- <mat-form-field class="form-field" appearance="fill">
+                        <mat-label>Time</mat-label>
+                        <input matInput formControlName="time" type="text" required> -->                
     
     <!-- Card feature soon to be added now for testing -->
     
-    <div class="container">
+     <div class="container">
         <mat-card class="post-card">
             <mat-card-header>
               <div mat-card-avatar class="example-header-image"></div>
@@ -80,4 +82,3 @@
 
 <!-- https://material.angular.io/assets/img/examples/shiba2.jpg -->
 
-  

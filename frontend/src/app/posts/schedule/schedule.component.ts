@@ -1,12 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Post } from 'src/app/models/post';
 import { User } from 'src/app/models/user';
 import { ScheduleService } from 'src/app/services/schedule.service'
-import { AuthService } from '../../services/auth.service';
 import { ProfileService } from '../../services/profile.service'
+import { mimeType } from "./mime-type.validator";
+
 
 @Component({
   selector: 'app-schedule',
@@ -14,6 +15,7 @@ import { ProfileService } from '../../services/profile.service'
   styleUrls: ['./schedule.component.css']
 })
 export class ScheduleComponent implements OnInit, OnDestroy {
+  @ViewChild('filePicker') filePicker: ElementRef;
 
   private mode = 'create'
   private postId: string;
@@ -21,14 +23,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   imagePreview: string = 'https://material.angular.io/assets/img/examples/shiba2.jpg';
   
-  user: User;
-  userSub: Subscription;
-  caption = 'Caption' 
-  socialMedia = 'Facebook'
+  
   
   scheduleForm = this.fb.group({
-    userId:[''],
-    caption: [''],
+    caption: ['caption'],
     datetime: [''],
     time: [''],
     date: [''],
@@ -37,18 +35,33 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       new FormControl(''),
       new FormControl('')
     ]),
-    image: [''],
+    image: new FormControl(null, {
+      validators: [Validators.required],
+      asyncValidators: [mimeType]
+    }),
     facebook: [false],
     twitter: [false]
   })
 
   constructor(private profileService: ProfileService, 
-              private authService: AuthService, 
               private fb: FormBuilder, 
               private scheduleService: ScheduleService,
               private route: ActivatedRoute) { }
 
+  user: User;
+  userSub: Subscription;
+  caption = 'Caption' 
+  socialMedia = 'Facebook'              
+
   ngOnInit() {
+
+    // Get Profile info
+    this.profileService.getProfile()
+    this.userSub = this.profileService.getUserListener()
+      .subscribe((user) => {
+        this.user = user
+      })
+
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if(paramMap.has('postId')){
         this.mode = 'edit'
@@ -62,44 +75,47 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       }
     })
 
-    // Get Profile info
-    this.profileService.getProfile()
-    this.userSub = this.profileService.getUserListener()
-      .subscribe((user) => {
-        this.user = user
-      })
+    
   }
 
-  onImagePicked(event: Event) {
+  onImagePicked(event) {
       const file = (event.target as HTMLInputElement).files[0]
       this.scheduleForm.patchValue({image: file})
-      this.scheduleForm.get('image').updateValueAndValidity()
-      const reader = new FileReader()
+      this.scheduleForm.get("image").updateValueAndValidity()
+      console.log(file)      
+      const reader = new FileReader()   
       reader.onload = () => {
-        this.imagePreview = <string>reader.result;
+        console.log('hello there')
+        this.imagePreview = reader.result as string;
       }
-      reader.readAsDataURL(file)
+      reader.readAsDataURL(file);
+      
+  }
+
+  resetForm() {
+    this.scheduleForm.reset()
+    this.scheduleForm.patchValue({facebook: false, twitter: false}) 
+    this.filePicker.nativeElement.value = "";
   }
 
   onSubmit() {
     const time = this.scheduleForm.get('time').value.toString()
-    //const date = this.scheduleForm.get('date').value.toLocaleDateString().toISOString()
     const ISOdate = this.scheduleForm.get('date').value
     const date = new Date(ISOdate.getTime() - (ISOdate.getTimezoneOffset() * 60000 )).toISOString().split("T")[0]
 
-    console.log(`${date} ${time}`)
-    // const datetime = date.replace("00:00:00", time)
-    // const convDatetime = new Date(datetime).toUTCString().split(' ').slice(1).join(' ')
+    
     const datetime = `${date} ${time}`
-    this.scheduleForm.patchValue({userId: this.user.user_id, datetime: datetime})
+    this.scheduleForm.patchValue({datetime: datetime})
     console.log(this.scheduleForm.value)
+    // const date = this.scheduleForm.get('date').value.toLocaleDateString().toISOString()
+    // const datetime = date.replace("00:00:00", time)
+    // const convDatetime = new Date(datetime).toUTCString().split(' ').slice(1).join(' ')  
     if (!this.scheduleForm.valid) {
       return;
     }
 
     if(this.mode === 'create'){
       this.scheduleService.createTask(
-        this.scheduleForm.value.userId,
         this.scheduleForm.value.caption,
         this.scheduleForm.value.datetime,
         this.scheduleForm.value.image,
@@ -110,23 +126,20 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           res => { 
             console.log(res)
             alert(res.message)
-            this.imagePreview = 'https://material.angular.io/assets/img/examples/shiba2.jpg'
-            this.scheduleForm.reset()
-            this.scheduleForm.setValue({facebook: false, twitter: false})
           }, err => console.log(err)
         )
     } else {
         this.scheduleService.updatePost(
-          this.postId,
-          this.scheduleForm.value.userId,
+          this.postId,        
           this.scheduleForm.value.caption,
           this.scheduleForm.value.datetime,
           this.scheduleForm.value.image,
           this.scheduleForm.value.facebook,
           this.scheduleForm.value.twitter,
         )
-      }
-    
+    }
+    this.resetForm()
+    this.imagePreview = 'https://material.angular.io/assets/img/examples/shiba2.jpg'   
   }
 
   ngOnDestroy() {
