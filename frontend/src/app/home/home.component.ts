@@ -6,10 +6,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  device: string;
+  fxlayout = "row";
+  fxalign = "space-around center";
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  scroll(el: HTMLElement) {
+    el.scrollIntoView({ behavior: "smooth" });
   }
 
 }

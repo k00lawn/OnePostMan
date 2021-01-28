@@ -3,10 +3,7 @@
 html, body { height: 100%; }
 body { 
     margin: 0; 
-    font-family: Roboto, "Helvetica Neue", sans-serif; 
-    background-image: url('assets/img/background.jpg');
-    background-size: 100vw 100vh;
-    background-repeat: no-repeat;
+    font-family: Roboto, "Helvetica Neue", sans-serif;     
 }
 h1 {
     color: black;

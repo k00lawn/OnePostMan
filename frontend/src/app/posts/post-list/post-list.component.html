@@ -1,4 +1,4 @@
-<mat-spinner *ngIf="isLoading"></mat-spinner>
+<!-- <mat-spinner *ngIf="isLoading"></mat-spinner>
 <div class="container">
     <mat-card class="post-card" *ngFor="let post of posts">
       <mat-card-header>
@@ -8,7 +8,7 @@
               <a aria-label="Example icon button with a delete icon" (click)="onDeletePost(post._id)">
                 <mat-icon>delete</mat-icon>
               </a>
-              <a [routerLink]="['/edit', post._id]" aria-label="Example icon button with a edit icon">
+              <a [routerLink]="['/edit', post._id]">
                 <mat-icon [inline]>create</mat-icon>
               </a>
             </div>
@@ -24,4 +24,67 @@
     </mat-card>
     <br>
 </div>
+ -->
 
+ <mat-spinner *ngIf="isLoading"></mat-spinner>
+
+ <div class="header" fxLayout='row' fxLayoutAlign='space-between center'>
+	<div>
+		<p><b>Scheduled posts</b></p>
+	</div>
+	<div class='sort'>
+		<button mat-button [matMenuTriggerFor]="menu"><b>Sort</b><mat-icon  style="color:#192534;margin-left:15px">arrow_drop_down</mat-icon></button>
+		<mat-menu #menu="matMenu">
+			<button mat-menu-item><mat-icon  style="color:#192534">edit</mat-icon><span  style="color:#192534">Edit</span></button>
+			<button mat-menu-item><mat-icon  style="color:#192534">delete</mat-icon><span  style="color:#192534">Delete</span></button>
+		</mat-menu>
+	</div>
+
+</div>
+<hr style="border:2px solid #192534;background-color:#192534">
+<div class="posts" fxLayout="row" fxLayoutAlign="start">
+
+
+
+	<div class="post-edit"  *ngFor="let post of posts" id={{this.device}}>
+		<mat-card>
+			<div fxLayout='row' fxLayoutAlign='space-between center'>
+				<div class="date-time" fxLayout='row' fxLayoutAlign='space-between'>
+					<div class="date">{{post.date}}</div>
+					<!-- <div class="time">00:30</div> -->
+				</div>
+
+				<div class="options">
+					<button mat-button [matMenuTriggerFor]="menu"><mat-icon  style="color:#192534">more_vert</mat-icon></button>
+					<mat-menu #menu="matMenu">
+						<button [routerLink]="['/edit', post._id]" mat-menu-item><mat-icon  style="color:#192534">edit</mat-icon><span  style="color:#192534">Edit</span></button>
+						<button  (click)="onDeletePost(post._id)" mat-menu-item><mat-icon  style="color:#192534">delete</mat-icon><span  style="color:#192534">Delete</span></button>
+					</mat-menu>
+				</div>
+			</div>
+
+			<hr style="border:1px solid #192534;background-color:#192534">
+
+			<div class="caption">
+				<p>{{post.caption}}</p>
+			</div>
+
+			<div class="media">
+				<mat-chip-list aria-label="Fish selection">
+					<mat-chip *ngIf="post.facebook">
+						<mat-icon >facebook</mat-icon> 
+					</mat-chip>
+					<mat-chip *ngIf="post.twitter">
+						<mat-icon>facebook</mat-icon> 
+					</mat-chip>
+				</mat-chip-list>
+			</div>
+
+			<div class="pic">
+        <img mat-card-image [src]="post.img" [alt]="post.caption">
+				<!-- <img mat-card-simage src='https://images.pexels.com/photos/36717/amazing-animal-beautiful-beautifull.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500'> -->
+			</div>
+		</mat-card>
+	</div>
+
+</div>
