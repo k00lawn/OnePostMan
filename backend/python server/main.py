@@ -42,6 +42,8 @@ class Opm():
         try:
             if fb:
                 fb_token = user_details['fb_access_token']
+                page_name = user_details['fb_page_details'][0]['name']
+                page_id = user_details['fb_page_details'][0]['id']
             if tw:
                 tw_user_access_token = user_details['tw_access_token']
                 tw_user_token_secret = user_details['tw_access_token_secret']

@@ -14,26 +14,6 @@ class FacebookApi:
         self.token = user_token
         self.pg_id = page_id
 
-
-        try:
-            self.graph = facebook.GraphAPI(access_token=self.token)
-            self.user_details = dict()
-
-            profile = self.graph.get_object('me')
-            self.user_details['user_id'] = profile['id']
-            self.user_details['user_name'] = profile['name']
-            self.user_details['page_details'] = []
-
-            account = self.graph.get_object(f'{ self.user_details["user_id"] }/accounts')
-            for i in account['data']:
-                self.user_details['page_details'].append(( i['name'], i['id'], i['access_token'] , i['category']))
-
-        except KeyError as error:
-            return {'error': error}
-
-        except facebook.GraphAPIError as error:
-            return {'error': error}
-
     def creds(self):
 
         fb_api = dict()
@@ -47,22 +27,45 @@ class FacebookApi:
 
         return fb_api
 
+    def user_details(self):
+
+        try:
+            graph = facebook.GraphAPI(access_token=self.token)
+            user_details = dict()
+
+            profile = graph.get_object('me')
+            user_details['user_id'] = profile['id']
+            user_details['user_name'] = profile['name']
+            user_details['page_details'] = []
+
+            account = graph.get_object(f'{ user_details["user_id"] }/accounts')
+            for i in account['data']:
+                user_details['page_details'].append(( i['name'], i['id'], i['access_token'] , i['category']))
+
+            return user_details
+
+        except KeyError as error:
+            return {'error': error}
+
+        except facebook.GraphAPIError as error:
+            return {'error': error}
+
     def get_all_feeds(self):
 
         try:
-            # graph = facebook.GraphAPI(access_token=self.token)
+            graph = facebook.GraphAPI(access_token=self.token)
             page_id = self.pg_id
             base_url = f'{page_id}/feed?limit=100'
             data = dict()
             data['feeds'] = []
 
-            feeds = self.graph.get_object(base_url)
+            feeds = graph.get_object(base_url)
             data['feeds'].append(feeds['data'])
 
             while 'next' in feeds['paging'].keys():
 
                 after = feeds['paging']['next'].split('&')[-1]
-                feeds = self.graph.get_object(f"{base_url}&{after}")
+                feeds = graph.get_object(f"{base_url}&{after}")
                 data['feeds'].append(feeds['data'])
 
             return data
@@ -81,9 +84,9 @@ class FacebookApi:
     def recent_five_feeds(self):
 
         try:
-            # graph = facebook.GraphAPI(access_token=self.token)
+            graph = facebook.GraphAPI(access_token=self.token)
             data = dict()
-            feeds = self.graph.get_object(id=self.pg_id, fields='feed.limit(5)')
+            feeds = graph.get_object(id=self.pg_id, fields='feed.limit(5)')
             data['feeds'] = feeds['feed']['data']
 
             return data
@@ -97,13 +100,13 @@ class FacebookApi:
     def get_comments(self):
 
         try:
-            # graph = facebook.GraphAPI(access_token=self.token)
+            graph = facebook.GraphAPI(access_token=self.token)
             feeds = self.recent_five_feeds()['feeds']
             comments = dict()
             for i in feeds:
                 post_id = i['id']
                 message = i['message']
-                post_comments = self.graph.get_object(id=post_id, fields='comments.limit(200)')
+                post_comments = graph.get_object(id=post_id, fields='comments.limit(200)')
                 if 'comments' in post_comments.keys():
                     comments.update({post_id: (post_comments['comments']['data'], message)})
 
@@ -117,7 +120,8 @@ class FacebookApi:
 
     def get_pg_id(self , pg_token):
 
-        pg_data = self.user_details['page_details']
+        details = self.user_details()
+        pg_data = details['page_details']
         id = 0
 
         for i in pg_data:
@@ -130,7 +134,8 @@ class FacebookApi:
     def get_page_token(self, pg_id):
 
         try:
-            pg_data = self.user_details['page_details']
+            details = self.user_details()
+            pg_data = details['page_details']
             pg_token = 0
 
             for i in pg_data:
@@ -161,7 +166,8 @@ class FacebookApi:
     def post(self):
 
         try:
-            page = self.user_details['page_details']
+            user_details = self.user_details()
+            page = user_details['page_details']
             page_id = page[0][1]
             access_token = self.get_page_token(page_id)
 
