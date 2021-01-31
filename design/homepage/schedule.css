@@ -1,0 +1,307 @@
+.container {
+  margin: auto;
+  margin-top: 3%;
+  width: 500px;
+}
+
+#xs {
+  /* margin: 0; */
+  width: 400px;
+}
+
+.schedule_form {
+  margin: auto;
+  height: 60%;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  /* box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); */
+  /* background-color: #F1F4FFFF; */
+  /* background-color: #fcf6f5ff; */
+  /* background-color: #f5f5f5; */
+  background-color: #f5f7fa;
+  /* border-bottom: 2px solid #192534; */
+  /* background-image: linear-gradient(to bottom right, #f3e6e8 0%, #d5d0e5 64%); */
+  /* background-image: linear-gradient(to bottom right, #A2A2A1FF 0%, #F1F4FFFF 64%); */
+}
+
+.caption-option {
+  margin: auto;
+  margin-top: 4%;
+  width: 85%;
+  height: 35vh;
+  /* position: relative; */
+  border-radius: 20px;
+  /* background-color: #b8c6db; */
+  background-color: snow;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* border: 2px solid black; */
+}
+
+.caption-option #caption {
+  margin: auto;
+  margin-top: 2%;
+  background-color: transparent;
+  width: 94%;
+  height: 75%;
+}
+
+.caption textarea {
+  resize: none;
+  margin: auto;
+  margin-top: 3%;
+  width: 100%;
+  height: 100%;
+  border: none;
+  font-size: 17.5px;
+  font-family: sans-serif;
+  background-color: transparent;
+  color: black;
+}
+
+.caption textarea:focus {
+  outline: none;
+}
+
+.caption textarea::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+
+.caption textarea::-webkit-scrollbar {
+  cursor: pointer;
+  width: 10px;
+  background-color: #f5f5f5;
+}
+
+.caption textarea::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #192534;
+  cursor: pointer;
+}
+
+/* .caption textarea::-webkit-scrollbar-thumb:hover {
+  cursor: pointer;
+} */
+
+.option {
+  display: flex;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background-color: #192534;
+}
+
+.option .btns #cam_file {
+  visibility: hidden;
+  width: 0%;
+}
+
+.option .btns {
+  cursor: pointer;
+  flex: 1;
+  padding-top: 2.5%;
+}
+
+.option .first {
+  border-bottom-left-radius: 20px;
+}
+
+.option .last {
+  border-bottom-right-radius: 20px;
+}
+
+.option .btns:hover {
+  transition: all 0.5s ease-out;
+  background-color: black;
+}
+
+/* .option .btns img {
+  max-width: 35%;
+  max-height: 35%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+} */
+
+.option .btns mat-icon {
+  color: white;
+  font-size: 25px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.schedule_btns {
+  display: flex;
+  margin: auto;
+  margin-top: 10%;
+  width: 90%;
+  height: 15%;
+  justify-content: space-around;
+  /* background-color: #459adb; */
+}
+
+.schedule_btns .post-now {
+  /* float: left; */
+  height: 50%;
+  width: 40%;
+}
+
+.schedule_btns .schedule-later {
+  /* float: right; */
+  height: 50%;
+  width: 40%;
+}
+
+.schedule_btns button {
+  width: 100%;
+  height: 100%;
+  letter-spacing: 0.25px;
+  font-size: 100%;
+  font-weight: bold;
+  /* color: #f5f5f5; */
+  color: #192534;
+  background-color: transparent;
+  border: #192534 3px solid;
+}
+
+.schedule_btns button:focus {
+  outline: none;
+}
+
+.expan_panels {
+  margin: auto;
+  /* width: 37.5%; */
+}
+
+.expan_panels mat-expansion-panel {
+  background-color: #f5f7fa;
+}
+
+.expan_panels mat-expansion-panel mat-panel-title b {
+  margin-left: 10px;
+}
+
+.expan_panels .hashtag_panel .content mat-spinner {
+  margin: auto;
+}
+
+.expan_panels .hashtag_panel mat-spinner ::ng-deep circle {
+  stroke: #192534;
+}
+
+/* ----------------- fb prev ------------------ */
+
+.fb_prev mat-card {
+  /* background-color: #121212; */
+  background-color: #242526;
+}
+
+.fb_prev .titles {
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.fb_prev mat-card-title {
+  color: white;
+  display: flex;
+}
+
+.fb_prev mat-card-title .page_name {
+  margin-top: 7px;
+  margin-bottom: auto;
+  font-size: 15px;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.fb_prev mat-card-title .subtitle {
+  font-size: 12px;
+  margin-top: 2px;
+  margin-left: 10px;
+}
+
+.fb_prev .icon_div {
+  height: 12%;
+}
+
+.fb_prev .icon_div mat-icon {
+  width: 100%;
+  height: 100%;
+  font-size: 210%;
+  /* color:#3B5998; */
+}
+
+.fb_prev mat-card-content {
+  color: white;
+  font-size: 17px;
+}
+
+.fb_prev .image {
+  margin-top: 5px;
+}
+
+/* --------------- tw prev --------------- */
+
+.tw_prev mat-card {
+  background-color: #15202b;
+}
+
+.tw_prev .titles {
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.tw_prev mat-card-title {
+  color: white;
+  display: flex;
+}
+
+/* .tw_prev .icon_div {
+  height: 13%;
+} */
+
+.tw_prev .icon_div mat-icon {
+  width: 100%;
+  height: 100%;
+  font-size: 210%;
+  /* color:#3B5998; */
+}
+
+.tw_prev mat-card-title .page_name {
+  margin-top: 5px;
+  margin-bottom: auto;
+  font-size: 15px;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.tw_prev .content {
+  /* border: 2px solid red; */
+  margin-left: 60px;
+  margin-top: -35px;
+}
+
+.tw_prev mat-card-content {
+  color: white;
+  font-size: 17px;
+}
+
+.tw_prev .content .image {
+  width: 95%;
+  margin-top: 10px;
+  margin-left: 3px;
+  border-radius: 10px;
+  /* border-bottom-left-radius: 20px; */
+  /* border-bottom-right-radius: 20px; */
+}
+
+.fb_prev mat-card-content,
+.tw_prev mat-card-content {
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  font-family: Arial, Helvetica, sans-serif;
+}
