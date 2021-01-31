@@ -38,7 +38,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     image: new FormControl(null, {
       // asyncValidators: [mimeType]
     }),
-    facebook: [false, [Validators.required]],
+    facebook: [false],
     twitter: [false]
   })
 
