@@ -18,8 +18,8 @@
                     </div>
                     <div>
                         <section>
-                            <mat-checkbox formControlName="facebook">Facebook</mat-checkbox>
-                            <mat-checkbox formControlName="twitter">Twitter</mat-checkbox>
+                            <mat-checkbox *ngIf="user.fb_provider" formControlName="facebook">Facebook</mat-checkbox>
+                            <mat-checkbox *ngIf="user.tw_provider" formControlName="twitter">Twitter</mat-checkbox>
                         </section>
                     </div>
                      
@@ -36,6 +36,8 @@
                             <span *ngIf="scheduleForm.controls.date.errors.required">This field is mandatory.</span>
                         </mat-error>
                     </mat-form-field>
+                    <br>
+                    <span *ngIf="!isSMLinked"> Please select a social media account before scheduling </span>
                     <br>
                     <button mat-raised-button color="primary" type="submit">Schedule Post</button>
                 </form>

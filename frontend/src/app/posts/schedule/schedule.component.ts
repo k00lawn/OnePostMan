@@ -38,7 +38,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     image: new FormControl(null, {
       // asyncValidators: [mimeType]
     }),
-    facebook: [false],
+    facebook: [false, [Validators.required]],
     twitter: [false]
   })
 
@@ -50,7 +50,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   user: User;
   userSub: Subscription;
   caption = 'Caption' 
-  socialMedia = 'Facebook'              
+  socialMedia = 'Facebook'
+  isSMLinked = true;
+  
 
   ngOnInit() {
 
@@ -113,30 +115,37 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if(this.mode === 'create'){
-      this.scheduleService.createTask(
-        this.scheduleForm.value.caption,
-        this.scheduleForm.value.datetime,
-        this.scheduleForm.value.image,
-        this.scheduleForm.value.facebook,
-        this.scheduleForm.value.twitter,
-        )
-        .subscribe(
-          res => { 
-            console.log(res)
-            alert(res.message)
-          }, err => console.log(err)
-        )
-    } else {
-        this.scheduleService.updatePost(
-          this.postId,        
+    if(this.scheduleForm.value.facebook || this.scheduleForm.value.twitter) {
+      if(this.mode === 'create'){
+        this.scheduleService.createTask(
           this.scheduleForm.value.caption,
           this.scheduleForm.value.datetime,
           this.scheduleForm.value.image,
           this.scheduleForm.value.facebook,
           this.scheduleForm.value.twitter,
-        )
+          )
+          .subscribe(
+            res => { 
+              console.log(res)
+              alert(res.message)
+            }, err => console.log(err)
+          )
+      } else {
+          this.scheduleService.updatePost(
+            this.postId,        
+            this.scheduleForm.value.caption,
+            this.scheduleForm.value.datetime,
+            this.scheduleForm.value.image,
+            this.scheduleForm.value.facebook,
+            this.scheduleForm.value.twitter,
+          )
+      }
+    } else {
+      this.isSMLinked = false;
+      return
     }
+
+    
     this.resetForm()
     this.imagePreview = 'https://material.angular.io/assets/img/examples/shiba2.jpg'   
   }

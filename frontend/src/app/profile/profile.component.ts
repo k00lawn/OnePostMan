@@ -78,6 +78,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         const userID = this.authService.getUserID()
         console.log(`Short Access Token = ${shortAccessToken} and User = ${userID}`)
         this.authService.extendAccessToken(userID, shortAccessToken) 
+        this.user.fb_provider = true
       }
     });
   }
@@ -89,6 +90,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.authService.saveTWaccessToken(oauthToken, oauthVerifier).subscribe(res => {
       console.log(res)
       alert('Token saved');
+      this.user.tw_provider = true;
     })
   }
 
@@ -106,6 +108,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.user.fb_provider = res.fb_provider
       })
+      
   }
   
   // Revoke TW account
