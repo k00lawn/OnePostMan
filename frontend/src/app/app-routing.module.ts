@@ -7,13 +7,15 @@ import { ScheduleComponent } from './posts/schedule/schedule.component';
 import { AuthGuard } from "./services/auth.guard";
 import { TasksComponent } from './tasks/tasks.component';
 import { PostListComponent } from './posts/post-list/post-list.component';
+import { PostsComponent } from './posts/posts.component';
 
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'posts', component: PostListComponent, canActivate: [AuthGuard]},
-  { path: 'create', component: ScheduleComponent, canActivate: [AuthGuard]},
-  { path: 'edit/:postId', component: ScheduleComponent, canActivate: [AuthGuard]},
+  { path: 'posts', component: PostsComponent, canActivate: [AuthGuard]},
+  // { path: 'posts', component: PostListComponent, canActivate: [AuthGuard]},
+  { path: 'posts/:mode', component: PostsComponent, canActivate: [AuthGuard]},
+  // { path: 'edit/:postId', component: ScheduleComponent, canActivate: [AuthGuard]},
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   { path: 'auth', component: AuthenticationComponent},
 ];

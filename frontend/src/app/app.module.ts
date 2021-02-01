@@ -38,6 +38,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PostListComponent } from './posts/post-list/post-list.component';
+import { PostsComponent } from './posts/posts.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { PostListComponent } from './posts/post-list/post-list.component';
     AuthenticationComponent,
     HomeComponent,
     ProfileComponent,
-    PostListComponent
+    PostListComponent,
+    PostsComponent
   ],
   imports: [
     BrowserModule,
