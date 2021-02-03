@@ -17,7 +17,7 @@ import { mimeType } from "./mime-type.validator";
 export class ScheduleComponent implements OnInit, OnDestroy {
   @ViewChild('filePicker') filePicker: ElementRef;
 
-  private mode = 'create'
+  mode = 'create'
   private postId: string;
   post: Post;
 
@@ -64,11 +64,11 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       })
 
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if(paramMap.has('mode/postId')){
+      if(paramMap.has('mode')){
         this.mode = 'edit'
         console.log('edit is passed')
         this.postId = paramMap.get('postId')
-        console.log(this.postId)
+        console.log(this.postId, 'mode')
         this.scheduleService.getPost(this.postId).subscribe((postData: any) => {
           this.post = postData
         })
