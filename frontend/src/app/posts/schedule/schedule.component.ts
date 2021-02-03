@@ -64,13 +64,16 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       })
 
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if(paramMap.has('postId')){
+      if(paramMap.has('mode/postId')){
         this.mode = 'edit'
+        console.log('edit is passed')
         this.postId = paramMap.get('postId')
+        console.log(this.postId)
         this.scheduleService.getPost(this.postId).subscribe((postData: any) => {
           this.post = postData
         })
       } else {
+        console.log('create is passed')
         this.mode = 'create'
         this.scheduleForm.patchValue({facebook: false, twitter: false})
       }

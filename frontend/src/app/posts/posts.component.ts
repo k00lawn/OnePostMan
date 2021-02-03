@@ -1,7 +1,7 @@
 import { Component,  OnInit, OnDestroy } from '@angular/core';
 import { ScheduleComponent } from 'src/app/posts/schedule/schedule.component'
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 @Component({
   selector: 'app-posts',
@@ -10,13 +10,14 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 })
 export class PostsComponent implements OnInit {
 
-  constructor(public dialog: MatDialog, private route: ActivatedRoute) { }
+  constructor(public dialog: MatDialog, private router: Router, private route: ActivatedRoute) { }
 
   
 
   openDialog() {
     const dialogRef = this.dialog.open(ScheduleComponent);
     dialogRef.afterClosed().subscribe(result => {
+      this.router.navigateByUrl('/posts')
       console.log(`Dialog result: ${result}`);
     });
   }

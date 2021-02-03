@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'posts', component: PostsComponent, canActivate: [AuthGuard]},
   // { path: 'posts', component: PostListComponent, canActivate: [AuthGuard]},
   { path: 'posts/:mode', component: PostsComponent, canActivate: [AuthGuard]},
-  // { path: 'edit/:postId', component: ScheduleComponent, canActivate: [AuthGuard]},
+  { path: 'posts/:mode/:postId', component: PostsComponent, canActivate: [AuthGuard]},
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   { path: 'auth', component: AuthenticationComponent},
 ];

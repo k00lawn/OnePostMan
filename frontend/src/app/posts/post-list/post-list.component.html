@@ -64,7 +64,7 @@
 					<div class="options">
 						<button mat-button [matMenuTriggerFor]="menu"><mat-icon  style="color:#192534">more_vert</mat-icon></button>
 						<mat-menu #menu="matMenu">
-							<button [routerLink]="['/edit', post._id]" mat-menu-item><mat-icon  style="color:#192534">edit</mat-icon><span  style="color:#192534">Edit</span></button>
+							<button [routerLink]="['/posts', 'edit', post._id]" mat-menu-item><mat-icon  style="color:#192534">edit</mat-icon><span  style="color:#192534">Edit</span></button>
 							<button  (click)="onDeletePost(post._id)" mat-menu-item><mat-icon  style="color:#192534">delete</mat-icon><span  style="color:#192534">Delete</span></button>
 						</mat-menu>
 					</div>
