@@ -74,7 +74,7 @@ export class AuthService {
           const now = new Date();
           const expirationDate = new Date(now.getTime() + expiresInDuration * 1000)
           this.saveAuthData(user_id,token, expirationDate); 
-          this.router.navigate(['/create'])
+          this.router.navigate(['/posts'])
         }
       })
   }
