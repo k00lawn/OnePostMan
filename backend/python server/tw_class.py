@@ -141,10 +141,10 @@ class TwitterApi():
 
         try:
             if self.img is not None:
-                print('posting with the img')
+                print('tw - posting with the img')
                 api.update_with_media(self.img,self.msg)
             else:
-                print('posting without img')
+                print('tw - posting without img')
                 api.update_status(self.msg)
 
         except tweepy.error.TweepError as error:

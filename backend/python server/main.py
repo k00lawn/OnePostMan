@@ -61,11 +61,18 @@ class Opm():
         fb = schedule['facebook']
         tw = schedule['twitter']
         
-        imgname = schedule['img'].split('/')[-1]
-        if imgname == 'NaN':
-            img = None
-        else:
+        imgname = schedule['img']
+        # if imgname == 'NaN':
+        #     img = None
+        # else:
+        #     img = os.path.join(BASE_IMG_PATH, imgname)
+
+        if imgname is not None:
+            imgname = imgname.split('/')[-1]
             img = os.path.join(BASE_IMG_PATH, imgname)
+        
+        else:
+            img = None
 
         return schedule_id, user_id, caption, img, date, fb, tw
 
@@ -74,14 +81,12 @@ class Opm():
         while True:
 
             sleep(5)
-            print('testing in the opm')
             schedules = get_schedules()
 
             if schedules:
 
                 schedule_details = schedules[0]
                 schedule_id, user_id, caption, img, date, fb, tw = self.get_data_from_schedule(schedule_details)
-                print(caption , date)
 
                 if date <= now_time():
 
@@ -99,7 +104,5 @@ class Opm():
 
                     if img is not None:
                         self.delete_img(img)
-
-            print('now at the end of the loop')
 
 

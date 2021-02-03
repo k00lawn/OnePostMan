@@ -2,6 +2,7 @@ from datetime import datetime as dt
 from scheduler import *
 import facebook
 import requests
+import os 
 
 
 
@@ -13,6 +14,8 @@ class FacebookApi:
         self.msg = caption
         self.token = user_token
         self.pg_id = page_id
+        self.base_url = "https://graph.facebook.com"
+        self.version = "v9.0"
 
     def creds(self):
 
@@ -24,6 +27,7 @@ class FacebookApi:
         fb_api['debugger_url'] = "https://graph.facebook.com/{}/oauth/access_token?grant_type=fb_exchange_token&client_id={}&client_secret={}&fb_exchange_token={}"
         fb_api['page_debugger_url'] = "https://graph.facebook.com/{}/{}/accounts?access_token={}"
         fb_api['insights_url'] = "https://graph.facebook.com/{}/insights?metric=page_impressions_unique,page_engaged_users&access_token={}"
+        fb_api['vid_upload'] = "https://graph.facebook.com/{}/{}/videos?upload_phase=start&access_token={}&file_size={}"
 
         return fb_api
 
@@ -163,6 +167,21 @@ class FacebookApi:
         except KeyError as error:
             return access_token_info
 
+    def post_vid(self, url, vid = None):
+
+        if vid:
+            res = requests.post(url,files= {'file': open(vid,'rb')})
+        else:
+            res = requests.post(url)
+        data = None
+        print(res.json())
+
+        if res.status_code == 200:
+            data = res.json()
+        
+        return data
+
+
     def post(self):
 
         try:
@@ -188,7 +207,21 @@ class FacebookApi:
                     graph.put_photo(image=img,album_path=f"{page_id}/photos", message = self.msg)
                     print('posted the feed')
                 else:
-                    pass
+                    print('hmmmmmmmm ok detected this is a vid')
+                    file_size = os.stat(self.img).st_size
+                    url = f"{self.base_url}/{self.version}/{self.pg_id}/videos?upload_phase=start&access_token={access_token}&file_size={file_size}"
+                    data = self.post_vid(url)
+                    video_file_chunk = self.img
+
+                    if data is not None:
+                        while data['start_offset'] != data['end_offset']:
+                            url = f"{self.base_url}/{self.version}/{self.pg_id}/videos?upload_phase=transfer&access_token={access_token}&upload_session_id={data['upload_session_id']}&start_offset={data['start_offset']}&video_file_chunk={video_file_chunk}"
+                            data = self.post_vid(url)
+
+                        url = f"{self.base_url}/{self.version}/{self.pg_id}/videos?upload_phase=finish&access_token={access_token}&upload_session_id={data['upload_session_id']}"
+
+
+                    
 
         except KeyError as error:
             return {'error': error}

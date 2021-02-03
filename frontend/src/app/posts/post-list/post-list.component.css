@@ -27,22 +27,25 @@ mat-icon {
 } */
 
 
-
 /* .button-container {
     display: flex;
     justify-content: right;
 } */
 
+
 .header {
+    margin-left: 10px;
     font-size: 23px;
     color: #192534;
+    font-family: 'Poppins', sans-serif;
   }
   
   .post-edit {
-    margin-left: 20px;
+    margin-bottom: auto;
+    margin-left: 10px;
     max-width: 350px;
-    max-height: 500px;
-    display: block;
+    max-height: 450px;
+    /* display: block; */
   }
   
   #xs {
@@ -70,8 +73,8 @@ mat-icon {
   
   .post-edit .pic {
     margin-top: 20px;
-    /* width: 100%; */
-    /* height: 250px; */
+    width: 100%; 
+    height: 250px;
     background-size: cover;
     overflow: hidden;
   }

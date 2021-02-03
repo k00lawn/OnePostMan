@@ -26,6 +26,9 @@
 </div>
  -->
 
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+
  <mat-spinner *ngIf="isLoading"></mat-spinner>
 
  <div class="header" fxLayout='row' fxLayoutAlign='space-between center'>
@@ -83,13 +86,13 @@
 						</mat-chip>
 						<mat-chip *ngIf="post.twitter">
 							<mat-icon>twitter</mat-icon> 
+							<!-- <img src="../" alt=""> -->
 						</mat-chip>
 					</mat-chip-list>
 				</div>
 	
 				<div class="pic" *ngIf="post.img !== null">
 					<img mat-card-image [src]="post.img" [alt]="post.caption">
-					<!-- <img mat-card-simage src='https://images.pexels.com/photos/36717/amazing-animal-beautiful-beautifull.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500'> -->
 				</div>
 			</mat-card>
 		 </div>

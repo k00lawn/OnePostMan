@@ -13,6 +13,8 @@ class FacebookApi:
         self.msg = caption
         self.token = user_token
         self.pg_id = page_id
+        self.base_url = "https://graph.facebook.com"
+        self.version = "v9.0"
 
 
         try:
@@ -39,7 +41,6 @@ class FacebookApi:
         fb_api = dict()
         fb_api['app_id'] = '3431573256929883'
         fb_api['app_secret'] = 'c13e000ac59b6d2d8d27ad838a4264ee'
-        fb_api['version'] = 'v8.0'
         fb_api['graph_domain'] = f'https://developers.facebook.com/tools/explorer/{fb_api["app_id"]}/'
         fb_api['debugger_url'] = "https://graph.facebook.com/{}/oauth/access_token?grant_type=fb_exchange_token&client_id={}&client_secret={}&fb_exchange_token={}"
         fb_api['page_debugger_url'] = "https://graph.facebook.com/{}/{}/accounts?access_token={}"
@@ -177,10 +178,10 @@ class FacebookApi:
 
                 if self.img.endswith('.jpg') or self.img.endswith('.png'):
 
-                    print('ok its time to upload with img')
+                    print('fb - ok its time to upload with img')
                     img = open(self.img, 'rb')
                     graph.put_photo(image=img,album_path=f"{page_id}/photos", message = self.msg)
-                    print('posted the feed')
+                    print('fb - posted the feed')
                 else:
                     pass
 
