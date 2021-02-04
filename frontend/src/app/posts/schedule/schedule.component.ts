@@ -1,12 +1,14 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, Inject } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Post } from 'src/app/models/post';
 import { User } from 'src/app/models/user';
 import { ScheduleService } from 'src/app/services/schedule.service'
-import { ProfileService } from '../../services/profile.service'
+import { ProfileService } from 'src/app/services/profile.service'
+import { PostService } from 'src/app/services/post.service'
 import { mimeType } from "./mime-type.validator";
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 
 @Component({
@@ -17,9 +19,10 @@ import { mimeType } from "./mime-type.validator";
 export class ScheduleComponent implements OnInit, OnDestroy {
   @ViewChild('filePicker') filePicker: ElementRef;
 
-  mode = 'create'
+  //mode = 'create'
   private postId: string;
   post: Post;
+  postModeSub: Subscription;
 
   imagePreview: string = 'https://material.angular.io/assets/img/examples/shiba2.jpg';
   
@@ -42,10 +45,12 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     twitter: [false]
   })
 
-  constructor(private profileService: ProfileService, 
+  constructor(@Inject (MAT_DIALOG_DATA) public postInfo: any,
+              private profileService: ProfileService, 
               private fb: FormBuilder, 
               private scheduleService: ScheduleService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private postService: PostService) { }
 
   user: User;
   userSub: Subscription;
@@ -63,21 +68,32 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         this.user = user
       })
 
-    this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if(paramMap.has('mode')){
-        this.mode = 'edit'
-        console.log('edit is passed')
-        this.postId = paramMap.get('postId')
-        console.log(this.postId, 'mode')
-        this.scheduleService.getPost(this.postId).subscribe((postData: any) => {
-          this.post = postData
-        })
-      } else {
-        console.log('create is passed')
-        this.mode = 'create'
-        this.scheduleForm.patchValue({facebook: false, twitter: false})
-      }
-    })
+
+    if(this.postInfo.mode === 'edit') {
+      console.log('edit is passed')
+      this.scheduleService.getPost(this.postInfo.postId).subscribe((postData: any) => {
+              this.post = postData
+      })
+    } else {
+      console.log('create is passed')
+      this.scheduleForm.patchValue({facebook: false, twitter: false})
+    }
+
+    // this.route.paramMap.subscribe((paramMap: ParamMap) => {
+    //   if(paramMap.has('postId')){
+    //     this.mode = 'edit'
+    //     console.log('edit is passed')
+    //     this.postId = paramMap.get('postId')
+    //     console.log(this.postId, 'mode')
+    //     this.scheduleService.getPost(this.postId).subscribe((postData: any) => {
+    //       this.post = postData
+    //     })
+    //   } else {
+    //     console.log('create is passed')
+    //     this.mode = 'create'
+    //     this.scheduleForm.patchValue({facebook: false, twitter: false})
+    //   }
+    // })
 
     
   }
@@ -119,7 +135,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     }
 
     if(this.scheduleForm.value.facebook || this.scheduleForm.value.twitter) {
-      if(this.mode === 'create'){
+      if(this.postInfo.mode === 'create'){
         this.scheduleService.createTask(
           this.scheduleForm.value.caption,
           this.scheduleForm.value.datetime,
