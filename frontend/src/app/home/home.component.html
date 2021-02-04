@@ -32,7 +32,7 @@
           <button mat-flat-button class="pricing" (click)="scroll(plans)">
             See pricings
           </button>
-          <a mat-stroked-button style="margin-left:10px" class="login"
+          <a routerLink="/auth" mat-stroked-button style="margin-left:10px" class="login"
             >Already have an account !</a
           >
         </div>
@@ -1192,10 +1192,6 @@
           </div>
         </div>
         <div class="pricings__bottom">
-          <!--   Icons     -->
-          <div class="logo-shaped logo-shaped--basic">
-            <i class="fa fa-arrow-down" aria-hidden="true"></i>
-          </div>
           <mat-list class="props">
             <mat-list-item class="items">
               <mat-icon>done</mat-icon>
@@ -1210,7 +1206,7 @@
               Non-Responsive
             </mat-list-item>
           </mat-list>
-          <a href="#0" class="signup" mat-flat-button>Sign up Now</a>
+          <a routerLink="/auth" class="signup" mat-flat-button>Sign up Now</a>
         </div>
       </mat-card>
       <!--  premium  -->
@@ -1227,12 +1223,6 @@
           </div>
         </div>
         <div class="pricings__bottom">
-          <!--       <div class="logo-shaped logo-shaped--premium"><i class="fa fa-arrow-down" aria-hidden="true"></i></div> -->
-          <div class="hex">
-            <div class="hex_logo">
-              <i class="fa fa-arrow-down" aria-hidden="true"></i>
-            </div>
-          </div>
           <mat-list class="props">
             <mat-list-item class="items">
               <mat-icon>done</mat-icon>
@@ -1251,7 +1241,7 @@
               Inter Active Design
             </mat-list-item>
           </mat-list>
-          <a href="#0" class="signup" mat-flat-button>Sign up Now</a>
+          <a routerLink="/auth" class="signup" mat-flat-button>Sign up Now</a>
         </div>
       </mat-card>
       <!--  standard  -->
@@ -1268,9 +1258,6 @@
           </div>
         </div>
         <div class="pricings__bottom">
-          <div class="logo-shaped logo-shaped--standard">
-            <i class="fa fa-arrow-down" aria-hidden="true"></i>
-          </div>
           <mat-list class="props">
             <mat-list-item class="items">
               <mat-icon>done</mat-icon>
@@ -1285,7 +1272,7 @@
               Non-Responsive
             </mat-list-item>
           </mat-list>
-          <a href="#0" class="signup" mat-flat-button>Sign up Now</a>
+          <a routerLink="/auth" class="signup" mat-flat-button>Sign up Now</a>
         </div>
       </mat-card>
     </div>

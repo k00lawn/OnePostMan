@@ -1,5 +1,6 @@
 <div *ngIf="!userAuthenticated">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        
     <a class="navbar-brand" href="#">OnePostMan</a>
     <ul class="navbar-nav mx-2 ml-auto">
       <li *ngIf="!userAuthenticated"><button id="signBtn" class="btn btn-outline-secondary" routerLink="/auth" (click)="switchToLogin()" type="button">Login</button></li> 
