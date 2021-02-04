@@ -20,7 +20,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   @ViewChild('filePicker') filePicker: ElementRef;
 
   //mode = 'create'
-  private postId: string;
+  //private postId: string;
   post: Post;
   postModeSub: Subscription;
 
@@ -151,7 +151,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           )
       } else {
           this.scheduleService.updatePost(
-            this.postId,        
+            this.postInfo.postId,        
             this.scheduleForm.value.caption,
             this.scheduleForm.value.datetime,
             this.scheduleForm.value.image,
