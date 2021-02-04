@@ -20,7 +20,7 @@ export class ScheduleService {
 
   // POST Request to API endpoint
 
-  createTask(caption: string, date: string, image: File, facebook: string, twitter: string) {
+  createTask(caption: string, date: string, img: File, facebook: string, twitter: string) {
     
     const postData = new FormData();
     
@@ -28,7 +28,7 @@ export class ScheduleService {
     postData.append('userId', this.userId)
     postData.append('caption', caption)
     postData.append('date', date)
-    postData.append('image', image)
+    postData.append('img', img)
     postData.append('facebook', facebook)
     postData.append('twitter', twitter)
     
@@ -56,19 +56,31 @@ export class ScheduleService {
     return this.http.get<{post: Post}>(`${this.postAPI}/post/${id}`)
   }
 
-  updatePost(_id: string, caption: string, date: string, image: File | string, facebook: string, twitter: string) {
+  updatePost(_id: string, caption: string, date: string, img: File | string, facebook: string, twitter: string) {
 
-      let postData;
+      let postData: Post | FormData;
+      if(typeof img === "object") {
+        postData = new FormData()
+        postData.append('_id', _id)
+        postData.append('userId', this.userId)
+        postData.append('caption', caption)
+        postData.append('date', date)
+        postData.append('img', img)
+        postData.append('facebook', facebook)
+        postData.append('twitter', twitter)      
+      } else {
+        postData = {
+          _id: _id,
+          userId: this.userId,
+          caption: caption,
+          date: date,
+          img: img,
+          facebook: facebook,
+          twitter: twitter
+        }
+      }
 
-      postData = new FormData();
-
-      postData.append('_id', _id)
-      postData.append('userId', this.userId)
-      postData.append('caption', caption)
-      postData.append('date', date)
-      postData.append('image', image)
-      postData.append('facebook', facebook)
-      postData.append('twitter', twitter)
+      
         
       
       // } else {
@@ -80,8 +92,18 @@ export class ScheduleService {
       .put(`${this.postAPI}/${_id}`, postData)
       .subscribe(res => {
         const updatedPosts = [...this.posts];
-        const oldPostIndex = updatedPosts.findIndex(post => post._id === post._id);
-        updatedPosts[oldPostIndex] = postData;
+        const oldPostIndex = updatedPosts.findIndex(p => p._id === _id);
+        const post: Post = {
+          _id: _id,
+          userId: this.userId,
+          caption: caption,
+          date: date,
+          img: "",
+          facebook: facebook,
+          twitter: facebook
+
+        }
+        updatedPosts[oldPostIndex] = post;
         this.posts = updatedPosts;
         this.postsUpdated.next([...this.posts ])
       })

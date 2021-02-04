@@ -38,9 +38,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       new FormControl(''),
       new FormControl('')
     ]),
-    image: new FormControl(null, {
-      // asyncValidators: [mimeType]
-    }),
+    image: [''],
     facebook: [false],
     twitter: [false]
   })
@@ -57,6 +55,19 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   caption = 'Caption' 
   socialMedia = 'Facebook'
   isSMLinked = true;
+
+  onImagePicked(event) {
+    const file = (event.target as HTMLInputElement).files[0]
+    this.scheduleForm.patchValue({image: file})
+    this.scheduleForm.get("image").updateValueAndValidity()
+    console.log(file)      
+    const reader = new FileReader()   
+    reader.onload = () => {
+      this.imagePreview = reader.result as string;
+    }
+    reader.readAsDataURL(file);
+    
+}
   
 
   ngOnInit() {
@@ -73,7 +84,17 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       console.log('edit is passed')
       this.scheduleService.getPost(this.postInfo.postId).subscribe((postData: any) => {
               this.post = postData
+              console.log(this.post)
+              this.imagePreview = this.post.img
+              console.log(this.post.img, "sunnniii")
+              this.caption = this.post.caption
+              this.scheduleForm.patchValue({
+                caption: this.post.caption,
+                image: this.post.img
+              })
       })
+      
+      
     } else {
       console.log('create is passed')
       this.scheduleForm.patchValue({facebook: false, twitter: false})
@@ -98,19 +119,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     
   }
 
-  onImagePicked(event) {
-      const file = (event.target as HTMLInputElement).files[0]
-      this.scheduleForm.patchValue({image: file})
-      this.scheduleForm.get("image").updateValueAndValidity()
-      console.log(file)      
-      const reader = new FileReader()   
-      reader.onload = () => {
-        console.log('hello there')
-        this.imagePreview = reader.result as string;
-      }
-      reader.readAsDataURL(file);
-      
-  }
+  
 
   resetForm() {
     this.scheduleForm.reset()

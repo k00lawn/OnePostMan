@@ -36,16 +36,14 @@ const storage = multer.diskStorage({
 var upload = multer({storage: storage})
 
 router.post("", checkAuth, 
-  upload.single("image"), (req, res, next) => {
-    var img
+  upload.single("img"), (req, res, next) => {
+    var img = null
     const url = req.protocol + "://" + req.get("host"); 
     
     if(req.file){
       const filedir = url + "/backend/nodeserver/images/" + req.file.filename;
       img = filedir;
-    } else {
-      img = null
-    }
+    } 
     const postTask = new Post({
         userId: req.body.userId,
         caption: req.body.caption,
@@ -88,14 +86,15 @@ router.get("/post/:id", checkAuth, (req, res, next) => {
 })
 
 router.put("/:id", checkAuth,
-  upload.single("image"), (req, res, next) => {
-    var fileinfo
+  upload.single("img"), (req, res, next) => {
+    let imagePath = req.body.img;
+
     var filedir
     const url = req.protocol + "://" + req.get("host"); 
     
     if(req.file){
-      filedir = url + "/backend/nodeserver/images/"
-      fileinfo = req.file.filename
+      filedir = url + "/backend/nodeserver/images/" + req.file.filename
+      imagePath = filedir 
     } 
 
     const postTask = new Post({
@@ -103,7 +102,7 @@ router.put("/:id", checkAuth,
       userId: req.body.userId,
       caption: req.body.caption,
       date: req.body.date,
-      img: filedir + fileinfo,
+      img: imagePath,
       facebook: req.body.facebook,
       twitter: req.body.twitter,
     });

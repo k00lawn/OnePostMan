@@ -4,6 +4,6 @@ export interface Post {
     caption: string,
     date: string,
     img: string,
-    facebook: boolean,
-    twitter: boolean
+    facebook: string,
+    twitter: string
 } 
