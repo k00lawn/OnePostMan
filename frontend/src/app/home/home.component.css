@@ -1,22 +1,32 @@
+/* * {
+} */
+
 .main {
     display: flex;
     justify-content: space-evenly;
-    /* background-color: palegoldenrod; */
     background-color: #b8c6db;
     background-image: linear-gradient(315deg, #b8c6db 0%, #f5f7fa 74%);
   }
   
   .main .contents {
-    width: 40%;
+    /* width: 40%; */
     padding: 100px;
+    color: #192534;
   }
-  
-  /* .main .contents .btns {
-    margin-top: 50px;
-  } */
+
+  .main .contents .header {
+    /* font-weight: 600; */
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .main .contents .details {
+    /* font-weight: 300; */
+    font-family: 'Poppins', sans-serif;
+  }
   
   .main .contents .btns button,
   .main .contents .btns a {
+    font-family: 'Poppins', sans-serif;
     margin-top: 10px;
   }
   
@@ -30,10 +40,10 @@
     color: white;
   }
   
-  .main #xs svg {
+  /* .main #xs svg {
     width: 500px;
     margin-top: -110px;
-  }
+  } */
   
   svg #clouds {
     animation: move 20s infinite linear;
@@ -50,9 +60,10 @@
   
   .try_now {
     margin-top: 10px;
+    font-family: 'Poppins', sans-serif;
   }
   
-  .try_now h2 {
+  .try_now h3 {
     color: #192534;
     text-decoration: underline;
   }
@@ -69,10 +80,12 @@
     background-color: snow;
     width: 200px;
     margin-top: 20px;
+    color: #192534;
   }
   
   .plans .pricings mat-card-title {
     border-bottom: #192534 5px solid;
+    font-family: 'Poppins', sans-serif;
   }
   
   /* .plans .pricings .hr {
@@ -81,6 +94,7 @@
   
   .plans .pricings .hr sup {
     font-size: 20px;
+    color: #192534;
   }
   
   .plans .pricings .hr .price .num {
@@ -91,6 +105,10 @@
   .plans .pricings .hr .per-month {
     font-size: 15px;
     font-style: oblique;
+  }
+
+  .props .items {
+    color: #192534;
   }
   
   .plans .pricings .signup {

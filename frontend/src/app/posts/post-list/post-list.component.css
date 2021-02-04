@@ -32,6 +32,7 @@ mat-icon {
     justify-content: right;
 } */
 
+/* app theme color : #192534 */
 
 .header {
     margin-left: 10px;
@@ -39,13 +40,26 @@ mat-icon {
     color: #192534;
     font-family: 'Poppins', sans-serif;
   }
+
+.sort button {
+  outline: none;
+}
+
+.sort mat-menu {
+  outline: none;
+  background-color: snow;
+}
   
   .post-edit {
     margin-bottom: auto;
-    margin-left: 10px;
+    /* margin-left: 10px; */
     max-width: 350px;
     max-height: 450px;
-    /* display: block; */
+  }
+
+  .post-edit mat-card {
+    background-color: snow;
+    box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.16), 2px 3px 6px rgba(0, 0, 0, 0.23);
   }
   
   #xs {
@@ -69,6 +83,7 @@ mat-icon {
   
   .post-edit .caption {
     overflow: hidden;
+    color: black;
   }
   
   .post-edit .pic {

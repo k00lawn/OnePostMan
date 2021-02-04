@@ -1,8 +1,14 @@
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;600&display=swap" rel="stylesheet">
+
 <div class="container">
     <mat-card
       class="main"
       fxLayout="row"
       fxLayoutAlign="space-around center"
+
+      fxLayout.lt-sm="column"
+      fxLayoutAlign.lt-sm="start center"
     >
       <div class="contents">
         <span class="header"
@@ -19,6 +25,9 @@
           class="btns"
           fxLayout="row"
           fxLayoutAlign="start center"
+
+          fxLayout.lt-sm="column"
+          fxLayoutAlign.lt-sm="space-around center"
         >
           <button mat-flat-button class="pricing" (click)="scroll(plans)">
             See pricings
@@ -1157,18 +1166,22 @@
     </mat-card>
   
     <div class="try_now" fxLayout="row" fxLayoutAlign="center">
-      <h2>Start Your 7-Day Free Trial</h2>
+      <h3>Start Your 7-Day Free Trial</h3>
     </div>
   
     <div
       class="plans"
       fxLayout="row"
       fxLayoutAlign="space-around center"
+
+      fxLayout.lt-sm="column"
+      fxLayoutAlign="space-around center"
+
       #plans
     >
       <mat-card class="pricings">
         <div class="pricings__top pricings__top--free">
-          <mat-card-title class="top-header" align="center">
+          <mat-card-title class="top-header">
             <h4>Basic</h4>
           </mat-card-title>
           <div class="hr">
