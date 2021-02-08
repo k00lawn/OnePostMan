@@ -1,7 +1,36 @@
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
 
- <mat-spinner *ngIf="isLoading"></mat-spinner>
+ <div class="loader" *ngIf="isLoading">
+	<svg width="100%" height="100%" viewBox="0 0 384 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<g id="opm" filter="url(#filter0_b)">
+		<g id="glass" clip-path="url(#clip0)">
+		<g id="Group">
+		<path id="Vector" d="M338.859 157.633H317.25C305.792 146.775 290.328 140.105 273.334 140.105C253.337 140.105 235.459 149.342 223.734 163.771C205.234 149.118 178.796 149.093 160.265 163.771C148.54 149.342 130.662 140.105 110.664 140.105C93.6706 140.105 78.2065 146.775 66.7485 157.633H45.1406C40.0926 157.633 36 161.725 36 166.773C36 171.821 40.0926 175.914 45.1406 175.914H53.2843C49.1162 184.396 46.7701 193.928 46.7701 204C46.7701 239.232 75.4333 267.895 110.665 267.895C145.897 267.895 174.56 239.232 174.56 204C174.56 195.401 172.848 187.195 169.755 179.7C182.29 168.18 201.693 168.165 214.246 179.7C211.152 187.195 209.441 195.401 209.441 204C209.441 239.232 238.104 267.895 273.336 267.895C308.567 267.895 337.23 239.232 337.23 204C337.23 193.928 334.885 184.396 330.716 175.914H338.859C343.907 175.914 348 171.821 348 166.773C348 161.725 343.907 157.633 338.859 157.633ZM110.665 249.614C85.5135 249.614 65.0513 229.151 65.0513 204C65.0513 178.849 85.5135 158.386 110.665 158.386C135.816 158.386 156.278 178.849 156.278 204C156.278 229.151 135.816 249.614 110.665 249.614ZM273.335 249.614C248.184 249.614 227.722 229.151 227.722 204C227.722 178.849 248.184 158.386 273.335 158.386C298.486 158.386 318.949 178.849 318.949 204C318.949 229.151 298.486 249.614 273.335 249.614Z" fill="black"/>
+		</g>
+		<circle id="g2" cx="111" cy="204" r="46" fill="#653232" fill-opacity="0.62"/>
+		<circle id="g1" cx="273" cy="204" r="46" fill="#653232" fill-opacity="0.62"/>
+		</g>
+		<g id="hat">
+		<path id="Vector_2" d="M157.766 48L147.1 80H236.9L226.234 48H157.766Z" fill="black"/>
+		<path id="Vector_3" d="M24 105.323L192 135.869L360 105.323V96H24V105.323Z" fill="black"/>
+		<path id="Vector_4" d="M192 0L0 40L24 80H130.234L144.411 37.47C144.942 35.8772 145.961 34.4918 147.323 33.5101C148.685 32.5284 150.321 32.0001 152 32H232C233.679 32.0001 235.315 32.5284 236.677 33.5101C238.039 34.4918 239.058 35.8772 239.589 37.47L253.766 80H360L384 40L192 0Z" fill="#030303"/>
+		</g>
+		</g>
+		<defs>
+		<filter id="filter0_b" x="-4" y="-4" width="392" height="368" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+		<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+		<feGaussianBlur in="BackgroundImage" stdDeviation="2"/>
+		<feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur"/>
+		<feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur" result="shape"/>
+		</filter>
+		<clipPath id="clip0">
+		<rect width="312" height="312" fill="white" transform="translate(36 48)"/>
+		</clipPath>
+		</defs>
+		</svg>
+		
+ </div>
 
  <div class="contents" *ngIf="!isLoading">
  <div class="header" fxLayout='row' fxLayoutAlign='space-between center'>
@@ -11,7 +40,7 @@
 	<div class='sort'>
 		<button mat-button [matMenuTriggerFor]="menu"><b>Sort by: </b><mat-icon  style="color:#192534;margin-left:15px">arrow_drop_down</mat-icon></button>
 		<mat-menu #menu="matMenu">
-			<button mat-menu-item><mat-icon  style="color:#ffffff">access_time</mat-icon><span  style="color:#ffffff">time</span></button>
+			<button mat-menu-item><mat-icon  style="color:#ffffff">access_time</mat-icon><span  style="color:#ffffff">time remaining</span></button>
 			<button mat-menu-item><mat-icon  style="color:#ffffff">today</mat-icon><span  style="color:#ffffff">recently posted</span></button>
 		</mat-menu>
 	</div>
@@ -24,7 +53,7 @@
 <!-- Post Card -->
 	
 </div>
-<mat-grid-list cols="4" rowHeight="2:3" gutterSize="10px">
+<mat-grid-list cols={{this.breakpoint}} rowHeight="2:3" gutterSize="10px" (window:resize)="onResize($event)">
 	<mat-grid-tile *ngFor="let post of posts" >
 		<div class="post-edit"    id={{this.device}}>
 			<mat-card>

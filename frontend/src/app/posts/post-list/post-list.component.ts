@@ -21,6 +21,7 @@ export class PostListComponent implements OnInit, OnDestroy {
   mediaobs: Subscription;
   layout = "row";
   align = "space-between center";
+  breakpoint : number;
 
   isLoading = true
 
@@ -35,6 +36,8 @@ export class PostListComponent implements OnInit, OnDestroy {
               private scheduleService: ScheduleService) { }
 
   ngOnInit() {
+
+    this.breakpoint = (window.innerWidth <= 400) ? 1 : 4;
     //Responsive Adjustment
     // this.mediaobs = this.mediaobserver.asObservable().subscribe(
     //   (result: MediaChange) => {
@@ -66,6 +69,10 @@ export class PostListComponent implements OnInit, OnDestroy {
         this.posts = posts
       })
   }  
+
+  onResize(event) {
+    this.breakpoint = (event.target.innerWidth <= 400) ? 1 : 4;
+  }
 
   onDeletePost(id) {
     this.scheduleService.deletePost(id)

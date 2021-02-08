@@ -1,6 +1,30 @@
-mat-spinner {
+/* mat-spinner {
     margin-left: 45%;
     margin-top: 25%;
+} */
+
+.loader {
+  width: 200px;
+  /* border: 2px solid red; */
+  margin: auto;
+  margin-top: 200px;
+}
+
+.loader svg #glass #g1,
+.loader svg #glass #g2 {
+  animation: change 0.1s infinite linear;
+}
+
+@keyframes change {
+  0% {
+    fill: rgb(109, 46, 46);
+  }
+  50% {
+    fill: #192534;
+  }
+  100% {
+    fill: darkslategrey;
+  }
 }
 
 /* .container{
@@ -49,17 +73,25 @@ mat-icon {
   outline: none;
   background-color: snow;
 }
+
+mat-grid-tile {
+  border: 2px solid snow;
+}
   
   .post-edit {
     margin-bottom: auto;
     /* margin-left: 10px; */
-    max-width: 350px;
-    max-height: 450px;
+    width: 350px;
+    height: 450px;
   }
 
   .post-edit mat-card {
+    margin: auto;
+    width: 98%;
     background-color: snow;
     box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.16), 2px 3px 6px rgba(0, 0, 0, 0.23);
+    /* box-shadow:  17px 17px 34px #9b9b9b,
+    -17px -17px 34px #ffffff; */
   }
   
   #xs {
