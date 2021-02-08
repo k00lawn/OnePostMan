@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { ConfirmDialogComponent, ConfirmDialogModel } from 'src/app/confirm-dialog/confirm-dialog.component';
 import { Post } from 'src/app/models/post';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { ProfileService } from 'src/app/services/profile.service';
 import { ScheduleService } from 'src/app/services/schedule.service';
-import { MediaChange, MediaObserver } from "@angular/flex-layout";
 
 
 
@@ -28,7 +29,7 @@ export class PostListComponent implements OnInit, OnDestroy {
   postsSub: Subscription;
   userSub: Subscription;
 
-  constructor(
+  constructor(private dialog: MatDialog,
               private authService: AuthService, 
               private profileService: ProfileService, 
               private scheduleService: ScheduleService) { }
@@ -70,9 +71,25 @@ export class PostListComponent implements OnInit, OnDestroy {
     this.scheduleService.deletePost(id)
   }
 
+  confirmDialog(id): void {
+    const message = `Are you sure you want to delete?`;
+
+    const dialogData = new ConfirmDialogModel("Delete Post?", message);
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if(dialogResult) {
+        this.onDeletePost(id)
+      } else return
+    });
+  }
+
   ngOnDestroy() {
-    this.userSub.unsubscribe()
-    this.postsSub.unsubscribe()
+    // this.userSub.unsubscribe()
+    //this.postsSub.unsubscribe()
   }
 
 }

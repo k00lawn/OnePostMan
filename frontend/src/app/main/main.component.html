@@ -1,0 +1,28 @@
+<div *ngIf="!userAuthenticated">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">OnePostMan</a>
+      <ul class="navbar-nav mx-2 ml-auto">
+        <li *ngIf="!userAuthenticated"><button id="signBtn" class="btn btn-outline-secondary" [routerLink]="['/login']" type="button">Login</button></li> 
+        <li *ngIf="!userAuthenticated"><button id="signBtn" class="btn btn-outline-success" [routerLink]="['/signup']" type="button">Sign Up</button></li>
+        <li *ngIf="userAuthenticated"><button class="btn btn-outline-danger" (click)="onLogout()" type="button">Log out</button></li>
+      </ul>
+  </nav>
+  <br>
+  <router-outlet></router-outlet>
+  </div>
+  
+  <div *ngIf="userAuthenticated">
+    <mat-sidenav-container class="sidenav-container">
+      <mat-sidenav mode="side" opened>
+        <mat-toolbar>
+          <a routerLink="/profile"><mat-icon>account_circle</mat-icon></a>
+        </mat-toolbar>
+        <mat-nav-list>
+          <a mat-list-item routerLink="/posts"><mat-icon>dynamic_feed</mat-icon></a>
+          <a mat-list-item id="logoutIcon" (click)="confirmDialog()"><mat-icon>power_settings_new</mat-icon></a>
+        </mat-nav-list>
+      </mat-sidenav>
+      <mat-sidenav-content><router-outlet></router-outlet></mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+  

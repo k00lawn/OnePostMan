@@ -7,41 +7,21 @@ import { AuthService } from './services/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   title = 'smmscheduler';
   
   constructor(private authService: AuthService){}
   
-  switchToLogin(){
-    if(!this.authService.isLoginForm)
-    this.authService.switchForm()
-  }
-
-  switchToSignup() {
-    if (this.authService.isLoginForm) {
-      this.authService.switchForm()
-    }
-  }
+  
 
   //Move this to new component later
-  userAuthenticated = false;
-  private authListenerSub: Subscription;
+  
   ngOnInit() {
-    this.authService.autoAuthUser();
-    this.userAuthenticated = this.authService.getIsAuth();
-    this.authListenerSub = this.authService
-    .getAuthStatusListener()
-    .subscribe(isAuthenticated => {
-      this.userAuthenticated = isAuthenticated;
-    })
+    
   }
-  ngOnDestroy() {
-    this.authListenerSub.unsubscribe()
-  }
+  
 
-  onLogout() {
-    this.authService.logout()
-  }
+  
 
   
 }

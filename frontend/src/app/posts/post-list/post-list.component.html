@@ -39,7 +39,7 @@
 						<mat-menu #menu="matMenu">
 							<button mat-menu-item><mat-icon  style="color:#ffffff">visibility</mat-icon><span  style="color:#ffffff">preview</span></button>
 							<button [routerLink]="['/posts', 'edit', post._id]" mat-menu-item><mat-icon  style="color:#ffffff">edit</mat-icon><span  style="color:#ffffff">Edit</span></button>
-							<button  (click)="onDeletePost(post._id)" mat-menu-item><mat-icon  style="color:#ffffff">delete</mat-icon><span  style="color:#ffffff">Delete</span></button>
+							<button  (click)="confirmDialog(post._id)" mat-menu-item><mat-icon  style="color:#ffffff">delete</mat-icon><span  style="color:#ffffff">Delete</span></button>
 						</mat-menu>
 					</div>
 				</div>

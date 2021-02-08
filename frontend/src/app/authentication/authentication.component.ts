@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service'
 @Component({
@@ -9,7 +10,10 @@ import { AuthService } from '../services/auth.service'
 })
 export class AuthenticationComponent implements OnInit, OnDestroy {
 
-  accountCreated: Boolean
+  accountCreated: Boolean;
+  userAuthenticated = false;
+  private authListenerSub: Subscription;
+  formType: string;
   
   signupForm = this.fb.group({
     username: ['', [Validators.required]],
@@ -22,19 +26,36 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
     password: ['', [Validators.required]],
   })
 
+  constructor(private fb: FormBuilder, public authService: AuthService, private router: Router, private route: ActivatedRoute ) { }
+
+
   ngOnInit() {
+
+    // this.route.url.subscribe(url => {
+    //   console.log(url, 'url')
+    // })
+    console.log(this.router.url)
+    
+    this.formType = this.router.url;
+
     this.accountCreated = false
+    this.authService.autoAuthUser();
+    this.userAuthenticated = this.authService.getIsAuth();
+    this.authListenerSub = this.authService
+    .getAuthStatusListener()
+    .subscribe(isAuthenticated => {
+      this.userAuthenticated = isAuthenticated;
+    })
+
+    if(this.userAuthenticated) {
+      this.router.navigateByUrl('/posts')
+    }
   }
 
   ngOnDestroy() {
+    this.authListenerSub.unsubscribe()
   }
 
-  constructor(private fb: FormBuilder, public authService: AuthService ) { }
-
-
-  onSwitchForm() {
-    this.authService.switchForm()
-  }
 
   onLoginSubmit() {
     console.log(this.loginForm.value)

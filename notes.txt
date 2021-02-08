@@ -67,4 +67,7 @@ user is able to post without even authing
 
 	change the page_details key name
 	sometimes its not looping ( threading bug ) ( risky bug need to validate ASAP )
+
+
+	echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 `

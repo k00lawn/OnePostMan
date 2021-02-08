@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MediaObserver,MediaChange } from '@angular/flex-layout'
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -13,9 +15,23 @@ export class HomeComponent implements OnInit,OnDestroy {
   fxlayout = "row";
   fxalign = "space-around center";
 
-  constructor() { }
+  constructor(private authService: AuthService, private router: Router) { }
+
+  userAuthenticated = false;
+  private authListenerSub: Subscription;
 
   ngOnInit() {
+    this.authService.autoAuthUser();
+    this.userAuthenticated = this.authService.getIsAuth();
+    this.authListenerSub = this.authService
+    .getAuthStatusListener()
+    .subscribe(isAuthenticated => {
+      this.userAuthenticated = isAuthenticated;
+    })
+
+    if(this.userAuthenticated) {
+      this.router.navigateByUrl('/posts')
+    }
   }
 
   ngOnDestroy() {

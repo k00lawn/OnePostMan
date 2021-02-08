@@ -6,7 +6,7 @@
     </mat-form-field>
 </div> -->
  
-<div class="container" *ngIf="this.authService.isLoginForm">
+<div class="container" *ngIf="formType === '/login' ">
     <mat-card class="form-container">
         <form [formGroup]="loginForm" (submit)="onLoginSubmit()" > 
             <mat-form-field class="form-field" appearance="fill">
@@ -20,11 +20,11 @@
             <button mat-raised-button color="primary" type="submit">Log in</button>
         </form>
         <label>Don't have an account?</label>
-        <button mat-button color="accent" (click)="onSwitchForm()">Sign up</button>
+        <button mat-button color="accent" [routerLink]="['/signup']">Sign up</button>
     </mat-card>
 </div>
 
-<div class="container" *ngIf="!this.authService.isLoginForm">
+<div class="container" *ngIf="formType === '/signup' ">
     <mat-card class="form-container">
         <form [formGroup]="signupForm" (submit)="onSignupSubmit()" > 
             <mat-form-field class="form-field" appearance="fill">
@@ -43,7 +43,7 @@
         </form>
         <label *ngIf="accountCreated">Account Created Successfully</label>
         <label> {{accountCreated ? 'Account created, please login' : 'Already have an account?'}}</label>
-        <button mat-button color="accent" (click)="onSwitchForm()">Log in</button>
+        <button mat-button color="accent" [routerLink]="['/login']">Log in</button>
     </mat-card>
 </div>
 

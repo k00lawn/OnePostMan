@@ -29,6 +29,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatMenuModule} from '@angular/material/menu';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 
 
@@ -39,6 +40,8 @@ import { AuthenticationComponent } from './authentication/authentication.compone
 import { ProfileComponent } from './profile/profile.component';
 import { PostListComponent } from './posts/post-list/post-list.component';
 import { PostsComponent } from './posts/posts.component';
+import { MainComponent } from './main/main.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,9 @@ import { PostsComponent } from './posts/posts.component';
     HomeComponent,
     ProfileComponent,
     PostListComponent,
-    PostsComponent
+    PostsComponent,
+    MainComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -73,7 +78,8 @@ import { PostsComponent } from './posts/posts.component';
     MatChipsModule, 
     MatMenuModule,
     FlexLayoutModule,
-    MatGridListModule
+    MatGridListModule,
+    MatAutocompleteModule
   ],
   providers: [
     {
