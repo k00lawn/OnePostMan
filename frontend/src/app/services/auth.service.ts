@@ -91,7 +91,8 @@ export class AuthService {
     this.isAuthenticated = false
     this.authStatusListener.next(false)
     this.clearAuthData()
-    this.router.navigate(['/'])
+    window.location.reload();
+    //this.router.navigate(['/'])
   }
 
   autoAuthUser() {

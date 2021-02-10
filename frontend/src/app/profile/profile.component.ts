@@ -13,6 +13,7 @@ declare var FB: any;
 })
 export class ProfileComponent implements OnInit, OnDestroy {
 
+  isLoading = true;
   user: User;
   userSub: Subscription;
 
@@ -36,6 +37,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.userSub = this.profileService.getUserListener()
       .subscribe((user) => {
         this.user = user
+        this.isLoading = false;
         console.log(user)
       });
 
@@ -89,7 +91,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     console.log(oauthToken, oauthVerifier)
     this.authService.saveTWaccessToken(oauthToken, oauthVerifier).subscribe(res => {
       console.log(res)
-      alert('Token saved');
       this.user.tw_provider = true;
     })
   }

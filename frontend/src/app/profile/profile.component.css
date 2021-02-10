@@ -1,3 +1,27 @@
+.loader {
+  width: 200px;
+  /* border: 2px solid red; */
+  margin: auto;
+  margin-top: 200px;
+}
+
+.loader svg #glass #g1,
+.loader svg #glass #g2 {
+  animation: change 0.1s infinite linear;
+}
+
+@keyframes change {
+  0% {
+    fill: rgb(109, 46, 46);
+  }
+  50% {
+    fill: #192534;
+  }
+  100% {
+    fill: darkslategrey;
+  }
+}
+
 .header {
   color: black ;
 }
