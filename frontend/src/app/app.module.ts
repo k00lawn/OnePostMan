@@ -42,6 +42,7 @@ import { PostListComponent } from './posts/post-list/post-list.component';
 import { PostsComponent } from './posts/posts.component';
 import { MainComponent } from './main/main.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { PostErrorComponent } from './posts/post-error/post-error.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     PostListComponent,
     PostsComponent,
     MainComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    PostErrorComponent
   ],
   imports: [
     BrowserModule,

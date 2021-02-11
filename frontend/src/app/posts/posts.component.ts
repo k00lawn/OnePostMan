@@ -2,6 +2,9 @@ import { Component,  OnInit, OnDestroy } from '@angular/core';
 import { ScheduleComponent } from 'src/app/posts/schedule/schedule.component'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ScheduleService } from '../services/schedule.service';
+import { Post } from '../models/post';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-posts',
@@ -11,8 +14,11 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 export class PostsComponent implements OnInit {
   private mode = "create";
   private postId: string
+  postsSub: Subscription;
+  posts: Post[] = [];
 
-  constructor(public dialog: MatDialog, private router: Router, private route: ActivatedRoute) { }
+
+  constructor(public dialog: MatDialog, private router: Router, private route: ActivatedRoute, private scheduleService: ScheduleService) { }
   
   
 
@@ -34,6 +40,14 @@ export class PostsComponent implements OnInit {
         this.openDialog()
       }
     })
+    console.log(this.posts)
+
+    // Getting Posts
+    this.scheduleService.getPosts()
+    this.postsSub = this.scheduleService.getPostsUpdateListener()
+      .subscribe((posts: Post[]) => {
+        this.posts = posts
+      })
   }
 
 }

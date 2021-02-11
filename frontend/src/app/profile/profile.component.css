@@ -57,6 +57,10 @@
   }
    */
 
+   .main   {
+    margin-left: 30px;
+  }
+
    .loader {
     width: 200px;
     /* border: 2px solid red; */
