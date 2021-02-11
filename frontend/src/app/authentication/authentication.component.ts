@@ -62,13 +62,13 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
     this.authService.login(this.loginForm.value.email, this.loginForm.value.password)
   }
 
-  onSignupSubmit() {
-    console.log(this.signupForm.value)
-    this.authService.signup(this.signupForm.value.username, this.signupForm.value.email, this.signupForm.value.password) 
-      .subscribe(res => {
-        this.accountCreated = true
-      })
-  }
+  // onSignupSubmit() {
+  //   console.log(this.signupForm.value)
+  //   this.authService.signup(this.signupForm.value.username, this.signupForm.value.email, this.signupForm.value.password) 
+  //     .subscribe(res => {
+  //       this.accountCreated = true
+  //     })
+  // }
 
   
 

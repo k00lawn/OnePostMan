@@ -3,7 +3,7 @@
       <a class="navbar-brand" href="#">OnePostMan</a>
       <ul class="navbar-nav mx-2 ml-auto">
         <li *ngIf="!userAuthenticated"><button id="signBtn" class="btn btn-outline-secondary" [routerLink]="['/login']" type="button">Login</button></li> 
-        <li *ngIf="!userAuthenticated"><button id="signBtn" class="btn btn-outline-success" [routerLink]="['/signup']" type="button">Sign Up</button></li>
+        <!-- <li *ngIf="!userAuthenticated"><button id="signBtn" class="btn btn-outline-success" [routerLink]="['/signup']" type="button">Sign Up</button></li> -->
         <li *ngIf="userAuthenticated"><button class="btn btn-outline-danger" (click)="onLogout()" type="button">Log out</button></li>
       </ul>
   </nav>

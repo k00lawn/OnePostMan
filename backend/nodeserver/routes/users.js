@@ -46,49 +46,30 @@ router.post("/login", (req, res, next) => {
 });
 
 //Signup 
-router.post("/signup", (req, res, next) => {
-    bcrypt.hash(req.body.password, 10).then(hash => {
-      const user = new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: hash
-      });
-      user
-        .save()
-        .then(result => {
-          res.status(201).json({
-            message: "Account Created Successfully!",
-            result: result
-          });
-        })
-        .catch(err => {
-          res.status(500).json({
-            error: err
-          });
-        });
-    });
-});
 
-//OAuth
-
-
-// Redirect the user to Twitter for authentication.  When complete, Twitter
-// will redirect the user back to the application at
-// config.env.TWITTER_CALLBACK_URL
-
-// router.get('/auth/twitter', twitterOAuth.authenticate('twitter'), {
-//   successRedirect: '/',
-//   failureRedirect: '/login'
+// router.post("/signup", (req, res, next) => {
+//     bcrypt.hash(req.body.password, 10).then(hash => {
+//       const user = new User({
+//         username: req.body.username,
+//         email: req.body.email,
+//         password: hash
+//       });
+//       user
+//         .save()
+//         .then(result => {
+//           res.status(201).json({
+//             message: "Account Created Successfully!",
+//             result: result
+//           });
+//         })
+//         .catch(err => {
+//           res.status(500).json({
+//             error: err
+//           });
+//         });
+//     });
 // });
 
-// Twitter will redirect the user to this URL after approval.  Finish the
-// authentication process by attempting to obtain an access token.  If
-// access was granted, the user will be logged in.  Otherwise,
-// authentication has failed.
-
-// router.get('/auth/twitter/callback',
-//   passport.authenticate('twitter', { successRedirect: '/',
-//                                      failureRedirect: '/login' }));
 
 
 module.exports = router
