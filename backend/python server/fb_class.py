@@ -1,9 +1,5 @@
 from datetime import datetime as dt
-from scheduler import *
 import facebook
-import requests
-
-
 
 class FacebookApi:
 
@@ -39,8 +35,6 @@ class FacebookApi:
     def creds(self):
 
         fb_api = dict()
-        fb_api['app_id'] = '3431573256929883'
-        fb_api['app_secret'] = 'c13e000ac59b6d2d8d27ad838a4264ee'
         fb_api['graph_domain'] = f'https://developers.facebook.com/tools/explorer/{fb_api["app_id"]}/'
         fb_api['debugger_url'] = "https://graph.facebook.com/{}/oauth/access_token?grant_type=fb_exchange_token&client_id={}&client_secret={}&fb_exchange_token={}"
         fb_api['page_debugger_url'] = "https://graph.facebook.com/{}/{}/accounts?access_token={}"
@@ -51,7 +45,6 @@ class FacebookApi:
     def get_all_feeds(self):
 
         try:
-            # graph = facebook.GraphAPI(access_token=self.token)
             page_id = self.pg_id
             base_url = f'{page_id}/feed?limit=100'
             data = dict()
@@ -82,7 +75,6 @@ class FacebookApi:
     def recent_five_feeds(self):
 
         try:
-            # graph = facebook.GraphAPI(access_token=self.token)
             data = dict()
             feeds = self.graph.get_object(id=self.pg_id, fields='feed.limit(5)')
             data['feeds'] = feeds['feed']['data']
@@ -98,7 +90,6 @@ class FacebookApi:
     def get_comments(self):
 
         try:
-            # graph = facebook.GraphAPI(access_token=self.token)
             feeds = self.recent_five_feeds()['feeds']
             comments = dict()
             for i in feeds:
@@ -144,21 +135,6 @@ class FacebookApi:
         except KeyError as error:
             return {'error': error}
 
-    def extend_access_token(self):
-
-        app = self.creds()
-        app_id = app['app_id']
-        app_secret = app['app_secret']
-        url = app['debugger_url'].format(app['version'], app_id, app_secret, self.token)
-        res = requests.get(url)
-        access_token_info = res.json()
-
-        try:
-            long_token = access_token_info['access_token']
-            return long_token
-        except KeyError as error:
-            return access_token_info
-
     def post(self):
 
         try:
@@ -191,7 +167,3 @@ class FacebookApi:
         except facebook.GraphAPIError as error:
             return {'error': error}
 
-'''
-from fb_class import FacebookApi as fa
-user_token,page_id="EAAwwZC2kAAlsBAIcHEsOjavqZBCTlRdsXvOmUPhdYbpZASRikz9GIQ95jYNQv8mzQLbOHuIeJGQve3Icqr4CtADZAFZAnxBDxKZB8kCOykCSTXAR1ki1Bb881xeHGfzrY3dgAmvuxjzjsUckO3yJ7s590XWiuFZBZA1aXsZCTCl170u5aHNwJlpms","106101627910928"
-'''

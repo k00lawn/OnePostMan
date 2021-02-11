@@ -1,8 +1,11 @@
+from configparser import ConfigParser
 from bson.objectid import ObjectId
 from pymongo import MongoClient
 
+config = ConfigParser()
+config.read('config.ini')
 
-url = 'mongodb+srv://b33r:LrHpoFtRpBzoVDm8@cluster0.mzdpt.mongodb.net/opmdb?retryWrites=true&w=majority'
+url = config['mongo']['url']
 cluster = MongoClient(url)
 db = cluster['opmdb']
 

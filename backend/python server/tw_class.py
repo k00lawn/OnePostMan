@@ -1,11 +1,8 @@
 from dateutil.relativedelta import relativedelta as rd
+from configparser import ConfigParser
 from datetime import datetime as dt
-from scheduler import *
 import tweepy
 
-bearer_token = 'AAAAAAAAAAAAAAAAAAAAALa9HwEAAAAA%2BADq9E%2FGmK265myVGUixB4yJbTM%3D4WubAhhGOVjXgn8uEBoycNb2YrJOkDdAUUoMKp7fvsGg7WpmCf'
-tw_user_access_token = '1308334561831481345-nfHZ8d32aNWDgT5K2ll3Ul4OTiVRBA'
-tw_user_token_secret = "wXqpxoTVHXC6hPiHqkmgzMW4uulyOHdkQHcS4MrywVxMW"
 
 
 class TwitterApi():
@@ -18,35 +15,24 @@ class TwitterApi():
         self.token = token
         self.token_secret = token_secret
 
-    def creds(self):
-        tw_api = dict()
-
-        tw_api['app_id'] = "18857398"
-        tw_api['app_key'] = "x6nSMWg3uV58kOGm0MY22b13Y"
-        tw_api['app_secret'] = "b5YiG83NUvjHsCWlvtxmJ9H99pG9rvDJhMMC6Q51enbXQfLEhl"
-        tw_api['api_dashboard'] = "https://developer.twitter.com/en/portal/dashboard"
-
-        return tw_api
-
-    def make_auth(self):
+        config = ConfigParser()
+        config.read('config.ini')
+        self.key = config['tw_creds']['app_key']
+        self.secret = config['tw_creds']['app_secret']
 
         try:
-            tw_details = self.creds()
-            auth = tweepy.OAuthHandler(tw_details['app_key'],tw_details['app_secret'])
-            auth.set_access_token(self.token,self.token_secret)
-            api = tweepy.API(auth,wait_on_rate_limit=True,wait_on_rate_limit_notify=True)
 
-            return api
+            self.auth = tweepy.OAuthHandler(self.key, self.secret)
+            self.auth.set_access_token(self.token,self.token_secret)
+            self.api = tweepy.API(self.auth,wait_on_rate_limit=True,wait_on_rate_limit_notify=True)
         
         except tweepy.error.TweepError as error:
-            return {'error': error}
+            print({'error': error})
 
     def user_details(self):
-
-        api = self.make_auth()
         
         try:
-            me = api.me()
+            me = self.api.me()
             details = dict()
 
             details['user_id'] = me.id
@@ -66,8 +52,6 @@ class TwitterApi():
 
     def get_tweets(self):
 
-        api = self.make_auth()
-
         try:
             tweets_data = dict()
             tweets_data['tweets'] = []
@@ -77,7 +61,7 @@ class TwitterApi():
             tweets_data['favorite_count'] = []
             tweets_data['language'] = []
 
-            tweets = api.user_timeline(tweet_mode='extended')
+            tweets = self.api.user_timeline(tweet_mode='extended')
 
             for i in tweets:
                 tweets_data['tweets'].append(i.full_text)
@@ -96,11 +80,10 @@ class TwitterApi():
             return {'error': error}
 
     def get_replies(self):
-        api = self.make_auth()
         
         try:
             mentions = []
-            for i in tweepy.Cursor(api.search,q=f"to:{self.uname}",count=200,tweet_mode='extended').items(1000):
+            for i in tweepy.Cursor(self.api.search,q=f"to:{self.uname}",count=200,tweet_mode='extended').items(1000):
 
                 rid = i.in_reply_to_status_id
                 replied_user_sname = i.user.screen_name
@@ -110,7 +93,7 @@ class TwitterApi():
                 tweet_id = None
 
                 try:
-                    tweet_data = api.get_status(rid, tweet_mode='extended')
+                    tweet_data = self.api.get_status(rid, tweet_mode='extended')
                     tweet = tweet_data.full_text
                     tweet_id = tweet_data.id
                 except tweepy.error.TweepError:
@@ -137,15 +120,13 @@ class TwitterApi():
 
     def post_tweet(self):
 
-        api = self.make_auth()
-
         try:
             if self.img is not None:
                 print('tw - posting with the img')
-                api.update_with_media(self.img,self.msg)
+                self.api.update_with_media(self.img,self.msg)
             else:
                 print('tw - posting without img')
-                api.update_status(self.msg)
+                self.api.update_status(self.msg)
 
         except tweepy.error.TweepError as error:
             return {'error': error}

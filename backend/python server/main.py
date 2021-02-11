@@ -7,12 +7,6 @@ from mondb import *
 import os
 
 
-
-fb_token = 'EAAwwZC2kAAlsBAIcHEsOjavqZBCTlRdsXvOmUPhdYbpZASRikz9GIQ95jYNQv8mzQLbOHuIeJGQve3Icqr4CtADZAFZAnxBDxKZB8kCOykCSTXAR1ki1Bb881xeHGfzrY3dgAmvuxjzjsUckO3yJ7s590XWiuFZBZA1aXsZCTCl170u5aHNwJlpms'
-tw_user_access_token = '1308334561831481345-nfHZ8d32aNWDgT5K2ll3Ul4OTiVRBA'
-tw_user_token_secret = "wXqpxoTVHXC6hPiHqkmgzMW4uulyOHdkQHcS4MrywVxMW"
-uname = 'testing_with_selenium'
-upass = 'selenium123'
 BASE_IMG_PATH = os.path.join(os.path.dirname(os.getcwd()) , 'nodeserver\\images')
 BASE_VID_PATH = os.path.join(os.path.dirname(os.getcwd()) , 'nodeserver\\videos')
 
@@ -62,10 +56,6 @@ class Opm():
         tw = schedule['twitter']
         
         imgname = schedule['img']
-        # if imgname == 'NaN':
-        #     img = None
-        # else:
-        #     img = os.path.join(BASE_IMG_PATH, imgname)
 
         if imgname is not None:
             imgname = imgname.split('/')[-1]
@@ -80,7 +70,7 @@ class Opm():
 
         while True:
 
-            sleep(5)
+            # sleep(5)
             schedules = get_schedules()
 
             if schedules:
@@ -105,4 +95,6 @@ class Opm():
                     if img is not None:
                         self.delete_img(img)
 
+opm = Opm()
+opm.schedule()
 
