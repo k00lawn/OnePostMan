@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { Post } from '../models/post'
 import { Subject } from 'rxjs';
 import { AuthService } from './auth.service';
+import { environment } from '../../../src/environments/environment.prod'
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class ScheduleService {
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   // API endpoint
-  private postAPI = "http://localhost:3000/api/postTask"
+  private postAPI = environment.apiUrl + '/postTask'
   private userId = this.authService.getUserID()
 
   // POST Request to API endpoint

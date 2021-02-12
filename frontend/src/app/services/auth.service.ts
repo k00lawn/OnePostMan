@@ -8,13 +8,14 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { User } from '../models/user'
 import { Post } from '../models/post';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private nodeApi = "http://localhost:3000/api/";
+  private nodeApi = environment.apiUrl;
   //private pyApi = "http://localhost:4000/api/accessToken"
 
   //Switching Forms
@@ -59,7 +60,7 @@ export class AuthService {
 
   login(email: string, password: string) {
     const loginData: LoginData = { email: email, password: password };
-    this.http.post<{ user: User, user_id: string, username: string, token: string, expiresIn: number }>(this.nodeApi + 'user/login', loginData) 
+    this.http.post<{ user: User, user_id: string, username: string, token: string, expiresIn: number }>(this.nodeApi + '/user/login', loginData) 
       .subscribe((res) => {
         console.log(res)        
         const token = res.token;
@@ -81,7 +82,7 @@ export class AuthService {
 
   signup(username: string, email: string, password: string) {
     const signupData: SignupData = { username: username, email: email, password: password };
-    return this.http.post<{token: string}>(this.nodeApi + 'user/signup', signupData) 
+    return this.http.post<{token: string}>(this.nodeApi + '/user/signup', signupData) 
       
   }
 
@@ -152,17 +153,17 @@ export class AuthService {
 
   //-----------------------TW OAuth----------------------//
   getTWaccessToken() {
-    return this.http.get(`${this.nodeApi}auth/twitter/`)
+    return this.http.get(`${this.nodeApi}/auth/twitter/`)
   }
 
   saveTWaccessToken(oauthToken: string, oauthVerifier: string) {
-    return this.http.get(`${this.nodeApi}saveAccessTokens/${this.userID}/?oauth_token=${oauthToken}&oauth_verifier=${oauthVerifier}`)
+    return this.http.get(`${this.nodeApi}/saveAccessTokens/${this.userID}/?oauth_token=${oauthToken}&oauth_verifier=${oauthVerifier}`)
   }
   
   extendAccessToken(userId: any, shortAccessToken: string) {
     console.log(`This is the final object`, shortAccessToken)
     const access_token = { shortAccessToken: shortAccessToken}
-    this.http.post(`${this.nodeApi}auth/facebook/${userId}`, access_token)
+    this.http.post(`${this.nodeApi}/auth/facebook/${userId}`, access_token)
     .subscribe(res => {
       console.log(res)
     })

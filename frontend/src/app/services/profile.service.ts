@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { environment } from 'src/environments/environment.prod';
 import { User } from '../models/user';
 import { AuthService } from './auth.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ export class ProfileService {
 
   //API endpoint
 
-  private _profileapi = "http://localhost:3000/api/profile/"
+  private _profileapi = environment.apiUrl + '/profile/'
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   //get user data
