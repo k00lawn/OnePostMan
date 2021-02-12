@@ -63,12 +63,15 @@ app.use("/api/user", usersRoutes)
 app.use("/api/profile", profileRoutes)
 app.use("/api/", twoauth)
 app.use("/api/", fboauth)
-const PORT = process.env.PORT || 3000
+
+// const PORT = process.env.PORT || 3000
 
 
-app.listen(PORT, () => {
-  console.log(`Server up on ${PORT}` )
-})
+// app.listen(PORT, () => {
+//   console.log(`Server up on ${PORT}` )
+// })
+
+module.exports = app
 
 
 //atlas pw igxQtkHMS1DGKddF const uri = "mongodb+srv://<username>:<password>@cluster0.mzdpt.mongodb.net/<dbname>?retryWrites=true&w=majority";
