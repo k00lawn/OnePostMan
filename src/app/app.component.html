@@ -1,0 +1,52 @@
+<app-main></app-main>
+
+
+
+
+
+
+<!-- <div *ngIf="!userAuthenticated">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">OnePostMan</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link active" routerLink="/">Home <span class="sr-only">(current)</span></a>
+        <a *ngIf="userAuthenticated" class="nav-item nav-link" routerLink="/create">My Schedule</a>
+        <a class="nav-item nav-link active" routerLink="/profile" href="#">Profile</a>
+      </div>
+      <ul class="navbar-nav mx-2 ml-auto">
+        <li *ngIf="!userAuthenticated"><button class="btn btn-outline-secondary" routerLink="/auth" (click)="switchToLogin()" type="button">Login</button></li> 
+        <li *ngIf="!userAuthenticated"><button class="btn btn-outline-success" routerLink="/auth" (click)="switchToSignup()" type="button">Sign Up</button></li>
+        <li *ngIf="userAuthenticated"><button class="btn btn-outline-danger" (click)="onLogout()" type="button">Log out</button></li>
+      </ul>
+    </div>
+</nav>
+<br>
+<router-outlet></router-outlet>
+</div>
+
+<div *ngIf="userAuthenticated">
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav mode="side" opened>
+      <mat-toolbar>
+        <a routerLink="/profile"><mat-icon>account_circle</mat-icon></a>
+      </mat-toolbar>
+      <mat-nav-list>
+        <a mat-list-item routerLink="/"><mat-icon>home</mat-icon></a>
+        <a mat-list-item routerLink="/create"><mat-icon>create</mat-icon></a>
+        <a mat-list-item routerLink="/posts"><mat-icon>dynamic_feed</mat-icon></a>
+        <a mat-list-item [ngStyle]="{'color':'red'}" (click)="onLogout()"><mat-icon>power_settings_new</mat-icon></a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content><router-outlet></router-outlet></mat-sidenav-content>
+  </mat-sidenav-container>
+</div> -->
+
+
+
+
+
+

@@ -1,0 +1,4 @@
+<app-post-list *ngIf="posts.length > 0"></app-post-list>
+<app-post-error *ngIf="posts.length === 0"></app-post-error>
+<!-- <a id="plus" [routerLink]="['/posts', 'create']"><div class="plus radius"></div></a> -->
+<a id="plus" (click)="openDialog()"><div class="plus radius"></div></a>

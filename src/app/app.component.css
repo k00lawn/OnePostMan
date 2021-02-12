@@ -1,0 +1,35 @@
+
+.navbar-nav > li{
+    padding-left:5px;
+    padding-right:5px;
+}
+
+.navbar-nav > li{
+    margin-left:5px;
+    margin-right:5px;
+}
+
+.sidenav-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+}
+
+mat-toolbar {
+    align-items: center;
+}
+
+mat-sidenav-content {
+    margin: 2%;
+}
+
+#logoutIcon {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: red;
+}
+  

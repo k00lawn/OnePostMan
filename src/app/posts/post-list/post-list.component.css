@@ -1,0 +1,134 @@
+/* mat-spinner {
+    margin-left: 45%;
+    margin-top: 25%;
+} */
+
+.loader {
+  width: 200px;
+  /* border: 2px solid red; */
+  margin: auto;
+  margin-top: 200px;
+}
+
+.loader svg #glass #g1,
+.loader svg #glass #g2 {
+  animation: change 0.1s infinite linear;
+}
+
+@keyframes change {
+  0% {
+    fill: rgb(109, 46, 46);
+  }
+  50% {
+    fill: #192534;
+  }
+  100% {
+    fill: darkslategrey;
+  }
+}
+
+/* .container{
+    max-width: 400px;
+    align-content: center;
+    display: block;
+}
+
+.post-card {
+    max-width: 400px;
+    margin: 20px;
+}
+.icon {
+    float: right;
+}
+
+mat-icon {
+    color: grey;
+    font-size: 26px;
+} */
+
+/* .icon{
+    float: inline-end;
+} */
+
+
+/* .button-container {
+    display: flex;
+    justify-content: right;
+} */
+
+/* app theme color : #192534 */
+
+.header {
+    margin-left: 30px;
+    font-size: 23px;
+    color: #192534;
+    font-family: 'Poppins', sans-serif;
+  }
+
+.sort button {
+  outline: none;
+}
+
+.sort mat-menu {
+  outline: none;
+  background-color: snow;
+}
+
+mat-grid-tile {
+  border: 2px solid snow;
+}
+  
+  .post-edit {
+    margin-bottom: auto;
+    /* margin-left: 10px; */
+    width: 350px;
+    height: 450px;
+  }
+
+  .post-edit mat-card {
+    margin: auto;
+    width: 98%;
+    background-color: snow;
+    box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.16), 2px 3px 6px rgba(0, 0, 0, 0.23);
+    /* box-shadow:  17px 17px 34px #9b9b9b,
+    -17px -17px 34px #ffffff; */
+  }
+  
+  #xs {
+    margin: auto;
+    margin-top: 20px;
+  }
+  
+  .post-edit .date-time {
+    width: 150px;
+    font-weight: bold;
+    font-size: 18px;
+  }
+  
+  .post-edit .date-time .date {
+    color: #192534;
+  }
+  
+  .post-edit .date-time .time {
+    color: rgb(105, 30, 30);
+  }
+  
+  .post-edit .caption {
+    overflow: hidden;
+    color: black;
+  }
+  
+  .post-edit .pic {
+    margin-top: 20px;
+    width: 100%; 
+    height: 250px;
+    background-size: cover;
+    overflow: hidden;
+  }
+  
+  /* .post-edit .pic img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block; /* remove extra space below image */
+   
+  
