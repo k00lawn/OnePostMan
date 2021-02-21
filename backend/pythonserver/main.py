@@ -7,7 +7,9 @@ from mondb import *
 import os
 
 
-BASE_IMG_PATH = os.path.join(os.path.dirname(os.getcwd()) , 'nodeserver\\images')
+# BASE_IMG_PATH = os.path.join(os.path.dirname(os.getcwd()) , '\\images')
+BASE_IMG_PATH = "images"
+print(BASE_IMG_PATH in os.listdir())
 BASE_VID_PATH = os.path.join(os.path.dirname(os.getcwd()) , 'nodeserver\\videos')
 
 
