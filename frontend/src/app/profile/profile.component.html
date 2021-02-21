@@ -93,7 +93,10 @@
           </mat-card-content>
           <mat-card-actions>
             <button mat-raised-button (click)="fbAuth()" *ngIf="!user.fb_provider">Sign in</button>
-            <button mat-raised-button (click)="revokeFB()" *ngIf="user.fb_provider" id="revoke">
+<!--             <button mat-raised-button (click)="revokeFB()" *ngIf="user.fb_provider" id="revoke">
+              Revoke
+            </button> -->
+            <button mat-raised-button *ngIf="user.fb_provider" id="revoke">
               Revoke
             </button>
           </mat-card-actions>
@@ -110,7 +113,10 @@
           </mat-card-content>
           <mat-card-actions>
             <button mat-raised-button (click)="twAuth()" *ngIf="!user.tw_provider">Sign in</button>
-            <button mat-raised-button (click)="revokeTW()" *ngIf="user.tw_provider" id="revoke">
+<!--             <button mat-raised-button (click)="revokeTW()" *ngIf="user.tw_provider" id="revoke">
+              Revoke
+            </button> -->
+            <button mat-raised-button *ngIf="user.tw_provider" id="revoke">
               Revoke
             </button>
           </mat-card-actions>
