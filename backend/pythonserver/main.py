@@ -68,9 +68,10 @@ class Opm():
         return schedule_id, user_id, caption, img, date, fb, tw
 
     def schedule(self):
-
+        print("OPM main server is running...")
+        
         while True:
-            print("OPM main server is running...")
+            sleep(1.5)            
             schedules = get_schedules()
 
             if schedules:
