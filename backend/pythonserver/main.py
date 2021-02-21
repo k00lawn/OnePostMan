@@ -67,34 +67,31 @@ class Opm():
         return schedule_id, user_id, caption, img, date, fb, tw
 
     def schedule(self):
+        # sleep(5)
+        schedules = get_schedules()
 
-        while True:
+        if schedules:
+            schedule_details = schedules[0]
+            schedule_id, user_id, caption, img, date, fb, tw = self.get_data_from_schedule(schedule_details)
 
-            # sleep(5)
-            schedules = get_schedules()
+        if date <= now_time():
+            user_details = get_user_details(user_id)
+            print(schedule_details)
+            fb_token, tw_user_access_token, tw_user_token_secret = self.get_user_data_db(user_details, fb, tw)
+            delete_schedule(schedule_id)        
 
-            if schedules:
+        if fb:
+            fapi = FacebookApi(caption=caption, img=img, user_token=fb_token)
+            fapi.post()
+        if tw:
+            tapi = TwitterApi(img=img, msg=caption, token=tw_user_access_token ,token_secret=tw_user_token_secret)
+            tapi.post_tweet()
 
-                schedule_details = schedules[0]
-                schedule_id, user_id, caption, img, date, fb, tw = self.get_data_from_schedule(schedule_details)
+            if img is not None:
+                self.delete_img(img)
 
-                if date <= now_time():
 
-                    user_details = get_user_details(user_id)
-                    print(schedule_details)
-                    fb_token, tw_user_access_token, tw_user_token_secret = self.get_user_data_db(user_details, fb, tw)
-                    delete_schedule(schedule_id)
-
-                    if fb:
-                        fapi = FacebookApi(caption=caption, img=img, user_token=fb_token)
-                        fapi.post()
-                    if tw:
-                        tapi = TwitterApi(img=img, msg=caption, token=tw_user_access_token ,token_secret=tw_user_token_secret)
-                        tapi.post_tweet()
-
-                    if img is not None:
-                        self.delete_img(img)
-
+            
 opm = Opm()
 opm.schedule()
 

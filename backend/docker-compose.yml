@@ -1,0 +1,13 @@
+version: '3'
+services:
+  nodeserver:
+    image: nodeserver:latest
+    restart: always    
+    ports: 
+      - '3000:3000'
+  pythonserver:
+    image: pythonserver:latest
+    restart: always
+    depends_on: 
+      - nodeserver    
+ 

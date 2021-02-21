@@ -104,8 +104,6 @@ dist
 .tern-port
 
 # image dir
-backend/images
-backend/nodeserver/images
 
 #python modules
 venv
@@ -115,4 +113,4 @@ backend/python server/hashtagapi.py
 #Extra files
 notes
 nodeservertest.js
-nodeserver.zip
+backend/nodeserver/nodeserver.zip
