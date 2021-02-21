@@ -49,4 +49,5 @@ app.set("port", port);
 const server = http.createServer(app);
 server.on("error", onError);
 server.on("listening", onListening);
+console.log(port)
 server.listen(port);

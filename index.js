@@ -8,9 +8,9 @@ const cookieParser = require('cookie-parser');
 
 const connectDB = require('./config/db')
 
-const postsRoutes = require('../nodeserver/routes/posts') 
-const usersRoutes = require('../nodeserver/routes/users')
-const profileRoutes = require('../nodeserver/routes/profile')
+const postsRoutes = require('./routes/posts') 
+const usersRoutes = require('./routes/users')
+const profileRoutes = require('./routes/profile')
 
 const twoauth = require('./oauth/twoauth')
 const fboauth = require('./oauth/fboauth')
@@ -55,6 +55,10 @@ app.use(require('express-session')({ secret: process.env.SESSION_SECRET, resave:
 app.use((req, res, next) => {
   res.locals.session = req.session;
   next();
+});
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
 });
 
 
