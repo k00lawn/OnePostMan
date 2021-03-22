@@ -1,26 +1,31 @@
-from fb_class import FacebookApi
-from tw_class import TwitterApi
-from scheduler import now_time
 from time import sleep
-from threading import Thread
-from mondb import *
 import os
+import tweepy
+import asyncio
+from post import *
+from configparser import ConfigParser
+from mondb import OpmDb
 
 
-BASE_IMG_PATH = os.path.join(os.path.dirname(os.getcwd()) , 'nodeserver/images')
-# print(BASE_IMG_PATH in os.listdir())
+
+BASE_IMG_PATH = os.path.join(os.path.dirname(os.getcwd()) , 'nodeserver\\images')
 BASE_VID_PATH = os.path.join(os.path.dirname(os.getcwd()) , 'nodeserver\\videos')
 
 
 class Opm():
 
-    def extend_and_post_pages(self, user_id, token):
+    def __init__(self):
+        try:
+            config = ConfigParser()
+            config.read('config.ini')
+            self.cluster = config['mongo']['url']
+            self.key = config['tw_creds']['app_key']
+            self.secret = config['tw_creds']['app_secret']
+            self.auth = tweepy.OAuthHandler(self.key, self.secret)
+            self.db = OpmDb(self.cluster)
 
-        fapi = FacebookApi( user_token = token)
-        long_access_token = fapi.extend_access_token()
-        user_details = fapi.user_details()
-        page_details = user_details['page_details']
-        post_token_and_pages(user_id=user_id, token=long_access_token, page_details=page_details)
+        except tweepy.error.TweepError as error: 
+            print(error)
 
     def delete_img(self, imgname):
         try :
@@ -28,73 +33,47 @@ class Opm():
         except FileExistsError:
             print(f'{imgname} is not found')
 
-    def get_user_data_db(self , user_details, fb, tw):
+    async def post(self, post):
 
-        fb_token = None
-        tw_user_access_token = None
-        tw_user_token_secret = None
+        user_details = self.db.get_user_details(post['userId'])
+        image = None
 
-        try:
-            if fb:
-                fb_token = user_details['fb_access_token']
-                page_name = user_details['fb_page_details'][0]['name']
-                page_id = user_details['fb_page_details'][0]['id']
-            if tw:
-                tw_user_access_token = user_details['tw_access_token']
-                tw_user_token_secret = user_details['tw_access_token_secret']
-        except KeyError as error:
-            print(error)
+        if post['img'] is not None:
+            imageName = post['img'].split('/')[-1]
+            image = os.path.join(BASE_IMG_PATH, imageName)
 
-        return fb_token, tw_user_access_token, tw_user_token_secret
+        if post['facebook']:
+            page_id = user_details['fb_page_details'][0]['id']
+            page_access_token = user_details['fb_page_details'][0]['access_token']
+            await post_fb(caption = post['caption'], img = image, page_id = page_id, page_access_token = page_access_token)
 
-    def get_data_from_schedule(self , schedule):
+        if post['twitter']:
+            tw_user_access_token = user_details['tw_access_token']
+            tw_user_token_secret = user_details['tw_access_token_secret']
+            self.auth.set_access_token(tw_user_access_token, tw_user_token_secret)
+            api = tweepy.API(self.auth)
+            await post_tw(api = api, caption = post['caption'], img = image)
 
-        schedule_id = schedule['_id']
-        user_id = schedule['userId']
-        caption = schedule['caption']
-        date = schedule['date']
-        fb = schedule['facebook']
-        tw = schedule['twitter']
-        
-        imgname = schedule['img']
+        if image is not None:
+            self.delete_img(image)
 
-        if imgname is not None:
-            imgname = imgname.split('/')[-1]
-            img = os.path.join(BASE_IMG_PATH, imgname)
-        
-        else:
-            img = None
+        self.db.delete_schedule(post['_id'])
 
-        return schedule_id, user_id, caption, img, date, fb, tw
+    async def test(self):
 
-    def schedule(self):
-        print("OPM main server is running...")
-        
+        print('running the script ...')
         while True:
-            sleep(1.5)            
-            schedules = get_schedules()
-
+            schedules = self.db.get_schedules()
             if schedules:
-                schedule_details = schedules[0]
-                schedule_id, user_id, caption, img, date, fb, tw = self.get_data_from_schedule(schedule_details)
+                await asyncio.wait([self.post(schedule) for schedule in schedules])
+            else:
+                print('nothing in the schedule collection ...')
+                sleep(5)
 
-                if date <= now_time():
-                    user_details = get_user_details(user_id)
-                    print(schedule_details)
-                    fb_token, tw_user_access_token, tw_user_token_secret = self.get_user_data_db(user_details, fb, tw)
-                    delete_schedule(schedule_id)        
 
-                    if fb:
-                        fapi = FacebookApi(caption=caption, img=img, user_token=fb_token)
-                        fapi.post()
-                    if tw:
-                        tapi = TwitterApi(img=img, msg=caption, token=tw_user_access_token ,token_secret=tw_user_token_secret)
-                        tapi.post_tweet()
-
-                    if img is not None:
-                        self.delete_img(img)
-
-            
 opm = Opm()
-opm.schedule()
 
+loop = asyncio.new_event_loop()
+asyncio.set_event_loop(loop= loop)
+
+loop.run_until_complete(opm.test())

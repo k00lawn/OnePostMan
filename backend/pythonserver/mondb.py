@@ -1,59 +1,43 @@
-from configparser import ConfigParser
-from bson.objectid import ObjectId
 from pymongo import MongoClient
-
-config = ConfigParser()
-config.read('config.ini')
-
-url = config['mongo']['url']
-cluster = MongoClient(url)
-db = cluster['opmdb']
+from bson.objectid import ObjectId
+from datetime import datetime as dt
 
 
-def get_schedules():
+class OpmDb:
+    def __init__(self, cluster = None):
+        self.host = "localhost"
+        self.port = 27017
+        self.cluster = cluster
 
-    collection = db['schedule']
-    count = collection.count_documents({})
+        if self.cluster is not None:
+            client = MongoClient(self.cluster)
+        else:
+            client = MongoClient(host= self.host, port= self.port)
+        
+        self.db = client['opmdb']
+    
+    def now_time(self):
+        return str(dt.now()).split('.')[0][:-3]
+    
+    def get_schedules(self):
 
-    if count != 0:
-        result = collection.find({}).sort('date', 1)
-        return result
-    else:
-        return False
+        schedules = self.db['schedule']
+        count = schedules.count_documents({})
 
+        if count != 0:
+            result = schedules.find({
+            'date' : {'$lte' : self.now_time()}
+            })
+            return result
+        else:
+            return False
 
-def get_user_details(user_id):
-    collection = db['users']
-    user_details = collection.find_one({'_id': ObjectId(user_id)})
-    return user_details
+    def get_user_details(self, user_id):
+        users = self.db['users']
+        user_details = users.find_one({'_id': ObjectId(user_id)})
+        return user_details
 
+    def delete_schedule(self, schedule_id, ):
 
-def post_token_and_pages(user_id, token, page_details):
-
-    collection = db['users']
-    collection.update_one({'_id': ObjectId(user_id)}, {'$set': {'fb_access_token': token}})
-    collection.update_one({'_id': ObjectId(user_id)}, {'$set': {'page_details': page_details}})
-
-
-def delete_schedule(schedule_id, ):
-
-    try:
-        collection = db['schedule']
-        collection.delete_one({'_id': ObjectId(schedule_id)})
-
-    except KeyError as error:
-        print('error')
-
-
-def delete_all():
-    collection = db['schedule']
-    collection.delete_many({})
-
-def test():
-    collection = db['schedule']
-    result = collection.find_one({'name': 'testing'})
-    collection.delete_one({'name': 'testing'})
-    print(result)
-
-
-
+        schedules = self.db['schedule']
+        schedules.delete_one({'_id': ObjectId(schedule_id)})
