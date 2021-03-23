@@ -1,0 +1,23 @@
+@media screen and (max-width: 600px) {
+  .main .contents {
+    width: 100%;
+    margin-top: 20px;
+    align-items: center;
+  }
+  .main .contents .header h2 {
+    font-size: 21px;
+  }
+
+  .main .contents .details p {
+    font-size: 17px;
+  }
+
+  .main .btns button,
+  .main .btns a {
+    margin-top: 10px;
+  }
+
+  .try_now h3 {
+    font-size: 25px;
+  }
+}

@@ -1,21 +1,21 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { MediaObserver,MediaChange } from '@angular/flex-layout'
+import { MediaObserver, MediaChange } from '@angular/flex-layout';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
-export class HomeComponent implements OnInit,OnDestroy {
+export class HomeComponent implements OnInit, OnDestroy {
   device: string;
-  mediaobs:Subscription;
-  fxlayout = "row";
-  fxalign = "space-around center";
+  mediaobs: Subscription;
+  fxlayout = 'row';
+  fxalign = 'space-around center';
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) {}
 
   userAuthenticated = false;
   private authListenerSub: Subscription;
@@ -24,21 +24,19 @@ export class HomeComponent implements OnInit,OnDestroy {
     this.authService.autoAuthUser();
     this.userAuthenticated = this.authService.getIsAuth();
     this.authListenerSub = this.authService
-    .getAuthStatusListener()
-    .subscribe(isAuthenticated => {
-      this.userAuthenticated = isAuthenticated;
-    })
+      .getAuthStatusListener()
+      .subscribe((isAuthenticated) => {
+        this.userAuthenticated = isAuthenticated;
+      });
 
-    if(this.userAuthenticated) {
-      this.router.navigateByUrl('/posts')
+    if (this.userAuthenticated) {
+      this.router.navigateByUrl('/posts');
     }
   }
 
-  ngOnDestroy() {
-  }
+  ngOnDestroy() {}
 
   scroll(el: HTMLElement) {
-    el.scrollIntoView({ behavior: "smooth" });
+    el.scrollIntoView({ behavior: 'smooth' });
   }
-
 }

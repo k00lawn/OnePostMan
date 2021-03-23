@@ -1,107 +1,130 @@
+@import "_mobile.css";
+
 .main {
-    display: flex;
-    justify-content: space-evenly;
-    background-color: #b8c6db;
-    background-image: linear-gradient(315deg, #b8c6db 0%, #f5f7fa 74%);
-  }
-  
+  width: 100%;
+  background-color: #b8c6db;
+  background-image: linear-gradient(315deg, #b8c6db 0%, #f5f7fa 74%);
+  font-family: "Poppins", sans-serif;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.main .contents {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  color: #192534;
+}
+
+@media screen and (min-width: 600px) {
   .main .contents {
-    padding: 100px;
-    color: #192534;
+    align-items: flex-start;
   }
+}
 
-  .main .contents .header {
-    font-family: 'Poppins', sans-serif;
-  }
+.main .contents .header {
+  font-size: 21px;
+  font-weight: bolder;
+}
 
-  .main .contents .details {
-    font-family: 'Poppins', sans-serif;
-  }
-  
-  .main .contents .btns button,
-  .main .contents .btns a {
-    font-family: 'Poppins', sans-serif;
-    margin-top: 10px;
-  }
-  
-  .main .contents .btns a {
-    border: 2px solid #192534;
-    color: #192534;
-  }
-  
-  .main .contents .btns .pricing {
-    background-color: #192534;
-    color: white;
-  }
-  
-  svg #clouds {
-    animation: move 6s infinite linear;
-  }
-  
-  @keyframes move {
-    0% {
-      opacity: 0.1;
-    }
-    30% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.7;
-    }
-    70% {
-      opacity: 0.5;
-    }
-    100% {
-      transform: translateX(-500px);
-      opacity: 0.1;
-    }
-  }
-  
-  .try_now {
-    margin-top: 10px;
-    font-family: 'Poppins', sans-serif;
-  }
-  
-  .try_now h3 {
-    color: #192534;
-    text-decoration: underline;
-  }
+.main .contents .details {
+  font-size: 19px;
+}
 
-  .plans mat-card {
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-    text-align: center;
-    background-color: snow;
-    width: 200px;
-    margin-top: 20px;
-    color: #192534;
-  }
-  
-  .plans .pricings mat-card-title {
-    border-bottom: #192534 5px solid;
-    font-family: 'Poppins', sans-serif;
-  }
-  
-  .plans .pricings .hr sup {
-    font-size: 20px;
-    color: #192534;
-  }
-  
-  .plans .pricings .hr .price .num {
-    font-size: 55px;
-    color: #192534;
-  }
-  
-  .plans .pricings .hr .per-month {
-    font-size: 15px;
-    font-style: oblique;
-  }
+.main .contents .btns button,
+.main .contents .btns a {
+  font-size: 18px;
+}
 
-  .props .items {
-    color: #192534;
-  }
-  
-  .plans .pricings .signup {
-    background-color: #192534;
-    color: white;
-  }
-  
+.main .contents .btns a {
+  border: 2px solid #192534;
+  color: #192534;
+}
+
+.main .contents .btns .pricing {
+  background-color: #192534;
+  color: white;
+}
+
+.try_now {
+  width: 100%;
+  margin-top: 10px;
+  background-color: #b8c6db;
+  background-image: linear-gradient(315deg, #b8c6db 0%, #f5f7fa 74%);
+}
+
+.try_now h3 {
+  color: #141d27;
+}
+
+.planCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 250px);
+  justify-content: space-evenly;
+}
+
+.plans {
+  margin-top: 20px;
+  transition: 0.5s;
+  max-width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+  color: black;
+  background-color: snow;
+  -webkit-box-shadow: 5px 5px 25px #bebebe, -10px -20px 60px #ffffff;
+  box-shadow: 5px 5px 25px #bebebe, -10px -20px 60px #ffffff;
+}
+
+.plans:hover {
+  -webkit-box-shadow: 10px 10px 25px #bebebe, -10px -20px 30px #ffffff;
+  box-shadow: 10px 10px 25px #bebebe, -10px -20px 30px #ffffff;
+  transform: scale(1.03);
+}
+
+.plans .header {
+  width: 100%;
+  text-align: center;
+  padding: 20px 0px;
+  background-color: #192534;
+  color: white;
+}
+
+.plans .header .title {
+  font-size: 25px;
+}
+
+.price_tag {
+  padding: 20px 0px;
+}
+
+.price {
+  margin-left: 20px;
+}
+
+.price .cost {
+  font-size: 55px;
+}
+
+.price .month {
+  font-weight: lighter;
+}
+
+.plans .contents {
+  border-top: 1.5px solid #192534;
+}
+
+.plans .contents mat-list-item {
+  color: black;
+}
+
+.mat-card-actions button {
+  height: 50px;
+  font-weight: bold;
+  font-size: 17px;
+  letter-spacing: 0.5px;
+  background-color: #192534;
+  color: snow;
+  margin-bottom: 10px;
+}
